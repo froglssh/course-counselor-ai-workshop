@@ -1,0 +1,413 @@
+{
+  "deck_name": "課諮師AI研習簡報",
+  "base_dir": "/Users/froglssh/Documents/AI課程/課諮師AI研習",
+  "slide_count": 34,
+  "style_reference": {
+    "style_name": "清爽專業風",
+    "visual_direction": "clean modern professional deck, calm technical presentation, structured evidence-driven layout, readable pragmatic visual system, light background with crisp hierarchy",
+    "color_palette": {
+      "background": "#F8FAFC",
+      "primary": "#1a1a2e",
+      "secondary": "#2d8a5e",
+      "accent": "#f4a338"
+    },
+    "typography": {
+      "title": "思源宋體 (Noto Serif TC), clear bold",
+      "body": "思源黑體 (Noto Sans TC), clean, left-aligned"
+    }
+  },
+  "sample_generation_method": {
+    "backend_used": "scripts/image_gen.py --backend auto (codex-oauth)",
+    "tool_name": "scripts/image_gen.py",
+    "mode": "generate",
+    "approved_sample_path": "/Users/froglssh/Documents/AI課程/課諮師AI研習/origin_image/slide_03.png",
+    "handoff_rule": "subagents must use the same backend/tool/config; use generate for new slides unless the assigned job has strict input_images or is a repair."
+  },
+  "slides": [
+    {
+      "number": 1,
+      "title": "AI 助攻！課諮師 AI 核心技能培養與適性輔導實務",
+      "role": "cover",
+      "intent": "Explain AI 助攻！課諮師 AI 核心技能培養與適性輔導實務",
+      "key_points": [
+        "研習講師：麗山高中 林獻升老師",
+        "研習對象：全國高中課程諮詢教師與輔導同儕",
+        "主題精神：將 AI 視為核心工作夥伴，培養課諮師專屬的科技引路能力"
+      ],
+      "required_images": [
+        {
+          "path": "/Users/froglssh/Documents/AI課程/課諮師AI研習/assets/logos/lishan_bio_logo.jpg",
+          "role": "麗山生物標誌",
+          "fidelity": "麗山生物標誌圖案；strict input asset; preserve colors and details"
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "今日研習地圖",
+      "role": "agenda",
+      "intent": "Explain 今日研習地圖",
+      "key_points": [
+        "模組一：課諮師的角色任務與 AI 技術認知",
+        "模組二：技能一：高效資料處理與大考簡章智能檢索 (畢業學分自動化預檢)",
+        "模組三：技能二：適性輔導、個案模擬與親師溝通 (晤談角色扮演)",
+        "模組四：技能三：學習歷程檔案優化與小論文規準初評",
+        "模組五：技能四：學測落點分析與二階模擬口試",
+        "模組六：技能五：輔導教材設計與校務行政優化 (申訴陳情處理)"
+      ]
+    },
+    {
+      "number": 3,
+      "title": "課諮師在高中三年的工作任務地圖",
+      "role": "concept explanation",
+      "intent": "Explain 課諮師在高中三年的工作任務地圖",
+      "key_points": [
+        "高一（定向與探索）：適性選課輔導、數A/B抉擇引導、18學群初探、自主學習計畫啟動。",
+        "高二（深化與確認）：選組/轉班群評估、加深加廣選修配課、課程成果累積、自主學習執行。",
+        "高三（整合與衝刺）：畢業學分最後檢核、學測落點與適性校系探索、面試模擬與歷程策展。"
+      ],
+      "sample_approved": true
+    },
+    {
+      "number": 4,
+      "title": "課諮第一線：被行政資料淹沒的專業教師",
+      "role": "concept explanation",
+      "intent": "Explain 課諮第一線：被行政資料淹沒的專業教師",
+      "key_points": [
+        "資訊超載：每年變動的考招簡章、Collego 與繁瑣的修課地圖規則，查找比對耗時。",
+        "重複答詢：重複回答「轉組補修」、「數A/B採計」等相似問題，耗損輔導熱忱。",
+        "行政记忆流失：缺乏系統化的知識庫，學校輔導經驗因人員異動而產生斷代。"
+      ]
+    },
+    {
+      "number": 5,
+      "title": "通用 AI 幻覺問題 vs. 封閉式專家 AI 優勢",
+      "role": "comparison",
+      "intent": "Explain 通用 AI 幻覺問題 vs. 封閉式專家 AI 優勢",
+      "key_points": [
+        "通用 AI (ChatGPT/Gemini)：會胡亂上網查詢的學生，容易瞎掰校規（幻覺），無法用於嚴謹的政策諮詢。",
+        "封閉式 AI (NotebookLM)：嚴格限制只看上傳講義的資優生，透過「Grounding 溯源」技術，確保每句回答都查有實據。",
+        "來源引用：回答時會自動標示「引用來源標籤」，點擊標籤直接跳轉至手冊或簡章的對應頁碼。"
+      ]
+    },
+    {
+      "number": 6,
+      "title": "實戰：五分鐘打造校級課諮 AI 系統",
+      "role": "process",
+      "intent": "Explain 實戰：五分鐘打造校級課諮 AI 系統",
+      "key_points": [
+        "蒐集燃料：收集校內《課程計畫書》、《選課輔導手冊》、《課程地圖》與歷屆 FAQ。",
+        "新增專案：在 NotebookLM 建立專案並命名（如「115學年度 麗山高中課程諮詢智庫」）。",
+        "資料上傳：拖入校本文件，或直接貼上 Collego 的學群網頁連結。"
+      ]
+    },
+    {
+      "number": 7,
+      "title": "實戰：跨文件萃取與資工學群選修比對",
+      "role": "concept explanation",
+      "intent": "Explain 實戰：跨文件萃取與資工學群選修比對",
+      "key_points": [
+        "提示詞設計：「請綜合比對上傳的《大學申請入學簡章》與《校內課程地圖》，幫我整理出想就讀『資訊工程學群』的學生，在高中三年應該優先修習哪些『加深加廣選修課程』？請條列呈現，簡述推薦理由。最後，列出該學系最看重的兩項學科能力。」"
+      ]
+    },
+    {
+      "number": 8,
+      "title": "實戰：針對特定校規的精準問答與流程梳理",
+      "role": "concept explanation",
+      "intent": "Explain 實戰：針對特定校規的精準問答與流程梳理",
+      "key_points": [
+        "提示詞設計：「請嚴格根據上傳的《選課輔導手冊》。若學生在『高二上』想『退選或停修』選修課，他必須在開學後第幾週申請？流程需要經過哪些處室核准？請條列出標準流程，並務必附上資料來源的頁碼，以利我向家長說明。」"
+      ]
+    },
+    {
+      "number": 9,
+      "title": "新開發課程：去識別化成績單學分智能審查",
+      "role": "process",
+      "intent": "Explain 新開發課程：去識別化成績單學分智能審查",
+      "key_points": [
+        "資料去識別化：隱去學生姓名、學號等個資。",
+        "學分核算規則上傳：將高中畢業學分規範（部定必修、校訂必修、加深加廣選修、多元選修、總學分要求）作為背景知識。",
+        "AI 智能核對：上傳學生成績單，讓 AI 快速核對尚缺哪些學分，自動列出補修與選課清單。"
+      ]
+    },
+    {
+      "number": 10,
+      "title": "協作設定：打破行政資訊孤島",
+      "role": "architecture",
+      "intent": "Explain 協作設定：打破行政資訊孤島",
+      "key_points": [
+        "處室整合：將教務處的排課與學分規定、輔導室的性向測驗常模、學科中心的課綱整合進同一個筆記本。",
+        "共筆協作：點擊「共用」邀請其他課諮師、輔導室及導師（Editor權限），共享精采提示詞與資料。",
+        "行政傳承：確保學校輔導品質的一致性，防止專業經驗因人員異動而產生行政記憶流失。"
+      ]
+    },
+    {
+      "number": 11,
+      "title": "適性輔導：數學 A 與數學 B 抉擇引導",
+      "role": "comparison",
+      "intent": "Explain 適性輔導：數學 A 與數學 B 抉擇引導",
+      "key_points": [
+        "數學 A：高難度，理工醫農與部分商管必備。",
+        "數學 B：著重應用，人文社會與藝術學群採計。",
+        "代價評估心法：不只看興趣，更要比對學生的學習效率與動力。",
+        "AI 輔助：利用 AI 快速比對校系簡章，分析數A/B之參採組合與學習建議。"
+      ]
+    },
+    {
+      "number": 12,
+      "title": "新開發課程：與 AI 模擬晤談演練",
+      "role": "concept explanation",
+      "intent": "Explain 新開發課程：與 AI 模擬晤談演練",
+      "key_points": [
+        "情境模擬：利用 AI 扮演不同背景、抗拒選課或沒有目標的學生（如「想選資工卻抗拒寫程式的偏科高一生」）。",
+        "晤談話術訓練：課諮師與 AI 進行多輪對話練習，AI 會自動評估教師的提問引導技巧並提供優化建議。"
+      ]
+    },
+    {
+      "number": 13,
+      "title": "個案研究：實作極強但紙筆數學不及格的輔導",
+      "role": "case study",
+      "intent": "Explain 個案研究：實作極強但紙筆數學不及格的輔導",
+      "key_points": [
+        "背景：學生非常想就讀資工系，但數學常不及格，卻在機器人社團展現極強的實作力。",
+        "AI 策略方案：",
+        "1. 班群建議：建議選擇校內強調實作專題之班群。",
+        "2. 成果優化：指導學生將「機器人社專題」與「自主學習計畫中的程式成果」作為個人主力，向大學教授證明實作與邏輯能力。",
+        "3. 同理心晤談話術：生成具備高度同理心、引導實作價值的教師晤談引導詞。"
+      ]
+    },
+    {
+      "number": 14,
+      "title": "家長日心法：新舊考招對比與安撫策略",
+      "role": "comparison",
+      "intent": "Explain 家長日心法：新舊考招對比與安撫策略",
+      "key_points": [
+        "家長焦慮點：擔心選錯課影響前途、怕沒有補習落後、看不懂學習歷程。",
+        "對比說明：以「單一筆試決定 vs 多元舞台展現」的邏輯安撫家長，強調「讓孩子自主決定」。",
+        "AI 輔助：利用 AI 快速起草家長日說明的簡報大綱、常見Q&A標準回答，以及安撫信件。"
+      ]
+    },
+    {
+      "number": 15,
+      "title": "科技工具：適性生涯探索的整合應用",
+      "role": "concept explanation",
+      "intent": "Explain 科技工具：適性生涯探索的整合應用",
+      "key_points": [
+        "輔導地圖整合：將 Collego 探索工具與 AI 線上輔導程式融合。",
+        "輔導成效：利用 AI 快速收斂學生的性向與學業表現，輔助教師產出兼顧現實門檻與個人特質的適性建議。"
+      ]
+    },
+    {
+      "number": 16,
+      "title": "教育部作伴學手冊：大學教授看重什麼？",
+      "role": "concept explanation",
+      "intent": "Explain 教育部作伴學手冊：大學教授看重什麼？",
+      "key_points": [
+        "審查心法（三重二不）：重質不重量、重反思深度而非花俏排版。",
+        "選材要訣：課程成果上限 3 件，多元表現上限 10 件。",
+        "AI 輔助：利用 AI 摘要手冊核心，精煉出「成果選材評估矩陣」，協助學生挑選最能展示核心素養的成果。"
+      ]
+    },
+    {
+      "number": 17,
+      "title": "成果優化：流水帳 vs 探究與解決歷程",
+      "role": "comparison",
+      "intent": "Explain 成果優化：流水帳 vs 探究與解決歷程",
+      "key_points": [
+        "X 流水帳雷區：僅放考卷、PTT簡報截圖或未加說明之報告。",
+        "O 探究歷程亮點：包含學習動機、遇到什麼困難、如何尋求資源解決，以及獲得什麼學科核心素養。",
+        "AI 成果優化器：利用 AI 當「模擬大學教授」，審閱學生成果並提出結構修正與反思優化建議。"
+      ]
+    },
+    {
+      "number": 18,
+      "title": "反思寫作五個提問引導與提示詞",
+      "role": "concept explanation",
+      "intent": "Explain 反思寫作五個提問引導與提示詞",
+      "key_points": [
+        "Why：我為什麼選這門課/做這個主題？（學習動機）",
+        "What：過程中遇到了什麼問題與瓶頸？（困境定義）",
+        "How：我如何克服這個挑戰？（解決歷程）",
+        "Learn：我學到了什麼觀念或能力？（核心收穫）",
+        "Next：這對我未來的學習有何關聯？（延伸展望）"
+      ]
+    },
+    {
+      "number": 19,
+      "title": "自主學習計畫：重視執行力而非主題難度",
+      "role": "process",
+      "intent": "Explain 自主學習計畫：重視執行力而非主題難度",
+      "key_points": [
+        "引導大綱：引導學生設計自主學習大綱。",
+        "合理進度設計：自動化生成合理的 18 週規劃進度。",
+        "AI 助手妙用：利用自主學習 AI 輔助程式，引導計畫書合理性評估。"
+      ]
+    },
+    {
+      "number": 20,
+      "title": "新開發課程：小論文與自主學習成果 AI 初評",
+      "role": "concept explanation",
+      "intent": "Explain 新開發課程：小論文與自主學習成果 AI 初評",
+      "key_points": [
+        "初評機制：導入全國小論文比賽規準（小論文寫作規準專家）或自主學習成果規準。",
+        "規準上傳：將評分標準、扣分原則等文獻匯入 AI 作為審查依據。",
+        "AI 智能批改：讓 AI 扮演評審，審閱學生草稿，針對文獻引用、格式合規性、研究邏輯提出具體修正意見。"
+      ]
+    },
+    {
+      "number": 21,
+      "title": "實戰：利用 AI 量規提供結構化評語",
+      "role": "concept explanation",
+      "intent": "Explain 實戰：利用 AI 量規提供結構化評語",
+      "key_points": [
+        "量規設計：設定結構（格式/前言/文獻/研究方法/反思）。",
+        "評分回饋：要求 AI 根據量規，對學生的學習成果給予強項、弱項分析與分項建議。",
+        "成效：大幅減少教師手動批改的時間，同時提供學生極具參考價值的修改方向。"
+      ]
+    },
+    {
+      "number": 22,
+      "title": "升學路徑抉擇：繁星 vs 申請 vs 分科測驗",
+      "role": "comparison",
+      "intent": "Explain 升學路徑抉擇：繁星 vs 申請 vs 分科測驗",
+      "key_points": [
+        "評估時機：高三學測成績公布後。",
+        "優勢分析：AI 分析學生在校成績百分比、學測成績與歷程成果優勢。",
+        "路徑排序建議：給予合理的繁星、個人申請或分科測驗路徑排序與志願填報策略。"
+      ]
+    },
+    {
+      "number": 23,
+      "title": "線上落點預測資源的比較與志願建立",
+      "role": "concept explanation",
+      "intent": "Explain 線上落點預測資源的比較與志願建立",
+      "key_points": [
+        "篩選邏輯比對：比較各落點平台篩選倍率與風險評估。",
+        "志願清單建立：指導學生利用 AI 分析，建立包含「挑戰、安全、保守」的平衡志願名單。"
+      ]
+    },
+    {
+      "number": 24,
+      "title": "新開發課程：AI 智能模擬口試系統",
+      "role": "concept explanation",
+      "intent": "Explain 新開發課程：AI 智能模擬口試系統",
+      "key_points": [
+        "系統建置：利用 AI 平台，匯入特定校系簡章、歷年面試考古題，以及學生個人備審資料。",
+        "自動化題庫：自動生成專屬的模擬面試題庫（包含專業知識、個人動機與突發情境）。"
+      ]
+    },
+    {
+      "number": 25,
+      "title": "實戰：模擬面試教授與對話演練",
+      "role": "concept explanation",
+      "intent": "Explain 實戰：模擬面試教授與對話演練",
+      "key_points": [
+        "角色扮演指令：「請你扮演 [大學校名/科系] 的面試教授。請一次只問我一個問題，並在收到我的回答後給予簡短回饋，然後繼續提問。」",
+        "口語練習：引導學生使用語音輸入，實時與 AI 模擬口試對答，提升面試臨場反應。"
+      ]
+    },
+    {
+      "number": 26,
+      "title": "即時回饋：面試回答 STAR 結構優化",
+      "role": "comparison",
+      "intent": "Explain 即時回饋：面試回答 STAR 結構優化",
+      "key_points": [
+        "STAR 結構化：指導學生以 STAR 原則（情境、任務、行動、結果）優化回答。",
+        "修辭修飾：利用 AI 當修辭教練，優化學生的口語贅詞，轉化為更具專業度的面試應答。"
+      ]
+    },
+    {
+      "number": 27,
+      "title": "備課解放：選課說明會與講座腳本生成",
+      "role": "concept explanation",
+      "intent": "Explain 備課解放：選課說明會與講座腳本生成",
+      "key_points": [
+        "說明會簡報大綱：AI 一鍵產生給家長或學生的選課說明會簡報架構。",
+        "逐字講稿生成：AI 起草說明會逐字講稿大綱，確保資訊準確，並富含安撫焦慮的同理字眼。"
+      ]
+    },
+    {
+      "number": 28,
+      "title": "教學創新：選課互動班會與引導式學習單",
+      "role": "concept explanation",
+      "intent": "Explain 教學創新：選課互動班會與引導式學習單",
+      "key_points": [
+        "生活化比喻：利用 AI 輔助設計生動的比喻（如「吃火鍋配菜」）說明必選修學分要求。",
+        "互動遊戲班會：設計 30 分鐘班會活動，引導學生分組進行修課生涯模擬。",
+        "引導式學習單：產出引導學生探索 18 學群的學習單。"
+      ]
+    },
+    {
+      "number": 29,
+      "title": "親師溝通：家長說明常見 Q&A 與致家長信",
+      "role": "comparison",
+      "intent": "Explain 親師溝通：家長說明常見 Q&A 與致家長信",
+      "key_points": [
+        "家長信起草：起草致家長信件，強調陪伴、引導孩子做主，消除考招疑慮。",
+        "Q&A 標準答案庫：將選課常見問題整理成 20 題白話 Q&A 標準答案，供教師快速回覆。"
+      ]
+    },
+    {
+      "number": 30,
+      "title": "高效行政：全學年工作計畫與 PLC 社群",
+      "role": "timeline",
+      "intent": "Explain 高效行政：全學年工作計畫與 PLC 社群",
+      "key_points": [
+        "工作計畫：利用 AI 產生包含高一二三、跨處室協作的工作計畫表。",
+        "PLC 會議設計：設計課諮師 PLC 社群專業會議（暖場、案例研討、行動規劃）。",
+        "新進手冊：快速產出「新進課諮師速查手冊」，確保行政記憶不流失。"
+      ]
+    },
+    {
+      "number": 31,
+      "title": "新開發課程：選課與資格陳情申訴合規回應",
+      "role": "concept explanation",
+      "intent": "Explain 新開發課程：選課與資格陳情申訴合規回應",
+      "key_points": [
+        "行政申訴痛點：面臨家長/學生針對選課限制、繁星百分比資格等陳情與申訴（例如北市1999市民陳情）。",
+        "法規合規審查：將申訴法規匯入 AI 進行合規性比對，防範潛在法律風險。",
+        "三段式回應起草：利用 AI 起草符合規範且態度溫暖的「背景說明 -> 調查結果 -> 處理及改善情形」回覆草稿。"
+      ]
+    },
+    {
+      "number": 32,
+      "title": "回歸以人為本：課諮師與 AI 的合作邊界",
+      "role": "concept explanation",
+      "intent": "Explain 回歸以人為本：課諮師與 AI 的合作邊界",
+      "key_points": [
+        "AI 處理理智檢索（佔比 80%）：資料比對、草稿起草、規章查詢、教材排版。",
+        "教師傳遞溫度陪伴（佔比 20%）：坐在諮詢室內，看著學生的眼睛，同理迷惘與焦慮。",
+        "教育核心：用 AI 處理瑣事，用「心」溫暖孩子。科技輔助，成就適性揚才的教育大夢。"
+      ]
+    },
+    {
+      "number": 33,
+      "title": "課後行動：一週內啟動你的 AI 智庫",
+      "role": "process",
+      "intent": "Explain 課後行動：一週內啟動你的 AI 智庫",
+      "key_points": [
+        "行動一：收集貴校的課程計畫書與選課手冊，一週內建立學校專屬的 NotebookLM 智庫。",
+        "行動二：找出一例棘手諮詢個案，輸入智庫驗證 AI 建議的可行性。",
+        "行動三：將產生的提示詞或大綱分享至全國課諮社群，帶動共同成長。"
+      ]
+    },
+    {
+      "number": 34,
+      "title": "提問與交流 (Q&A)",
+      "role": "q&a",
+      "intent": "Explain 提問與交流 (Q&A)",
+      "key_points": [
+        "研習簡報、指令集與小工具雲端資料庫共享。",
+        "歡迎加入 PLC 專業社群，共享 AI 輔導實踐成果！",
+        "講師聯絡信箱：frog@lssh.tp.edu.tw (林獻升老師)"
+      ]
+    }
+  ],
+  "language": "Chinese",
+  "goal": "Train high school course counselors in AI skills and counseling practices.",
+  "approved_style_reference": {
+    "path": "/Users/froglssh/Documents/AI課程/課諮師AI研習/origin_image/slide_03.png",
+    "role": "approved sample slide style reference",
+    "fidelity": "match style only; do not copy layout or content"
+  }
+}

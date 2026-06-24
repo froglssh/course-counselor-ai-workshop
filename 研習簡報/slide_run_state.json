@@ -1,0 +1,24 @@
+{
+  "status": "slides_recorded",
+  "history": [
+    {
+      "from": "created",
+      "to": "jobs_prepared",
+      "at": "2026-06-23T15:47:05Z",
+      "note": "prepared slide prompt jobs"
+    },
+    {
+      "from": "jobs_prepared",
+      "to": "slides_dispatched",
+      "at": "2026-06-23T16:11:54Z",
+      "note": "all slide jobs dispatched"
+    },
+    {
+      "from": "slides_dispatched",
+      "to": "slides_recorded",
+      "at": "2026-06-23T16:13:59Z",
+      "note": "all slide images recorded"
+    }
+  ],
+  "updated_at": "2026-06-23T16:13:59Z"
+}

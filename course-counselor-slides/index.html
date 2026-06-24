@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>課諮師AI研習簡報</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --surface2: #22263a;
+    --accent: #4f8ef7;
+    --accent2: #6eb5ff;
+    --text: #e8eaf0;
+    --text-muted: #8b92a8;
+    --border: #2e3348;
+    --green: #3ecf8e;
+    --orange: #f79a4f;
+    --radius: 12px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ─── Header ─── */
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 22px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+    z-index: 10;
+    gap: 12px;
+  }
+
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-width: 0;
+  }
+
+  .home-btn {
+    display: flex; align-items: center; gap: 6px;
+    padding: 7px 14px;
+    border-radius: 8px;
+    border: 1.5px solid var(--border);
+    background: var(--surface2);
+    color: var(--text-muted);
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+    text-decoration: none;
+  }
+  .home-btn:hover { border-color: var(--accent); color: var(--accent2); }
+
+  .header-title {
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: var(--accent2);
+    white-space: nowrap;
+  }
+
+  .header-meta {
+    font-size: 0.76rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+
+  .header-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  /* ─── Auto-play controls ─── */
+  .autoplay-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 12px;
+    background: var(--surface2);
+    border-radius: 8px;
+    border: 1.5px solid var(--border);
+  }
+
+  .autoplay-bar label {
+    font-size: 0.74rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+
+  .speed-select {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-size: 0.76rem;
+    padding: 3px 6px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .play-btn {
+    width: 30px; height: 30px;
+    border-radius: 6px;
+    border: none;
+    background: var(--accent);
+    color: #fff;
+    font-size: 0.85rem;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s;
+    flex-shrink: 0;
+  }
+  .play-btn:hover { background: var(--accent2); }
+  .play-btn.playing { background: var(--orange); }
+
+  /* progress bar */
+  .progress-bar-wrap {
+    width: 80px; height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+    cursor: pointer;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: var(--accent);
+    width: 0%;
+    transition: width 0.1s linear;
+  }
+
+  .fs-btn {
+    padding: 7px 16px;
+    border-radius: 8px;
+    border: 1.5px solid var(--accent);
+    background: transparent;
+    color: var(--accent2);
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 0.04em;
+    transition: all 0.2s;
+    white-space: nowrap;
+    display: flex; align-items: center; gap: 5px;
+  }
+  .fs-btn:hover { background: var(--accent); color: #fff; }
+
+  /* ─── Main Layout ─── */
+  .main {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+  }
+
+  /* ─── Left Panel (65%) ─── */
+  .panel-left {
+    width: 65%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 20px;
+    background: #0c0e18;
+    border-right: 1px solid var(--border);
+    position: relative;
+  }
+
+  .slide-image-wrap {
+    width: 100%;
+    max-width: 860px;
+    aspect-ratio: 16/9;
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.6);
+    background: #000;
+  }
+
+  .slide-image-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+  }
+
+  .slide-nav {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 14px;
+  }
+
+  .nav-btn {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    border: 1.5px solid var(--border);
+    background: var(--surface2);
+    color: var(--text);
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+  }
+  .nav-btn:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+  .slide-counter {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    min-width: 60px;
+    text-align: center;
+    letter-spacing: 0.06em;
+  }
+
+  /* ─── Right Panel (35%) ─── */
+  .panel-right {
+    width: 35%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .speech-header {
+    padding: 13px 20px 9px;
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+    background: var(--surface);
+  }
+
+  .speech-slide-num {
+    font-size: 0.68rem;
+    color: var(--green);
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 3px;
+  }
+
+  .speech-title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.4;
+  }
+
+  .speech-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 18px 20px 24px;
+    line-height: 1.95;
+    font-size: 0.9rem;
+    color: #cdd0de;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+  }
+  .speech-body::-webkit-scrollbar { width: 4px; }
+  .speech-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  .speech-body p { margin-bottom: 1em; }
+  .speech-body p:last-child { margin-bottom: 0; }
+
+  /* ─── Thumbnail strip ─── */
+  .thumb-strip {
+    height: 66px;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    gap: 7px;
+    overflow-x: auto;
+    flex-shrink: 0;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+  }
+  .thumb-strip::-webkit-scrollbar { height: 3px; }
+  .thumb-strip::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  .thumb {
+    width: 74px; height: 48px;
+    flex-shrink: 0;
+    border-radius: 5px;
+    overflow: hidden;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: border-color 0.2s;
+    background: #000;
+  }
+  .thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .thumb.active { border-color: var(--accent); }
+  .thumb:hover { border-color: var(--accent2); }
+
+  /* ─── Fullscreen Overlay ─── */
+  #fullscreen-overlay {
+    display: none;
+    position: fixed; inset: 0;
+    background: #000;
+    z-index: 9999;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  #fullscreen-overlay.active { display: flex; }
+
+  #fs-img {
+    max-width: 100%; max-height: 100%;
+    object-fit: contain;
+  }
+
+  #fs-nav-left, #fs-nav-right {
+    position: fixed;
+    top: 50%; transform: translateY(-50%);
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.12);
+    border: none; color: #fff; font-size: 1.3rem;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s;
+    z-index: 10000;
+  }
+  #fs-nav-left:hover, #fs-nav-right:hover { background: rgba(255,255,255,0.28); }
+  #fs-nav-left { left: 16px; }
+  #fs-nav-right { right: 16px; }
+
+  #fs-toolbar {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    height: 52px;
+    background: rgba(0,0,0,0.72);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    z-index: 10000;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+  }
+  #fullscreen-overlay:hover #fs-toolbar,
+  #fs-toolbar:hover { opacity: 1; pointer-events: auto; }
+
+  .fs-tool-btn {
+    padding: 6px 14px;
+    border-radius: 6px;
+    border: 1px solid rgba(255,255,255,0.25);
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+    font-size: 0.78rem;
+    cursor: pointer;
+    transition: background 0.2s;
+    white-space: nowrap;
+  }
+  .fs-tool-btn:hover { background: rgba(255,255,255,0.22); }
+  .fs-tool-btn.playing { background: rgba(247,154,79,0.5); border-color: var(--orange); }
+
+  .fs-speed-select {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.25);
+    color: #fff;
+    font-size: 0.76rem;
+    padding: 5px 8px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .fs-counter-text {
+    font-size: 0.76rem;
+    color: rgba(255,255,255,0.55);
+    min-width: 50px;
+    text-align: center;
+    letter-spacing: 0.06em;
+  }
+
+  #fs-close {
+    position: fixed; top: 16px; right: 20px;
+    background: rgba(255,255,255,0.12);
+    border: none; color: #fff; font-size: 1rem;
+    width: 38px; height: 38px; border-radius: 50%;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s; z-index: 10000;
+  }
+  #fs-close:hover { background: rgba(255,255,255,0.28); }
+
+  .fs-progress-wrap {
+    width: 100px; height: 4px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 2px; overflow: hidden;
+  }
+  .fs-progress-fill {
+    height: 100%;
+    background: var(--accent);
+    width: 0%;
+    transition: width 0.1s linear;
+  }
+
+  /* ─── Footer ─── */
+  .footer-info {
+    padding: 6px 22px;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    text-align: center;
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 900px) {
+    body { overflow: auto; }
+    .main { flex-direction: column; height: auto; }
+    .panel-left, .panel-right { width: 100%; }
+    .panel-left { border-right: none; border-bottom: 1px solid var(--border); }
+    .header-meta { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header>
+  <div class="header-left">
+    <button class="home-btn" onclick="goHome()">⌂ 首頁</button>
+    <div class="header-title">課諮師 AI 研習簡報</div>
+    <div class="header-meta">臺北市立麗山高中・林獻升老師</div>
+  </div>
+
+  <div class="header-controls">
+    <!-- Auto-play bar -->
+    <div class="autoplay-bar">
+      <label>自動播放</label>
+      <select class="speed-select" id="speed-select" onchange="updateSpeed()">
+        <option value="3">3 秒</option>
+        <option value="5" selected>5 秒</option>
+        <option value="8">8 秒</option>
+        <option value="10">10 秒</option>
+        <option value="15">15 秒</option>
+        <option value="20">20 秒</option>
+      </select>
+      <div class="progress-bar-wrap" title="播放進度">
+        <div class="progress-bar-fill" id="progress-fill"></div>
+      </div>
+      <button class="play-btn" id="play-btn" onclick="togglePlay()" title="播放 / 暫停">▶</button>
+    </div>
+
+    <button class="fs-btn" onclick="enterFullscreen()">⛶ 全螢幕播放</button>
+  </div>
+</header>
+
+<!-- Main -->
+<div class="main">
+
+  <!-- Left: Slide Image (65%) -->
+  <div class="panel-left">
+    <div class="slide-image-wrap">
+      <img id="main-slide" src="" alt="投影片">
+    </div>
+    <div class="slide-nav">
+      <button class="nav-btn" id="btn-prev" onclick="navigate(-1)">&#8592;</button>
+      <div class="slide-counter" id="counter">1 / 34</div>
+      <button class="nav-btn" id="btn-next" onclick="navigate(1)">&#8594;</button>
+    </div>
+  </div>
+
+  <!-- Right: Speech (35%) -->
+  <div class="panel-right">
+    <div class="speech-header">
+      <div class="speech-slide-num" id="speech-num">SLIDE 01</div>
+      <div class="speech-title" id="speech-title"></div>
+    </div>
+    <div class="speech-body" id="speech-body"></div>
+  </div>
+
+</div>
+
+<!-- Thumbnail Strip -->
+<div class="thumb-strip" id="thumb-strip"></div>
+
+<!-- Footer -->
+<div class="footer-info">臺北市立麗山高中 林獻升老師 ｜ 課諮師 AI 科技輔助與適性輔導實務研習</div>
+
+<!-- Fullscreen Overlay -->
+<div id="fullscreen-overlay">
+  <button id="fs-close" onclick="exitFullscreen()">✕</button>
+  <button id="fs-nav-left" onclick="fsNavigate(-1)">&#8592;</button>
+  <img id="fs-img" src="" alt="">
+  <button id="fs-nav-right" onclick="fsNavigate(1)">&#8594;</button>
+
+  <!-- Fullscreen toolbar (hover to show) -->
+  <div id="fs-toolbar">
+    <span class="fs-counter-text" id="fs-counter-text">1 / 34</span>
+    <button class="fs-tool-btn" id="fs-prev-btn" onclick="fsNavigate(-1)">← 上一張</button>
+    <button class="fs-tool-btn fs-play-btn" id="fs-play-btn" onclick="togglePlay()">▶ 自動播放</button>
+    <select class="fs-speed-select" id="fs-speed-select" onchange="updateSpeedFromFs()">
+      <option value="3">3 秒</option>
+      <option value="5" selected>5 秒</option>
+      <option value="8">8 秒</option>
+      <option value="10">10 秒</option>
+      <option value="15">15 秒</option>
+      <option value="20">20 秒</option>
+    </select>
+    <div class="fs-progress-wrap">
+      <div class="fs-progress-fill" id="fs-progress-fill"></div>
+    </div>
+    <button class="fs-tool-btn" id="fs-next-btn" onclick="fsNavigate(1)">下一張 →</button>
+    <button class="fs-tool-btn" onclick="exitFullscreen()">✕ 退出</button>
+  </div>
+</div>
+
+<script>
+// ─── Slide Data ───────────────────────────────────────────────────
+const BASE = 'origin_image/';
+
+const slides = [
+  {
+    title: 'AI 助攻！課諮師 AI 核心技能培養與適性輔導實務',
+    img: BASE + 'slide_01.png',
+    speech: `各位夥伴老師大家早。能在今天這個場合與來自全台各高中的課諮同儕相聚，心裡其實有些感動。108 課綱走到現在，相信大家對課諮師這個角色的重量，有了愈來愈深的體會——不只是解讀簡章的資訊員，更是陪著孩子釐清方向的那個人。
+
+今天，我們不是要讓科技取代這份溫度，而是要讓 AI 成為我們最可靠的後援，把繁瑣的資料比對、規章核對交給工具，把珍貴的時間與心力，留給諮詢室裡那些正在迷惘的孩子。
+
+本次研習，我們將聚焦在如何透過封閉式 AI 技術，培養課諮師專屬的「科技引路能力」。這是我們在麗山高中實際走過的路，帶著真實教學現場的溫度，分享給各位。`
+  },
+  {
+    title: '今日研習地圖',
+    img: BASE + 'slide_02.png',
+    speech: `在進入各個實戰模組之前，我們先一起看整天的學習地圖。從建立對 AI 的正確認識、避免被「幻覺」誤導，到五個核心技能的逐一演練——資料檢索、晤談模擬、歷程初評、落點分析，一路走到行政優化——每個模組都備有具體的操作範例，讓各位帶著走回去用。
+
+這張地圖的設計邏輯，是從「理解工具是什麼」出發，慢慢走到「知道自己在哪個場景下怎麼用它」。希望今天結束後，各位帶回去的不只是幾個提示詞，而是一套可以持續運作的課諮輔助系統。
+
+整個研習的節奏是循序漸進的，理論部分盡量簡短，實戰的比重會更多一些。`
+  },
+  {
+    title: '課諮師在高中三年的工作任務地圖',
+    img: BASE + 'slide_03.png',
+    speech: `工具再好，也要先清楚自己在做什麼。在進入操作之前，我們稍微拉開視野，把課諮師在高中三年的工作任務梳理一遍。
+
+高一做的是定向與探索，數 A 數 B 的選擇、18 學群的初步認識、自主學習計畫的啟動，都發生在這個階段；高二走向深化與確認，學生開始面對選組轉班的抉擇，加深加廣選修的配課也在這個時期形成；到了高三，就進入整合與衝刺，學分檢核、落點分析、面試準備，幾乎同步壓下來。
+
+這張三年工作地圖，不只是複習，更是我們後續建置 AI 知識庫時的架構依據——用來決定「哪些文件要上傳、哪些情境要預先設定」。`
+  },
+  {
+    title: '課諮第一線：被行政資料淹沒的專業教師',
+    img: BASE + 'slide_04.png',
+    speech: `在開始談工具之前，我想先說說大家都懂的那種感受。每年簡章一改，就要重新翻閱幾百頁的 PDF；學生和家長問的問題，往往和去年一模一樣，但每次回答還是要花一樣多的時間；更讓人惋惜的是，當處室同事異動，過去積累的諮詢經驗和常見問答，常常就這樣隨著人員的離開而消失。
+
+這三件事——資訊超載、重複答詢、行政記憶流失——並不是課諮師個人的效率問題，而是結構性的痛點。大家在第一線承受這些壓力，其實是整個制度設計的代價。
+
+而這，正是我們今天要讓 AI 系統幫忙承接的地方。不是讓科技取代老師，而是讓科技幫我們把可以自動化的部分接走，騰出更多空間做只有人才能做的事。`
+  },
+  {
+    title: '通用 AI 幻覺問題 vs. 封閉式專家 AI 優勢',
+    img: BASE + 'slide_05.png',
+    speech: `很多老師嘗試過用一般的 AI 工具來回答選課問題，卻發現它偶爾會「說出聽起來很合理、但根本不存在的規定」——這就是所謂的「幻覺」。在一般的生活應用裡，這也許只是個小麻煩；但在攸關學生升學方向的教育諮詢現場，卻是絕對不能接受的風險。
+
+我們今天要學習的，是「封閉式專家 AI」的操作邏輯。以 NotebookLM 為例，它就像一個只被允許閱讀我們上傳資料的嚴謹助理，透過「Grounding 溯源技術」，不僅不會自行發揮，還會在每個回答後方標註引用頁碼。
+
+這個差異，看起來是技術細節，實際上是教育信任的底線。有了頁碼引用，我們向家長說明時，隨時可以翻開原始文件當場核對，這才是課諮師在資訊時代應有的專業素養。`
+  },
+  {
+    title: '實戰：五分鐘打造校級課諮 AI 系統',
+    img: BASE + 'slide_06.png',
+    speech: `理解了工具的運作邏輯之後，我們來實際動手做。建置一個校級的課諮 AI 智庫，步驟比大家想像的簡單許多。
+
+第一步是蒐集燃料——把學校的課程計畫書、選課手冊、學生手冊，還有平日累積下來的 FAQ 整理好；第二步是在 NotebookLM 新增一個專屬筆記本；第三步則是把這些文件拖進去，也可以直接貼入 Collego 的學群網頁連結。
+
+整個過程大約五分鐘，一個只屬於你們學校的專屬課諮智庫就誕生了。值得注意的是，文件的「整理品質」決定了 AI 回答的精準度——這是建置階段唯一需要花心思的地方。上傳前，先把文件裡殘缺或格式混亂的部分稍作整理，會讓後續的使用體驗好很多。`
+  },
+  {
+    title: '實戰：跨文件萃取與資工學群選修比對',
+    img: BASE + 'slide_07.png',
+    speech: `智庫建置完成後，來看一個非常實用的應用場景。當學生詢問資訊工程學群的修課建議時，我們不需要自己同時翻閱《大學申請入學簡章》和《校內課程地圖》，只要在智庫裡下一道提示，請 AI 綜合比對這兩份文件，整理出學生在高中三年應優先修習哪些加深加廣選修，以及該學系最看重的兩項學科能力。
+
+AI 大約在十秒內就能給出有憑有據的結構化回答。這樣的「跨文件萃取」，正是一般搜尋工具做不到的事，也是今天我們建置智庫最核心的使用場景。
+
+提示詞的關鍵在於「具體指定文件名稱」，讓 AI 知道它應該在哪兩份文件之間進行比對，而不是漫無目的地在整個知識庫裡搜索。`
+  },
+  {
+    title: '實戰：針對特定校規的精準問答與溯源',
+    img: BASE + 'slide_08.png',
+    speech: `在親師溝通的現場，課諮師最怕的就是說錯規定。當家長拿著手冊質疑你的時候，那種壓力是真實的。我們可以在諮詢前先跑一次這樣的提示：「請嚴格根據《選課輔導手冊》，若學生在高二上學期想退選或停修，必須在開學後第幾週申請？需經過哪些處室核准？」
+
+關鍵在於，我們要特別交代一句：「務必附上資料來源的頁碼。」有了頁碼，我們向家長說明時，隨時可以翻到原始文件當場核對，不僅提高說服力，更重要的是確保自己說的每一句話都站得住腳。
+
+「嚴格根據」這四個字，是避免 AI 憑空發揮的關鍵防線，各位在設計提示詞時，遇到涉及法規或規定的問題，都建議加上這樣的限制語。`
+  },
+  {
+    title: '新開發課程：去識別化成績單學分智能審查',
+    img: BASE + 'slide_09.png',
+    speech: `這是這次研習中特別想介紹的一個新應用。每到高三，課諮師和教務處最頭痛的任務之一，就是逐一核對學生的畢業學分——手動比對既費時，又容易有遺漏。
+
+現在，我們可以先將學生姓名、學號等個資做去識別化處理，接著把學校的畢業學分規範上傳到 AI 智庫作為背景知識，再將去識別化後的成績單貼入，請 AI 自動比對學生還缺哪些必修或選修學分，並列出補修建議清單。
+
+這個流程跑完，原本需要好幾個小時的人工作業，壓縮到幾分鐘以內。值得特別提醒的是，個資保護是使用這類工具的紅線——去識別化的步驟不能省略，這是在現行法規框架內合規使用 AI 的必要前提。`
+  },
+  {
+    title: '協作設定：打破行政資訊孤島',
+    img: BASE + 'slide_10.png',
+    speech: `建完自己的智庫之後，有一個功能請各位一定要記得打開——「共用」。學校的知識從來不只集中在一個人手上：教務處掌握排課與學分規定，輔導室有性向測驗的常模資料，各學科中心則有最新課綱的解讀。
+
+當這些資料分散在不同人的桌面上，輔導品質就很難維持一致。透過 NotebookLM 的協作功能，我們可以把跨處室的老師和導師都加進同一個 AI 智庫，讓大家共享一套一致的答案來源。
+
+更重要的是，這個智庫會持續存在，不會因為哪位老師調動而讓珍貴的行政記憶就此消失。行政傳承不應該只靠人與人之間的口耳相傳，它需要一個可以被保存、被更新、被共享的載體。`
+  },
+  {
+    title: '適性輔導：數學 A 與數學 B 抉擇引導',
+    img: BASE + 'slide_11.png',
+    speech: `數學 A 還是數學 B？這應該是課諮師被問到最多次的問題之一。大方向大家都清楚——數 A 偏理工醫農，數 B 偏人文社科——但輔導時不能只停在「你的興趣在哪裡」，更要幫學生做具體的代價評估。
+
+我們可以把各校系的參採組合文件丟給 AI，請它分析：如果學生從數 A 轉到數 B，會失去哪些原本有意申請的校系資格？又能獲得多少學習時間上的喘息空間？
+
+數據化的代價分析，能讓這個抉擇從模糊的感覺，變成一個可以被學生自己理性面對的選擇。輔導不是替學生做決定，而是讓他們有足夠的資訊做出自己的判斷——這是我們設計這個應用場景的核心初衷。`
+  },
+  {
+    title: '新開發課程：與 AI 模擬晤談演練',
+    img: BASE + 'slide_12.png',
+    speech: `諮詢技巧這件事，說到底需要靠練習來磨。但在學校的現實裡，很難找到可以隨時陪你演練的對象。這門課程的設計出發點，正是想把這個困境打破。
+
+我們可以請 AI 扮演各種典型的學生角色——「想念資工卻抗拒寫程式的偏科高一生」、「家長強推醫學系但自己心裡想讀藝術的焦慮高二生」——透過多輪的打字或語音對話，讓這個「假想學生」提出真實的抗拒與矛盾。
+
+有趣的是，在幾次演練之後，AI 還能扮演督導的角色，客觀分析教師的引導技巧，指出哪些回應反而強化了學生的防衛。這套演練機制，我們觀察到它最大的價值，不只是技術練習，而是幫助老師反思自己的溝通習慣。`
+  },
+  {
+    title: '個案研究：實作極強但紙筆數學不及格的輔導',
+    img: BASE + 'slide_13.png',
+    speech: `來看一個具體的案例。某位高二學生，資工系是他唯一想去的地方，在機器人社裡幾乎是靈魂人物，但紙筆測驗的數學成績卻長期不及格。
+
+這種「能力結構不對稱」的個案，是最考驗課諮師的情境之一。當我們把這個狀況輸入 AI 智庫，它提供了三個方向的建議：在選課策略上，引導他選修強調專題實作的加深加廣，讓成績單上有機會呈現他真正擅長的東西；在學習歷程上，把機器人社的具體成果轉化為自主學習計畫，讓教授看見他的邏輯與動手能力；最後，AI 也生成了一段充滿同理心的晤談引導詞，幫老師在對話開場時，先重新點燃這個孩子對自己的信心。
+
+這三個層次的建議，讓「非典型學生」的輔導有了更具體的抓手，也讓老師在面對這類個案時，不再只能憑直覺摸索。`
+  },
+  {
+    title: '家長日心法：新舊考招對比與安撫策略',
+    img: BASE + 'slide_14.png',
+    speech: `家長日是另一個高壓現場。場子裡坐的，往往不是來聽說明的家長，而是帶著一肚子擔憂找答案的家長。他們最焦慮的核心，通常可以歸結到同一件事：「我的孩子會不會選錯？」
+
+我們要做的，是在說明中清楚傳達新舊考招的根本差異——從「一次筆試決高下」，轉變為「多元舞台累積展現」——這個觀念的轉換，才是真正能安撫焦慮的關鍵。
+
+我們可以請 AI 針對家長日快速起草說明大綱，並將最常出現的問題——自主學習沒有成果怎麼辦、修課紀錄影響有多大——整理成白話易懂的 Q&A。讓家長在座談結束後，帶著安心感離開，這是課諮師在家長日最重要的任務之一。`
+  },
+  {
+    title: '科技工具：適性生涯探索的整合應用',
+    img: BASE + 'slide_15.png',
+    speech: `為了讓適性輔導在諮詢之外也能繼續發生，我們開發了三個線上輔助工具：「自主學習 AI 輔助系統」、「學習歷程檔案優化助手」，以及「AI 智慧輔助升學系統」。
+
+這些工具的設計初衷，是希望學生在課諮室外的時間，也能有一個有結構的引導。不是讓他們面對一個空白的輸入框，而是透過引導式的提問，逐步釐清自己的性向與方向，並將個人特質與 Collego 的學群資料進行收斂，產出最適合的生涯路徑建議。
+
+老師們可以在適當時機，把這些連結提供給有需要的學生使用。在課堂或諮詢後，學生有了可以繼續深入的工具，課諮輔導的效果就不只局限在那一次面談裡。`
+  },
+  {
+    title: '教育部作伴學手冊：大學教授看重什麼？',
+    img: BASE + 'slide_16.png',
+    speech: `很多學生對學習歷程的理解，還停留在「排版好看、頁數多」就是優秀的階段。這個認知，需要我們在輔導時明確地糾正。
+
+教育部的《作伴學手冊》講得非常清楚——大學端真正在意的，是「三重二不」：重視反思深度、重視歷程真實性、重視個人特質，而不是花俏的設計，也不是材料的堆疊量。
+
+把這份手冊上傳到 AI 智庫之後，我們可以請 AI 扮演篩選器的角色，協助學生設計「成果選材評估矩陣」，從高一高二累積的眾多作業中，挑出最能展現個人學習軌跡與學科素養的代表作。有了這個框架，學生選材的方向就不再是猜測，而是有依據的判斷。`
+  },
+  {
+    title: '成果優化：流水帳 vs 探究與解決歷程',
+    img: BASE + 'slide_17.png',
+    speech: `在看過許多學生的課程成果之後，我們觀察到一個最常見的問題：貼了一堆截圖和考卷，卻沒有說明「這些東西對我的意義是什麼」。在大學教授眼中，這樣的成果既看不出學習的深度，也看不出個人的特質。
+
+我們輔導的方向，應該是引導學生從「流水帳式的紀錄」，轉向「探究與解決的歷程書寫」——聚焦在「我遇到了什麼困難、我怎麼解決的、我從中學到了什麼」。
+
+我們可以把學生的成果大綱丟給 AI 模擬的申請入學審查教授，請它指出這份成果目前缺少哪些核心素養的展現，並給出具體的修改建議。有了這個外部視角，學生往往能更清楚看見自己成果的盲點。`
+  },
+  {
+    title: '反思寫作五個提問引導與提示詞',
+    img: BASE + 'slide_18.png',
+    speech: `引導學生寫出有深度的學習反思，往往比想像中困難。他們不是沒有感受，而是不知道從哪個角度切入。我們設計了一個「W-W-H-L-N 五格寫作框架」，把反思的書寫拆解成五個有結構的提問：
+
+Why（為什麼選這個主題？）、What（遇到什麼瓶頸？）、How（怎麼克服的？）、Learn（學到了什麼能力？）、Next（對未來有何展望？）。
+
+這個框架的好處，在於每個格子都有明確的入口，學生不會對著空白頁不知所措。我們可以把這個量規與學生的初稿一起提供給 AI，請它針對五個維度逐一引導學生補充細節——從零散的感受，走向一篇結構完整、反思清晰的自述。`
+  },
+  {
+    title: '自主學習計畫：重視執行力而非主題難度',
+    img: BASE + 'slide_19.png',
+    speech: `我們在輔導自主學習計畫時，觀察到一個非常普遍的現象：高一生喜歡選量子力學、基因編輯這類聽起來很厲害的主題，但到了學期末，往往只剩一份沒有結論的學習紀錄。
+
+大學端真正想看的，從來不是主題有多高深，而是「這個學生有沒有能力把計畫認真執行完」。執行力與反思，才是自主學習成果被認可的核心。
+
+我們可以利用自主學習 AI 輔助程式，先輸入學生的真實興趣，請 AI 協助設計一個符合學生程度的 18 週進度表——不只列出每週任務，還會引導學生預先想到執行過程中可能遇到的瓶頸，並想好備案。這個預先的風險評估，是讓計畫真正可行的關鍵一步。`
+  },
+  {
+    title: '新開發課程：小論文與自主學習成果 AI 智慧初評',
+    img: BASE + 'slide_20.png',
+    speech: `這是這次研習新增的另一個重點應用。老師要在有限時間內修改全班的自主學習成果或小論文，這幾乎是不可能完成的任務。
+
+現在，我們可以把全國小論文比賽的官方規準，或者學校自訂的自主學習評分細則，匯入 AI 智庫中。當學生完成初稿，先讓 AI 扮演初審評委，針對格式合規性（文獻引用格式是否正確、標題層級是否符合規範）與研究邏輯進行第一輪批改，並在草稿上加上具體的批註。
+
+學生拿到這份回饋後，自行完成大方向的修正，再交給老師。老師此時看到的，已經是解決過明顯問題的版本，時間與心力就能集中在真正需要人工判斷的細節上。這是 AI 與教師的最佳分工模式。`
+  },
+  {
+    title: '實戰：利用 AI 量規提供結構化評語',
+    img: BASE + 'slide_21.png',
+    speech: `除了初審之外，AI 也能協助我們提供更結構化的評語。作法是這樣的：把評語的 Rubric 量規——例如依研究方法、論證邏輯、文獻探討等維度評分——先上傳給 AI，再把學生作品貼上去。
+
+AI 會根據這個量規，針對每個維度分別給出強項分析、待改進的地方，以及具體的修改建議。這種做法的好處，不只是省時間，更在於讓評語的標準一致、結構清晰，學生讀到的回饋不再是模糊的「再加油」，而是有方向感的改進路線圖。
+
+在多次實施之後，我們觀察到學生對這種結構化評語的接受度，明顯高於傳統的手寫批改——因為它更具體，也更容易知道下一步該怎麼做。`
+  },
+  {
+    title: '升學路徑抉擇：繁星 vs 申請 vs 分科測驗',
+    img: BASE + 'slide_22.png',
+    speech: `學測成績公告後的那幾個星期，是課諮師最忙、也最需要保持冷靜的時期。學生常常卡在一個問題上：繁星、申請、分科測驗，到底該主攻哪條路？
+
+我們可以把學生的在校成績百分比、學測成績，以及歷程檔案的優勢，整理後輸入 AI，請它幫忙進行路徑抉擇評估——分析繁星填報的風險、申請入學的篩選倍率優勢，以及客觀評估是否有準備分科測驗的空間，最後給出一個合理的抉擇排序。
+
+有了數據化的分析做底，課諮師和學生之間的對話，就能從「我覺得你應該⋯⋯」變成「根據你目前的條件，最合理的順序是⋯⋯」。這個轉變，讓輔導更有說服力，也讓學生更有自主判斷的基礎。`
+  },
+  {
+    title: '線上落點預測資源的比較與志願建立',
+    img: BASE + 'slide_23.png',
+    speech: `線上落點平台有很多，各家計算邏輯不盡相同，學生常常不知道該信哪個。我們可以用 AI 來輔助分析歷年篩選分數的波動趨勢，幫學生更立體地理解「這個校系今年是否有可能大幅異動」。
+
+更重要的，是引導學生把志願清單建立成一個平衡的金字塔結構：2 個挑戰型的夢幻志願、2 個與自己實力相當的平衡志願，以及 2 個有把握的保守志願。
+
+這個比例不是固定公式，但這個思考框架能有效避免學生要嘛全部衝高、要嘛過度保守。志願填選是一種策略，有了這個框架，策略就有了依據，而不是每個人都在憑感覺賭注。`
+  },
+  {
+    title: '新開發課程：AI 智能模擬口試系統',
+    img: BASE + 'slide_24.png',
+    speech: `二階面試是很多學生從來沒有面對過的場景。通過篩選之後，學生往往不知道如何準備，隨便找幾題考古題背一背，臨場卻發現根本對答不上。
+
+我們設計的這套「AI 智能模擬口試系統」，是先收集該校系的二階簡章、歷年面試考古題，以及學生的去識別化個人備審資料，上傳到 AI 智庫。AI 根據這些材料，為學生量身打造一組個人化的模擬題庫，涵蓋專業學科知識、就讀動機，以及突發危機應變題型。
+
+學生的練習從此不再是對著通用考古題自言自語，而是面對一組真正為自己量身設計的問題。這種針對性的準備，在實際操作之後，我們觀察到學生的面試自信度有相當顯著的提升。`
+  },
+  {
+    title: '實戰：模擬面試教授與對話演練',
+    img: BASE + 'slide_25.png',
+    speech: `有了個人化的題庫，接下來就是讓學生真正「開口練習」。我們用這段角色扮演提示詞，請 AI 扮演特定科系的面試教授，限制它「一次只問一個問題，收到回答後給予簡短回饋，再問下一個問題」，維持接近真實面試的節奏感。
+
+然後引導學生開啟手機或電腦的麥克風，用語音輸入的方式和 AI 進行實時對答。這個方式有個我們觀察到的關鍵優點：語音輸入迫使學生真的「說出來」，而不是在腦子裡默想答案——臨場感是完全不同的。
+
+幾次演練之後，學生在口語表達上的自信度，提升得相當明顯。特別是那些平常文字表達不錯、但口語容易慌張的學生，這套練習對他們幫助最大。`
+  },
+  {
+    title: '即時回饋：面試回答 STAR 結構優化',
+    img: BASE + 'slide_26.png',
+    speech: `在觀察學生的模擬對答之後，我們發現一個共同的問題：回答沒有重心。問到「描述一次你克服困難的經驗」，學生往往從頭說到尾，鋪墊了一大段，卻沒有點出關鍵。
+
+我們引導學生使用 STAR 結構——情境（Situation）、任務（Task）、行動（Action）、結果（Result）——來重組自己的回答。具體的做法是：把學生的原始回答貼給 AI，請它扮演修辭教練，自動剔除不必要的鋪墊，將內容重組為符合 STAR 結構的精煉版本。
+
+改寫前後的對照，是很好的教學素材——學生看到自己說過的話被整理成那個樣子，往往會有「原來可以這樣講」的頓悟。這個頓悟，是我們希望每個準備面試的學生都能有的轉折點。`
+  },
+  {
+    title: '備課解放：選課說明會與講座腳本生成',
+    img: BASE + 'slide_27.png',
+    speech: `課諮師每年除了個別輔導，還要辦理多場選課說明會，從頭準備簡報大綱和講稿，往往要花掉一整個下午。AI 可以在這個環節幫我們省下相當多的準備時間。
+
+只要輸入學校的選課規定、說明會的目標對象，以及希望傳達的核心訊息，AI 就能生成一份說明會的簡報架構，甚至起草一份包含「同理家長焦慮」和「白話解釋升學規定」的講稿大綱。
+
+當然，最後的調整和現場的靈活應對，還是需要老師自己來。但有了這個草稿作為起點，備課的過程會輕鬆許多，時間也可以集中在最需要個人判斷的環節上。「解放備課」，不是讓老師偷懶，而是讓老師能把精力用在刀口上。`
+  },
+  {
+    title: '教學創新：選課互動班會與引導式學習單',
+    img: BASE + 'slide_28.png',
+    speech: `選課輔導的班會課，學生很容易陷入「聽不懂也不想問」的被動狀態。讓這堂課有互動、有趣味，是課諮師長期以來的課題。
+
+我們可以請 AI 提供生活化的比喻，幫助學生理解抽象的制度——例如用「吃火鍋點菜」來比喻部定必修與多元選修的關係，往往比解釋課程結構更能讓學生秒懂。除了比喻，AI 也能協助設計一個 30 分鐘的選課模擬桌遊，或者自動產出引導學生探索 18 學群的學習單。
+
+這些素材不需要從零開始做，AI 提供初稿，老師依自己班上的狀況微調即可。讓選課輔導課變得好玩又有料，學生主動參與的程度，往往比我們預期的高很多。`
+  },
+  {
+    title: '親師溝通：家長說明常見 Q&A 與致家長信',
+    img: BASE + 'slide_29.png',
+    speech: `親師溝通是課諮師工作中情緒耗損最大的一塊。家長不是不講理，很多時候是因為看不懂制度、又擔心孩子，才會在 Line 群組或電話裡說出讓老師很難回應的話。
+
+我們可以請 AI 起草一封溫馨的致家長信，強調學校陪伴孩子適性發展的立場，引導家長從焦慮轉向信任。同時，也可以請 AI 整理一份「家長最常問的 20 個問題」的白話 Q&A 標準答案庫。
+
+有了這份庫，當家長再問相似問題時，我們不用每次重新想措辭，直接取用或稍作調整，既省時又一致，溝通品質也更穩定。好的親師溝通，不只是個別老師的個人修煉，而是可以被系統化支撐的專業能力。`
+  },
+  {
+    title: '高效行政：全學年工作計畫與 PLC 社群',
+    img: BASE + 'slide_30.png',
+    speech: `課諮工作是一整年的馬拉松，節點多、跨處室協作的需求又高，如果沒有清楚的全局規劃，很容易在最忙的時候才發現遺漏了什麼。
+
+我們可以請 AI 幫我們規劃「全學年工作計畫表」，把高一二三在不同月份的輔導重點、教務處與輔導室的協作節點，以及說明會、面試模擬的時間安排都標注出來。同時，我們也在探索如何用 AI 協助課諮師 PLC 社群設計更有效率的會議流程，包括案例研討的引導方式，以及新進課諮師手冊的快速編撰。
+
+這些行政工具的背後，其實都指向同一件事：讓課諮師的專業知識，不再只存在於某幾個老師的腦袋裡，而是能夠被記錄、被傳承、被整個學校共享。`
+  },
+  {
+    title: '新開發課程：選課與資格陳情申訴合規回應',
+    img: BASE + 'slide_31.png',
+    speech: `這是行政優化模組中特別值得關注的新應用。當學校面臨家長針對選課限制、繁星百分比資格等問題提出申訴——例如透過北市 1999 陳情管道——行政回應既要依法合規，語氣也要誠懇，這個平衡其實很難拿捏。
+
+我們可以先把相關法規文件匯入 AI 進行合規審查，確認行政處置有無法律風險；接著要求 AI 依「背景說明、調查結果、處理及改善情形」的三段式格式起草回應稿，並提示它避免防禦性說教的語氣。
+
+在多次使用之後，我們觀察到，這個流程不只幫助我們節省起草時間，更重要的是，它強迫我們在回應之前，先做一次嚴謹的法規自查。那個自查的過程，才是真正保護學校與老師的防線。`
+  },
+  {
+    title: '回歸以人為本：課諮師與 AI 的合作邊界',
+    img: BASE + 'slide_32.png',
+    speech: `講了一整天的工具與技術，到了最後，我想說的反而是最基本的一件事。AI 再強大，在諮詢室裡那個真實的人際時刻，它始終替代不了。
+
+未來的課諮工作，AI 可以承接絕大多數的「理智型任務」——資料比對、草稿起草、規章檢索——讓我們從繁瑣的資訊工作中解放出來。但那 20% 的「溫度工作」，坐在學生面前、看著他的眼睛、傾聽他說不出口的困惑與焦慮，這始終是我們的核心。
+
+用 AI 處理瑣事，把「心」留給孩子——這不是一個浪漫的口號，而是我們選擇導入這些工具的真正理由。科技是手段，陪伴是目的，這條邊界，我們需要時刻清醒地守著它。`
+  },
+  {
+    title: '課後行動：一週內啟動你的 AI 智庫',
+    img: BASE + 'slide_33.png',
+    speech: `研習結束，才是最重要的工作開始。我幫各位設定了三個「課後行動方案」：
+
+一週內，請收集貴校的課程計畫書與選課手冊，在 NotebookLM 建立你們學校的第一個專屬智庫；找出一個目前手上正在處理的棘手個案，把它輸入智庫，測試 AI 建議的可行性；如果你嘗試出了有用的提示詞，把它分享到課諮社群裡，讓大家一起用。
+
+這三件事都不需要什麼特殊條件，只需要願意動手。我們在研習裡看到的每一個工具，都是在真實的學校現場被測試過的——帶回去試試，如果有用，就繼續；如果不合你的情境，調整後再試。讓我們一起用 AI 點亮課程諮詢之路。`
+  },
+  {
+    title: '提問與交流 (Q&A)',
+    img: BASE + 'slide_34.png',
+    speech: `最後，我們進入提問與交流的時間。今天提到的所有提示詞指令集、線上工具的網址，都已整理在雲端資料庫中，大家可以掃描畫面上的 QR Code 取得。
+
+也非常歡迎加入課諮師專業學習社群，把自己在學校實踐的心得和夥伴們分享——這個社群最有價值的地方，不在於我能提供什麼，而在於大家彼此之間的交流與累積。
+
+如果在建置或使用上有任何問題，隨時歡迎來信。謝謝各位今天的陪伴與參與，祝大家的課諮工作，都能因為這些工具，而多一點從容、多一點溫度。`
+  }
+];
+
+// ─── State ────────────────────────────────────────────────────────
+let current = 0;
+let isPlaying = false;
+let playInterval = null;
+let progressInterval = null;
+let progressStart = null;
+let speedSecs = 5;
+
+// ─── Init ─────────────────────────────────────────────────────────
+function init() {
+  const strip = document.getElementById('thumb-strip');
+  slides.forEach((s, i) => {
+    const t = document.createElement('div');
+    t.className = 'thumb' + (i === 0 ? ' active' : '');
+    t.innerHTML = `<img src="${s.img}" alt="slide ${i+1}" loading="lazy">`;
+    t.onclick = () => { goTo(i); };
+    strip.appendChild(t);
+  });
+  render();
+}
+
+function render() {
+  const s = slides[current];
+  document.getElementById('main-slide').src = s.img;
+  document.getElementById('counter').textContent = `${current+1} / ${slides.length}`;
+  document.getElementById('speech-num').textContent = `SLIDE ${String(current+1).padStart(2,'0')}`;
+  document.getElementById('speech-title').textContent = s.title;
+  document.getElementById('speech-body').innerHTML = s.speech.trim().split('\n\n').map(p => `<p>${p.replace(/\n/g,'<br>')}</p>`).join('');
+  document.getElementById('btn-prev').disabled = current === 0;
+  document.getElementById('btn-next').disabled = current === slides.length - 1;
+
+  document.querySelectorAll('.thumb').forEach((t, i) => t.classList.toggle('active', i === current));
+  const thumbs = document.querySelectorAll('.thumb');
+  if (thumbs[current]) thumbs[current].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+  document.getElementById('speech-body').scrollTop = 0;
+
+  // fullscreen
+  document.getElementById('fs-img').src = s.img;
+  document.getElementById('fs-counter-text').textContent = `${current+1} / ${slides.length}`;
+}
+
+function goTo(i) {
+  if (i < 0 || i >= slides.length) return;
+  current = i;
+  render();
+  if (isPlaying) resetProgressBar();
+}
+
+function navigate(dir) { goTo(current + dir); }
+
+// ─── Auto-play ────────────────────────────────────────────────────
+function getSpeed() {
+  return parseInt(document.getElementById('speed-select').value, 10) || 5;
+}
+
+function updateSpeed() {
+  speedSecs = getSpeed();
+  document.getElementById('fs-speed-select').value = speedSecs;
+  if (isPlaying) { clearAutoPlay(); startAutoPlay(); }
+}
+
+function updateSpeedFromFs() {
+  speedSecs = parseInt(document.getElementById('fs-speed-select').value, 10) || 5;
+  document.getElementById('speed-select').value = speedSecs;
+  if (isPlaying) { clearAutoPlay(); startAutoPlay(); }
+}
+
+function togglePlay() {
+  isPlaying ? pausePlay() : startPlay();
+}
+
+function startPlay() {
+  isPlaying = true;
+  speedSecs = getSpeed();
+  document.getElementById('play-btn').textContent = '⏸';
+  document.getElementById('play-btn').classList.add('playing');
+  document.getElementById('fs-play-btn').textContent = '⏸ 暫停';
+  document.getElementById('fs-play-btn').classList.add('playing');
+  startAutoPlay();
+}
+
+function pausePlay() {
+  isPlaying = false;
+  document.getElementById('play-btn').textContent = '▶';
+  document.getElementById('play-btn').classList.remove('playing');
+  document.getElementById('fs-play-btn').textContent = '▶ 自動播放';
+  document.getElementById('fs-play-btn').classList.remove('playing');
+  clearAutoPlay();
+  document.getElementById('progress-fill').style.width = '0%';
+  document.getElementById('fs-progress-fill').style.width = '0%';
+}
+
+function startAutoPlay() {
+  resetProgressBar();
+  playInterval = setInterval(() => {
+    if (current >= slides.length - 1) {
+      pausePlay();
+      return;
+    }
+    navigate(1);
+    resetProgressBar();
+  }, speedSecs * 1000);
+}
+
+function clearAutoPlay() {
+  clearInterval(playInterval);
+  clearInterval(progressInterval);
+  playInterval = null; progressInterval = null;
+}
+
+function resetProgressBar() {
+  clearInterval(progressInterval);
+  progressStart = Date.now();
+  const dur = speedSecs * 1000;
+  progressInterval = setInterval(() => {
+    const pct = Math.min(100, ((Date.now() - progressStart) / dur) * 100);
+    document.getElementById('progress-fill').style.width = pct + '%';
+    document.getElementById('fs-progress-fill').style.width = pct + '%';
+    if (pct >= 100) clearInterval(progressInterval);
+  }, 80);
+}
+
+// ─── Fullscreen ───────────────────────────────────────────────────
+function enterFullscreen() {
+  document.getElementById('fullscreen-overlay').classList.add('active');
+  render();
+  const el = document.documentElement;
+  if (el.requestFullscreen) el.requestFullscreen();
+}
+
+function exitFullscreen() {
+  document.getElementById('fullscreen-overlay').classList.remove('active');
+  if (document.exitFullscreen) document.exitFullscreen();
+}
+
+function fsNavigate(dir) { navigate(dir); }
+
+document.addEventListener('fullscreenchange', () => {
+  if (!document.fullscreenElement) {
+    document.getElementById('fullscreen-overlay').classList.remove('active');
+  }
+});
+
+// ─── Home ─────────────────────────────────────────────────────────
+function goHome() {
+  pausePlay();
+  goTo(0);
+  // scroll thumb strip to start
+  document.getElementById('thumb-strip').scrollLeft = 0;
+}
+
+// ─── Keyboard ─────────────────────────────────────────────────────
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') navigate(1);
+  else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') navigate(-1);
+  else if (e.key === 'Escape') exitFullscreen();
+  else if (e.key === 'f' || e.key === 'F') enterFullscreen();
+  else if (e.key === ' ') { e.preventDefault(); togglePlay(); }
+  else if (e.key === 'Home') goHome();
+});
+
+// ─── Start ────────────────────────────────────────────────────────
+init();
+</script>
+</body>
+</html>

@@ -1,0 +1,416 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>教材檔案資源庫｜課諮師 AI 增能研習</title>
+  <style>
+    :root {
+      --ink: #17212b;
+      --muted: #657282;
+      --line: #dbe3ea;
+      --paper: #f7fafc;
+      --panel: #ffffff;
+      --teal: #0f766e;
+      --teal-dark: #0b4f4a;
+      --blue: #2563eb;
+      --shadow: 0 18px 55px rgba(23, 33, 43, .11);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(900px 420px at 12% -8%, rgba(15, 118, 110, .14), transparent 60%),
+        radial-gradient(820px 420px at 96% -12%, rgba(37, 99, 235, .12), transparent 60%),
+        var(--paper);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+      line-height: 1.55;
+      min-height: 100vh;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button, input { font: inherit; }
+
+    .wrap { max-width: 1180px; margin: 0 auto; padding: 0 24px 64px; }
+
+    /* ---- Sticky header ---- */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(247, 250, 252, .82);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--line);
+    }
+    .topbar-inner {
+      max-width: 1180px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 13px 24px;
+    }
+    .back {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      min-height: 38px;
+      padding: 8px 13px;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      background: #fff;
+      font-weight: 700;
+      font-size: 14px;
+      color: #2e3b47;
+    }
+    .back:hover { border-color: var(--teal); color: var(--teal-dark); }
+    .topbar .title { font-weight: 800; font-size: 15px; }
+    .topbar .title span { display: block; font-size: 12px; color: var(--muted); font-weight: 600; }
+    .topbar .spacer { flex: 1; }
+    .drive-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      min-height: 38px;
+      padding: 8px 14px;
+      border-radius: 9px;
+      background: var(--teal);
+      color: #fff;
+      font-weight: 700;
+      font-size: 14px;
+    }
+    .drive-btn:hover { background: var(--teal-dark); }
+
+    /* ---- Hero ---- */
+    .hero { padding: 34px 0 8px; }
+    .eyebrow { color: var(--teal-dark); font-size: 13px; font-weight: 800; }
+    .hero h1 { margin: 8px 0 10px; font-size: clamp(28px, 4vw, 44px); line-height: 1.1; }
+    .hero p { margin: 0; max-width: 720px; color: #455463; font-size: 17px; }
+
+    /* ---- Search ---- */
+    .searchwrap {
+      position: relative;
+      margin: 22px 0 14px;
+    }
+    .searchwrap svg {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 20px;
+      height: 20px;
+      color: var(--muted);
+      pointer-events: none;
+    }
+    #fileSearch {
+      width: 100%;
+      min-height: 54px;
+      padding: 12px 48px 12px 46px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #fff;
+      color: var(--ink);
+      font-size: 16px;
+      box-shadow: var(--shadow);
+      transition: border-color .15s, box-shadow .15s;
+    }
+    #fileSearch:focus {
+      outline: none;
+      border-color: var(--teal);
+      box-shadow: 0 0 0 4px rgba(15, 118, 110, .12);
+    }
+    .clear-btn {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: none;
+      width: 30px;
+      height: 30px;
+      border: 0;
+      border-radius: 8px;
+      background: #eef2f7;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 16px;
+      line-height: 1;
+    }
+    .clear-btn:hover { background: #e1e8ef; color: var(--ink); }
+    .clear-btn.show { display: grid; place-items: center; }
+
+    /* ---- Filter groups ---- */
+    .filters { display: grid; gap: 12px; margin-bottom: 8px; }
+    .filter-row { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+    .filter-label {
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--muted);
+      min-width: 56px;
+      letter-spacing: .04em;
+    }
+    .chip {
+      min-height: 32px;
+      padding: 6px 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #fff;
+      color: #344251;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 700;
+      transition: all .12s;
+    }
+    .chip:hover { border-color: #a8c9c5; }
+    .chip.active { border-color: var(--teal); background: #e8f6f4; color: var(--teal-dark); }
+    .chip .n { opacity: .55; font-weight: 800; margin-left: 4px; font-size: 12px; }
+
+    .count {
+      margin: 16px 0 12px;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .count b { color: var(--ink); }
+
+    /* ---- File grid ---- */
+    .file-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 12px;
+    }
+    .file-card {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      padding: 14px 15px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--panel);
+      box-shadow: 0 6px 18px rgba(23, 33, 43, .04);
+      transition: transform .12s, border-color .12s, box-shadow .12s;
+    }
+    .file-card:hover {
+      transform: translateY(-2px);
+      border-color: #a8c9c5;
+      box-shadow: 0 14px 30px rgba(23, 33, 43, .10);
+    }
+    .file-icon {
+      display: grid;
+      place-items: center;
+      flex: none;
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      font-size: 22px;
+      background: #eef2f7;
+    }
+    .file-icon.pdf { background: #fcecef; }
+    .file-icon.doc { background: #eef4ff; }
+    .file-icon.ppt { background: #fff4e6; }
+    .file-icon.image { background: #f5eefc; }
+    .file-icon.html { background: #ebf8ef; }
+    .file-icon.video { background: #fdeaea; }
+    .file-icon.audio { background: #e9f7f5; }
+    .file-body { min-width: 0; flex: 1; }
+    .file-name {
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1.3;
+      overflow-wrap: anywhere;
+    }
+    .file-meta {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 1px 7px;
+      border-radius: 999px;
+      background: #eef2f7;
+      color: #3d4b59;
+      font-size: 11px;
+      font-weight: 800;
+    }
+    .file-go {
+      flex: none;
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 9px;
+      border: 1px solid var(--line);
+      color: var(--teal-dark);
+      transition: all .12s;
+    }
+    .file-card:hover .file-go { background: var(--teal); color: #fff; border-color: var(--teal); }
+
+    .empty {
+      display: none;
+      padding: 48px 20px;
+      text-align: center;
+      color: var(--muted);
+      border: 1px dashed var(--line);
+      border-radius: 14px;
+      background: #fff;
+    }
+    .empty.show { display: block; }
+    .empty b { display: block; color: var(--ink); font-size: 17px; margin-bottom: 6px; }
+
+    .hidden { display: none !important; }
+
+    footer { margin-top: 36px; color: var(--muted); font-size: 13px; }
+
+    @media (max-width: 640px) {
+      .topbar .title span { display: none; }
+      .file-grid { grid-template-columns: 1fr; }
+      .filter-label { min-width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <a class="back" href="課諮師AI增能研習資源入口.html">← 回研習首頁</a>
+      <div class="title">教材檔案資源庫<span>課諮師 AI 增能研習</span></div>
+      <div class="spacer"></div>
+      <a class="drive-btn" href="https://drive.google.com/drive/folders/1fsx8kElCGpMUb97z383U6h3-kfpUWN-q?usp=drive_link" target="_blank" rel="noreferrer">☁ 雲端全部下載</a>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <section class="hero">
+      <div class="eyebrow">檔案資源庫</div>
+      <h1>所有研習講義、簡報與工具，一次找齊</h1>
+      <p>輸入關鍵字即時搜尋，或用下方的分類與檔案類型篩選。點擊卡片會在新分頁開啟對應的雲端檔案。</p>
+    </section>
+
+    <div class="searchwrap">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+      <input id="fileSearch" type="search" placeholder="搜尋檔名、分類，例如：落點、面試、繁星、NotebookLM、提示詞、簡章…" autocomplete="off">
+      <button class="clear-btn" id="clearBtn" aria-label="清除搜尋">✕</button>
+    </div>
+
+    <div class="filters">
+      <div class="filter-row" id="catFilter"><span class="filter-label">分類</span></div>
+      <div class="filter-row" id="typeFilter"><span class="filter-label">類型</span></div>
+    </div>
+
+    <p class="count" id="count"></p>
+
+    <div class="file-grid" id="fileGrid"></div>
+
+    <div class="empty" id="empty">
+      <b>找不到符合的檔案</b>
+      換個關鍵字，或重設分類與類型篩選試試看。
+    </div>
+
+    <footer>
+      檔案連結可能需要登入 Google 或具備檢視權限；招生相關文件請以大學甄選入學委員會與各校系最新公告為準。
+    </footer>
+  </div>
+
+  <script src="課諮師AI增能研習資源入口_資料.js"></script>
+  <script>
+    const grid = document.getElementById("fileGrid");
+    const countEl = document.getElementById("count");
+    const emptyEl = document.getElementById("empty");
+    const searchEl = document.getElementById("fileSearch");
+    const clearBtn = document.getElementById("clearBtn");
+    const catBox = document.getElementById("catFilter");
+    const typeBox = document.getElementById("typeFilter");
+
+    // 為每筆檔案補上類型資訊
+    const items = FILES.map(([name, folder, href]) => {
+      const meta = fileMeta(name);
+      return { name, folder, href, ...meta, search: (name + " " + folder).toLowerCase() };
+    });
+
+    let activeCat = "全部";
+    let activeType = "全部";
+
+    // 建立分類 chips（依出現次數排序）
+    const catCounts = {};
+    items.forEach(it => { catCounts[it.folder] = (catCounts[it.folder] || 0) + 1; });
+    const cats = Object.keys(catCounts).sort((a, b) => catCounts[b] - catCounts[a]);
+    catBox.insertAdjacentHTML("beforeend",
+      `<button class="chip active" data-cat="全部">全部<span class="n">${items.length}</span></button>` +
+      cats.map(c => `<button class="chip" data-cat="${c}">${c}<span class="n">${catCounts[c]}</span></button>`).join("")
+    );
+
+    // 建立類型 chips
+    const typeOrder = ["pdf", "doc", "ppt", "image", "html", "video", "audio"];
+    const typeCounts = {};
+    items.forEach(it => { typeCounts[it.type] = (typeCounts[it.type] || 0) + 1; });
+    const typeLabels = { pdf: "PDF", doc: "Word", ppt: "簡報", image: "圖片", html: "網頁", video: "影片", audio: "語音", zip: "壓縮", other: "其他" };
+    const presentTypes = typeOrder.filter(t => typeCounts[t]).concat(Object.keys(typeCounts).filter(t => !typeOrder.includes(t)));
+    typeBox.insertAdjacentHTML("beforeend",
+      `<button class="chip active" data-type="全部">全部</button>` +
+      presentTypes.map(t => `<button class="chip" data-type="${t}">${typeLabels[t] || t}<span class="n">${typeCounts[t]}</span></button>`).join("")
+    );
+
+    function cardHTML(it) {
+      return `
+        <a class="file-card" href="${cloudHref(it.href)}" target="_blank" rel="noreferrer"
+           data-cat="${it.folder}" data-type="${it.type}" data-search="${it.search}">
+          <span class="file-icon ${it.type}">${it.icon}</span>
+          <span class="file-body">
+            <span class="file-name">${it.name}</span>
+            <span class="file-meta"><span class="badge">${it.label}</span>${it.folder}</span>
+          </span>
+          <span class="file-go">↗</span>
+        </a>`;
+    }
+
+    grid.innerHTML = items.map(cardHTML).join("");
+    const cards = Array.from(grid.children);
+
+    function apply() {
+      const q = searchEl.value.trim().toLowerCase();
+      clearBtn.classList.toggle("show", q.length > 0);
+      let shown = 0;
+      cards.forEach(card => {
+        const matchCat = activeCat === "全部" || card.dataset.cat === activeCat;
+        const matchType = activeType === "全部" || card.dataset.type === activeType;
+        const matchText = !q || card.dataset.search.includes(q);
+        const ok = matchCat && matchType && matchText;
+        card.classList.toggle("hidden", !ok);
+        if (ok) shown++;
+      });
+      countEl.innerHTML = `顯示 <b>${shown}</b> / ${items.length} 個檔案`;
+      emptyEl.classList.toggle("show", shown === 0);
+    }
+
+    catBox.addEventListener("click", e => {
+      const btn = e.target.closest(".chip"); if (!btn) return;
+      activeCat = btn.dataset.cat;
+      catBox.querySelectorAll(".chip").forEach(c => c.classList.remove("active"));
+      btn.classList.add("active");
+      apply();
+    });
+    typeBox.addEventListener("click", e => {
+      const btn = e.target.closest(".chip"); if (!btn) return;
+      activeType = btn.dataset.type;
+      typeBox.querySelectorAll(".chip").forEach(c => c.classList.remove("active"));
+      btn.classList.add("active");
+      apply();
+    });
+    searchEl.addEventListener("input", apply);
+    clearBtn.addEventListener("click", () => { searchEl.value = ""; searchEl.focus(); apply(); });
+
+    // 支援 ?q= 與 ?cat= 預設帶入
+    const params = new URLSearchParams(location.search);
+    if (params.get("q")) searchEl.value = params.get("q");
+
+    apply();
+    searchEl.focus();
+  </script>
+</body>
+</html>

@@ -1,0 +1,1432 @@
+{
+  "run_status": "slides_recorded",
+  "deck_name": "課諮師AI研習簡報",
+  "selected_backend": "scripts/image_gen.py --backend auto (codex-oauth)",
+  "sample_generation_method": {
+    "backend_used": "scripts/image_gen.py --backend auto (codex-oauth)",
+    "tool_name": "scripts/image_gen.py",
+    "mode": "generate",
+    "approved_sample_path": "/Users/froglssh/Documents/AI課程/課諮師AI研習/origin_image/slide_03.png",
+    "handoff_rule": "subagents must use the same backend/tool/config; use generate for new slides unless the assigned job has strict input_images or is a repair."
+  },
+  "max_concurrent_slides": 6,
+  "slides": [
+    {
+      "slide_id": "slide_01",
+      "number": 1,
+      "title": "AI 助攻！課諮師 AI 核心技能培養與適性輔導實務",
+      "job": "prompts/slide_01.json",
+      "out": "origin_image/slide_01.png",
+      "input_images": [
+        {
+          "path": "/Users/froglssh/Documents/AI課程/課諮師AI研習/assets/logos/lishan_bio_logo.jpg",
+          "role": "麗山生物標誌",
+          "fidelity": "麗山生物標誌圖案；strict input asset; preserve colors and details"
+        }
+      ],
+      "style_reference_images": [
+        {
+          "path": "/Users/froglssh/Documents/AI課程/課諮師AI研習/origin_image/slide_03.png",
+          "role": "approved sample slide style reference",
+          "fidelity": "match style only; do not copy layout or content"
+        }
+      ],
+      "requires_context_images": true,
+      "expected_generation_mode": "edit",
+      "status": "recorded",
+      "dispatch": {
+        "agent_id": "9913f053-2baa-49f4-a5c9-ac1b71613153",
+        "agent_nickname": null,
+        "prompt": "prompts/slide_01.json",
+        "prompt_sha256": "4a547fcbc9b0d74ad168e1865d41f610b513b85e1e78119320afb49f6760127d",
+        "dispatched_at": "2026-06-23T15:47:32Z"
+      },
+      "result": {
+        "agent_id": "9913f053-2baa-49f4-a5c9-ac1b71613153",
+        "backend_used": "scripts/image_gen.py --backend auto (codex-oauth)",
+        "selected_source": "/Users/froglssh/Documents/AI課程/課諮師AI研習/drafts/slide_01_candidate.png",
+        "selected_source_sha256": "51a69952241ba3bf27bebe0da8bd9df84e35678a95a838be6f0cdf24e0df9711",
+        "final_image": "origin_image/slide_01.png",
+        "final_image_sha256": "51a69952241ba3bf27bebe0da8bd9df84e35678a95a838be6f0cdf24e0df9711",
+        "expected_backend": "scripts/image_gen.py --backend auto (codex-oauth)",
+        "expected_backend_labels": [
+          "scripts/image_gen.py --backend auto (codex-oauth)",
+          "scripts/image_gen.py"
+        ],
+        "sample_generation_method_matched": true,
+        "qa_note": "Text readable; style matches the approved sample.",
+        "recorded_at": "2026-06-23T15:51:00Z"
+      },
+      "blocker": null
+    },
+    {
+      "slide_id": "slide_02",
+      "number": 2,
+      "title": "今日研習地圖",
+      "job": "prompts/slide_02.json",
+      "out": "origin_image/slide_02.png",
+      "input_images": [],
+      "style_reference_images": [
+        {
+          "path": "/Users/froglssh/Documents/AI課程/課諮師AI研習/origin_image/slide_03.png",
+          "role": "approved sample slide style reference",
+          "fidelity": "match style only; do not copy layout or content"
+        }
+      ],
+      "requires_context_images": false,
+      "expected_generation_mode": "generate",
+      "status": "recorded",
+      "dispatch": {
+        "agent_id": "104f4df6-9f3e-4cd6-bbdd-1d37b0653a7f",
+        "agent_nickname": null,
+        "prompt": "prompts/slide_02.json",
+        "prompt_sha256": "0957dd41d5371866d4c983c2974a0da540531cb0519d0aea1e3089643ba49109",
+        "dispatched_at": "2026-06-23T15:47:32Z"
+      },
+      "result": {
+        "agent_id": "104f4df6-9f3e-4cd6-bbdd-1d37b0653a7f",
+        "backend_used": "scripts/image_gen.py --backend auto (codex-oauth)",
+        "selected_source": "/Users/froglssh/Documents/AI課程/課諮師AI研習/drafts/slide_02_candidate.png",
+        "selected_source_sha256": "889a1c7e57cd98ccaaffc23e932de85a175b12286184f47a2888ad86e081e78d",
+        "final_image": "origin_image/slide_02.png",
+        "final_image_sha256": "889a1c7e57cd98ccaaffc23e932de85a175b12286184f47a2888ad86e081e78d",
+        "expected_backend": "scripts/image_gen.py --backend auto (codex-oauth)",
+        "expected_backend_labels": [
+          "scripts/image_gen.py --backend auto (codex-oauth)",
+          "scripts/image_gen.py"
+        ],
+        "sample_generation_method_matched": true,
+        "qa_note": "Text readable; style matches the approved sample.",
+        "recorded_at": "2026-06-23T15:51:13Z"
+      },
+      "blocker": null
+    },
+    {
+      "slide_id": "slide_03",
+      "number": 3,
+      "title": "課諮師在高中三年的工作任務地圖",
+      "job": "prompts/slide_03.json",
+      "out": "origin_image/slide_03.png",
+      "input_images": [],
+      "style_reference_images": [
+        {
+          "path": "/Users/froglssh/Documents/AI課程/課諮師AI研習/origin_image/slide_03.png",
+          "role": "approved sample slide style reference",
+          "fidelity": "match style only; do not copy layout or content"
+        }
+      ],
+      "requires_context_images": false,
+      "expected_generation_mode": "generate",
+      "status": "accepted",
+      "dispatch": null,
+      "result": {
+        "final_image": "origin_image/slide_03.png",
+        "accepted_sample": true
+      },
+      "blocker": null
+    },
+    {
+      "slide_id": "slide_04",
+      "number": 4,
+      "title": "課諮第一線：被行政資料淹沒的專業教師",
+      "job": "prompts/slide_04.json",
+      "out": "origin_image/slide_04.png",
+      "input_images": [],
+      "style_reference_images": [
+        {
+          "path": "/Users/froglssh/Documents/AI課程/課諮師AI研習/origin_image/slide_03.png",
+          "role": "approved sample slide style reference",
+          "fidelity": "match style only; do not copy layout or content"
+        }
+      ],
+      "requires_context_images": false,
+      "expected_generation_mode": "generate",
+      "status": "recorded",
+      "dispatch": {
+        "agent_id": "2dee491d-d3d2-439a-af91-9f07a14dfaa9",
+        "agent_nickname": null,
+        "prompt": "prompts/slide_04.json",
+        "prompt_sha256": "25f0f80e67f89d397e12c23e03a287f19b5159b52424bf3c1062e46e480fad7a",
+        "dispatched_at": "2026-06-23T15:47:32Z"
+      },
+      "result": {
+        "agent_id": "2dee491d-d3d2-439a-af91-9f07a14dfaa9",
+        "backend_used": "scripts/image_gen.py --backend auto (codex-oauth)",
+        "selected_source": "/Users/froglssh/Documents/AI課程/課諮師AI研習/drafts/slide_04_candidate.png",
+        "selected_source_sha256": "1f92db8bb22405431e30f9a8676ed470fcbf99b4b078ec5bc69abd9ae18b0789",
+        "final_image": "origin_image/slide_04.png",
+        "final_image_sha256": "1f92db8bb22405431e30f9a8676ed470fcbf99b4b078ec5bc69abd9ae18b0789",
+        "expected_backend": "scripts/image_gen.py --backend auto (codex-oauth)",
+        "expected_backend_labels": [
+          "scripts/image_gen.py --backend auto (codex-oauth)",
+          "scripts/image_gen.py"
+        ],
+        "sample_generation_method_matched": true,
+        "qa_note": "Text readable; style matches the approved sample.",
+        "recorded_at": "2026-06-23T15:48:57Z"
+      },
+      "blocker": null
+    },
+    {
+      "slide_id": "slide_05",
+      "number": 5,
+      "title": "通用 AI 幻覺問題 vs. 封閉式專家 AI 優勢",
+      "job": "prompts/slide_05.json",
+      "out": "origin_image/slide_05.png",
+      "input_images": [],
+      "style_reference_images": [
+        {
+          "path": "/Users/froglssh/Documents/AI課程/課諮師AI研習/origin_image/slide_03.png",
+          "role": "approved sample slide style reference",
+          "fidelity": "match style only; do not copy layout or content"
+        }
+      ],
+      "requires_context_images": false,
+      "expected_generation_mode": "generate",
+      "status": "recorded",
+      "dispatch": {
+        "agent_id": "ea1b9615-61fb-476d-b1a7-94ccbc3aa470",
+        "agent_nickname": null,
+        "prompt": "prompts/slide_05.json",
+        "prompt_sha256": "3d24ef2fadd5cf2a761f10c59895e086e6f9dc1114a80025f6df1db8e6db87c6",
+        "dispatched_at": "2026-06-23T15:47:32Z"
+      },
+      "result": {
+        "agent_id": "ea1b9615-61fb-476d-b1a7-94ccbc3aa470",
+        "backend_used": "scripts/image_gen.py --backend auto (codex-oauth)",
+        "selected_source": "/Users/froglssh/Documents/AI課程/課諮師AI研習/drafts/slide_05_candidate.png",
+        "selected_source_sha256": "19a07798c250a6cacb066a56080fcbdfcb29890e4ec269efb28e701eea722bef",
+        "final_image": "origin_image/slide_05.png",
+        "final_image_sha256": "19a07798c250a6cacb066a56080fcbdfcb29890e4ec269efb28e701eea722bef",
+        "expected_backend": "scripts/image_gen.py --backend auto (codex-oauth)",
+        "expected_backend_labels": [
+          "scripts/image_gen.py --backend auto (codex-oauth)",
+          "scripts/image_gen.py"
+        ],
+        "sample_generation_method_matched": true,
+        "qa_note": "Text readable; style matches the approved sample.",
+        "recorded_at": "2026-06-23T15:51:25Z"
+      },
+      "blocker": null
+    },
+    {
+      "slide_id": "slide_06",
+      "number": 6,
+      "title": "實戰：五分鐘打造校級課諮 AI 系統",
+      "job": "prompts/slide_06.json",
+      "out": "origin_image/slide_06.png",
+      "input_images": [],
+      "style_reference_images": [
+        {
+          "path": "/Users/froglssh/Documents/AI課程/課諮師AI研習/origin_image/slide_03.png",
+          "role": "approved sample slide style reference",
+          "fidelity": "match style only; do not copy layout or content"
+        }
+      ],
+      "requires_context_images": false,
+      "expected_generation_mode": "generate",
+      "status": "recorded",
+      "dispatch": {
+        "agent_id": "a1fd543f-4112-46a1-9362-8ecb04e59312",
+        "agent_nickname": null,
+        "prompt": "prompts/slide_06.json",
+        "prompt_sha256": "592b94d968d614a9a423c5dd29ff8ec42406db3279137847a790711c1f4a2618",
+        "dispatched_at": "2026-06-23T15:47:32Z"
+      },
+      "result": {
+        "agent_id": "a1fd543f-4112-46a1-9362-8ecb04e59312",
+        "backend_used": "scripts/image_gen.py --backend auto (codex-oauth)",
+        "selected_source": "/Users/froglssh/Documents/AI課程/課諮師AI研習/drafts/slide_06_candidate.png",
+        "selected_source_sha256": "9863ac0d76f2c25fa7464459e0b617afa2b932062f7c864ba231cbb93d179b7f",
+        "final_image": "origin_image/slide_06.png",
+        "final_image_sha256": "9863ac0d76f2c25fa7464459e0b617afa2b932062f7c864ba231cbb93d179b7f",
+        "expected_backend": "scripts/image_gen.py --backend auto (codex-oauth)",
+        "expected_backend_labels": [
+          "scripts/image_gen.py --backend auto (codex-oauth)",
+          "scripts/image_gen.py"
+        ],
+        "sample_generation_method_matched": true,
+        "qa_note": "Text readable; style matches the approved sample.",
+        "recorded_at": "2026-06-23T15:51:34Z"
+      },
+      "blocker": null
+    },
+    {
+      "slide_id": "slide_07",
+      "number": 7,
+      "title": "實戰：跨文件萃取與資工學群選修比對",
+      "job": "prompts/slide_07.json",
+      "out": "origin_image/slide_07.png",
+      "input_images": [],
+      "style_reference_images": [
+        {
+          "path": "/Users/froglssh/Documents/AI課程/課諮師AI研習/origin_image/slide_03.png",
+          "role": "approved sample slide style reference",
+          "fidelity": "match style only; do not copy layout or content"
+        }
+      ],
+      "requires_context_images": false,
+      "expected_generation_mode": "generate",
+      "status": "recorded",
+      "dispatch": {
+        "agent_id": "b1eae437-4ed9-488b-ad77-8a2667eff9f3",
+        "agent_nickname": null,
+        "prompt": "prompts/slide_07.json",
+        "prompt_sha256": "f591f314b1ea21ba35948a05908ecdb5bf99ed9b61bfc2a3632569b544e14851",
+        "dispatched_at": "2026-06-23T15:47:32Z"
+      },
+      "result": {
+        "agent_id": "b1eae437-4ed9-488b-ad77-8a2667eff9f3",
+        "backend_used": "scripts/image_gen.py --backend auto (codex-oauth)",
+        "selected_source": "/Users/froglssh/Documents/AI課程/課諮師AI研習/drafts/slide_07_candidate.png",
+        "selected_source_sha256": "5ac0e2ec579e06915ab4c4e7ba63d5ad50f00b4d1e20c05573a3b1a44287ff77",
+        "final_image": "origin_image/slide_07.png",
+        "final_image_sha256": "5ac0e2ec579e06915ab4c4e7ba63d5ad50f00b4d1e20c05573a3b1a44287ff77",
+        "expected_backend": "scripts/image_gen.py --backend auto (codex-oauth)",
+        "expected_backend_labels": [
+          "scripts/image_gen.py --backend auto (codex-oauth)",
+          "scripts/image_gen.py"
+        ],
+        "sample_generation_method_matched": true,
+        "qa_note": "Text readable; style matches the approved sample.",
+        "recorded_at": "2026-06-23T15:51:49Z"
+      },
+      "blocker": null
+    },
+    {
+      "slide_id": "slide_08",
+      "number": 8,
+      "title": "實戰：針對特定校規的精準問答與流程梳理",
+      "job": "prompts/slide_08.json",
+      "out": "origin_image/slide_08.png",
+      "input_images": [],
+      "style_reference_images": [
+        {
+          "path": "/Users/froglssh/Documents/AI課程/課諮師AI研習/origin_image/slide_03.png",
+          "role": "approved sample slide style reference",
+          "fidelity": "match style only; do not copy layout or content"
+        }
+      ],
+      "requires_context_images": false,
+      "expected_generation_mode": "generate",
+      "status": "recorded",
+      "dispatch": {
+        "agent_id": "ce65b309-18bc-4031-8a8a-eaa6c4a5ae92",
+        "agent_nickname": null,
+        "prompt": "prompts/slide_08.json",
+        "prompt_sha256": "ff2d09d347578740090d4c4199790b9f2535099bc8f2f65744df0722ba6dc023",
+        "dispatched_at": "2026-06-23T15:53:42Z"
+      },
+      "result": {
+        "agent_id": "ce65b309-18bc-4031-8a8a-eaa6c4a5ae92",
+        "backend_used": "scripts/image_gen.py --backend auto (codex-oauth)",
+        "selected_source": "/Users/froglssh/Documents/AI課程/課諮師AI研習/drafts/slide_08_candidate.png",
+        "selected_source_sha256": "84f647cddd9fc86777310484804315a1d950dc4b1007a0352586ad7f4019ddf6",
+        "final_image": "origin_image/slide_08.png",
+        "final_image_sha256": "84f647cddd9fc86777310484804315a1d950dc4b1007a0352586ad7f4019ddf6",
+        "expected_backend": "scripts/image_gen.py --backend auto (codex-oauth)",
+        "expected_backend_labels": [
+          "scripts/image_gen.py --backend auto (codex-oauth)",
+          "scripts/image_gen.py"
+        ],
+        "sample_generation_method_matched": true,
+        "qa_note": "Text readable; style matches the approved sample.",
+        "recorded_at": "2026-06-23T15:56:59Z"
+      },
+      "blocker": null
+    },
+    {
+      "slide_id": "slide_09",
+      "number": 9,
+      "title": "新開發課程：去識別化成績單學分智能審查",
+      "job": "prompts/slide_09.json",
+      "out": "origin_image/slide_09.png",
+      "input_images": [],
+      "style_reference_images": [
+        {
+          "path": "/Users/froglssh/Documents/AI課程/課諮師AI研習/origin_image/slide_03.png",
+          "role": "approved sample slide style reference",
+          "fidelity": "match style only; do not copy layout or content"
+        }
+      ],
+      "requires_context_images": false,
+      "expected_generation_mode": "generate",
+      "status": "recorded",
+      "dispatch": {
+        "agent_id": "4eff639e-599a-4b9c-8c52-a72c9f456312",
+        "agent_nickname": null,
+        "prompt": "prompts/slide_09.json",
+        "prompt_sha256": "0b0eb2bcd527380e49a13ecd8a1c76e491477c3eb74b2190db851c80b7f11e2d",
+        "dispatched_at": "2026-06-23T15:54:05Z"
+      },
+      "result": {
+        "agent_id": "4eff639e-599a-4b9c-8c52-a72c9f456312",
+        "backend_used": "scripts/image_gen.py --backend auto (codex-oauth)",
+        "selected_source": "/Users/froglssh/Documents/AI課程/課諮師AI研習/drafts/slide_09_candidate.png",
+        "selected_source_sha256": "8fb531261c01be8f20db77f4f1ac81997d0157ff269bfa95fc206c4670ea6071",
+        "final_image": "origin_image/slide_09.png",
+        "final_image_sha256": "8fb531261c01be8f20db77f4f1ac81997d0157ff269bfa95fc206c4670ea6071",
+        "expected_backend": "scripts/image_gen.py --backend auto (codex-oauth)",
+        "expected_backend_labels": [
+          "scripts/image_gen.py --backend auto (codex-oauth)",
+          "scripts/image_gen.py"
+        ],
+        "sample_generation_method_matched": true,
+        "qa_note": "Text readable; style matches the approved sample.",
+        "recorded_at": "2026-06-23T15:57:28Z"
+      },
+      "blocker": null
+    },
+    {
+      "slide_id": "slide_10",
+      "number": 10,
+      "title": "協作設定：打破行政資訊孤島",
+      "job": "prompts/slide_10.json",
+      "out": "origin_image/slide_10.png",
+      "input_images": [],
+      "style_reference_images": [
+        {
+          "path": "/Users/froglssh/Documents/AI課程/課諮師AI研習/origin_image/slide_03.png",
+          "role": "approved sample slide style reference",
+          "fidelity": "match style only; do not copy layout or content"
+        }
+      ],
+      "requires_context_images": false,
+      "expected_generation_mode": "generate",
+      "status": "recorded",
+      "dispatch": {
+        "agent_id": "eeb5ac2a-d644-48fc-aa88-479667a06a01",
+        "agent_nickname": null,
+        "prompt": "prompts/slide_10.json",
+        "prompt_sha256": "cdfaa76b117faf6ed2f5370c0277f01655d4b26f0310ecfcda24a390cc23747a",
+        "dispatched_at": "2026-06-23T15:54:13Z"
+      },
+      "result": {
+        "agent_id": "eeb5ac2a-d644-48fc-aa88-479667a06a01",
+        "backend_used": "scripts/image_gen.py --backend auto (codex-oauth)",
+        "selected_source": "/Users/froglssh/Documents/AI課程/課諮師AI研習/drafts/slide_10_candidate.png",
+        "selected_source_sha256": "1a493fe6496b90ce189d9a4fe6bb559b3165ba62bbe6227b3f74a2f203b74c80",
+        "final_image": "origin_image/slide_10.png",
+        "final_image_sha256": "1a493fe6496b90ce189d9a4fe6bb559b3165ba62bbe6227b3f74a2f203b74c80",
+        "expected_backend": "scripts/image_gen.py --backend auto (codex-oauth)",
+        "expected_backend_labels": [
+          "scripts/image_gen.py --backend auto (codex-oauth)",
+          "scripts/image_gen.py"
+        ],
+        "sample_generation_method_matched": true,
+        "qa_note": "Text readable; style matches the approved sample.",
+        "recorded_at": "2026-06-23T15:56:04Z"
+      },
+      "blocker": null
+    },
+    {
+      "slide_id": "slide_11",
+      "number": 11,
+      "title": "適性輔導：數學 A 與數學 B 抉擇引導",
+      "job": "prompts/slide_11.json",
+      "out": "origin_image/slide_11.png",
+      "input_images": [],
+      "style_reference_images": [
+        {
+          "path": "/Users/froglssh/Documents/AI課程/課諮師AI研習/origin_image/slide_03.png",
+          "role": "approved sample slide style reference",
+          "fidelity": "match style only; do not copy layout or content"
+        }
+      ],
+      "requires_context_images": false,
+      "expected_generation_mode": "generate",
+      "status": "recorded",
+      "dispatch": {
+        "agent_id": "049eecbe-aa5e-482c-881e-d3961b5e0b40",
+        "agent_nickname": null,
+        "prompt": "prompts/slide_11.json",
+        "prompt_sha256": "ab34ebb388b65d1ffa6093fcdc81c4a9dbaad53de4ab16978a3130479ff838ab",
+        "dispatched_at": "2026-06-23T15:54:31Z"
+      },
+      "result": {
+        "agent_id": "049eecbe-aa5e-482c-881e-d3961b5e0b40",
+        "backend_used": "scripts/image_gen.py --backend auto (codex-oauth)",
+        "selected_source": "/Users/froglssh/Documents/AI課程/課諮師AI研習/drafts/slide_11_candidate.png",
+        "selected_source_sha256": "b677694b40a840ca38e90fdfa31ffa0ca88918090658028e9ee7c9f48fa5bf2f",
+        "final_image": "origin_image/slide_11.png",
+        "final_image_sha256": "b677694b40a840ca38e90fdfa31ffa0ca88918090658028e9ee7c9f48fa5bf2f",
+        "expected_backend": "scripts/image_gen.py --backend auto (codex-oauth)",
+        "expected_backend_labels": [
+          "scripts/image_gen.py --backend auto (codex-oauth)",
+          "scripts/image_gen.py"
+        ],
+        "sample_generation_method_matched": true,
+        "qa_note": "Text readable; style matches the approved sample.",
+        "recorded_at": "2026-06-23T15:57:14Z"
+      },
+      "blocker": null
+    },
+    {
+      "slide_id": "slide_12",
+      "number": 12,
+      "title": "新開發課程：與 AI 模擬晤談演練",
+      "job": "prompts/slide_12.json",
+      "out": "origin_image/slide_12.png",
+      "input_images": [],
+      "style_reference_images": [
+        {
+          "path": "/Users/froglssh/Documents/AI課程/課諮師AI研習/origin_image/slide_03.png",
+          "role": "approved sample slide style reference",
+          "fidelity": "match style only; do not copy layout or content"
+        }
+      ],
+      "requires_context_images": false,
+      "expected_generation_mode": "generate",
+      "status": "recorded",
+      "dispatch": {
+        "agent_id": "5d078515-3fe5-4d0d-b146-b0faaf602bf6",
+        "agent_nickname": null,
+        "prompt": "prompts/slide_12.json",
+        "prompt_sha256": "36d5d571decb1df1327239b54f098ca1776d4b6c184f17ea6bab528713c53671",
+        "dispatched_at": "2026-06-23T15:54:46Z"
+      },
+      "result": {
+        "agent_id": "5d078515-3fe5-4d0d-b146-b0faaf602bf6",
+        "backend_used": "scripts/image_gen.py --backend auto (codex-oauth)",
+        "selected_source": "/Users/froglssh/Documents/AI課程/課諮師AI研習/drafts/slide_12_candidate.png",
+        "selected_source_sha256": "9b7d95c1bf116d9a6509b5de055b3a40430efdc18f5acc5c18c1e616ac065eb6",
+        "final_image": "origin_image/slide_12.png",
+        "final_image_sha256": "9b7d95c1bf116d9a6509b5de055b3a40430efdc18f5acc5c18c1e616ac065eb6",
+        "expected_backend": "scripts/image_gen.py --backend auto (codex-oauth)",
+        "expected_backend_labels": [
+          "scripts/image_gen.py --backend auto (codex-oauth)",
+          "scripts/image_gen.py"
+        ],
+        "sample_generation_method_matched": true,
+        "qa_note": "Text readable; style matches the approved sample.",
+        "recorded_at": "2026-06-23T15:56:45Z"
+      },
+      "blocker": null
+    },
+    {
+      "slide_id": "slide_13",
+      "number": 13,
+      "title": "個案研究：實作極強但紙筆數學不及格的輔導",
+      "job": "prompts/slide_13.json",
+      "out": "origin_image/slide_13.png",
+      "input_images": [],
+      "style_reference_images": [
+        {
+          "path": "/Users/froglssh/Documents/AI課程/課諮師AI研習/origin_image/slide_03.png",
+          "role": "approved sample slide style reference",
+          "fidelity": "match style only; do not copy layout or content"
+        }
+      ],
+      "requires_context_images": false,
+      "expected_generation_mode": "generate",
+      "status": "recorded",
+      "dispatch": {
+        "agent_id": "7f360844-0619-4bdf-964e-ffd6052a9265",
+        "agent_nickname": null,
+        "prompt": "prompts/slide_13.json",
+        "prompt_sha256": "37b2a027d29087b0fdcc0a7dc8ad65280c5ddf7c3021040800d92e72da07049d",
+        "dispatched_at": "2026-06-23T15:55:03Z"
+      },
+      "result": {
+        "agent_id": "7f360844-0619-4bdf-964e-ffd6052a9265",
+        "backend_used": "scripts/image_gen.py --backend auto (codex-oauth)",
+        "selected_source": "/Users/froglssh/Documents/AI課程/課諮師AI研習/drafts/slide_13_candidate.png",
+        "selected_source_sha256": "b5a0c3c2bcc8a037660b1fe2bc38beaac41f472deadcc430ec8caab461fe3480",
+        "final_image": "origin_image/slide_13.png",
+        "final_image_sha256": "b5a0c3c2bcc8a037660b1fe2bc38beaac41f472deadcc430ec8caab461fe3480",
+        "expected_backend": "scripts/image_gen.py --backend auto (codex-oauth)",
+        "expected_backend_labels": [
+          "scripts/image_gen.py --backend auto (codex-oauth)",
+          "scripts/image_gen.py"
+        ],
+        "sample_generation_method_matched": true,
+        "qa_note": "Text readable; style matches the approved sample.",
+        "recorded_at": "2026-06-23T15:56:25Z"
+      },
+      "blocker": null
+    },
+    {
+      "slide_id": "slide_14",
+      "number": 14,
+      "title": "家長日心法：新舊考招對比與安撫策略",
+      "job": "prompts/slide_14.json",
+      "out": "origin_image/slide_14.png",
+      "input_images": [],
+      "style_reference_images": [
+        {
+          "path": "/Users/froglssh/Documents/AI課程/課諮師AI研習/origin_image/slide_03.png",
+          "role": "approved sample slide style reference",
+          "fidelity": "match style only; do not copy layout or content"
+        }
+      ],
+      "requires_context_images": false,
+      "expected_generation_mode": "generate",
+      "status": "recorded",
+      "dispatch": {
+        "agent_id": "9172b39c-6e2d-4e9c-8c87-eb20a9d32f44",
+        "agent_nickname": null,
+        "prompt": "prompts/slide_14.json",
+        "prompt_sha256": "aedb2c59090a965b7a59229a2c8d9d0d29103b2ba29c66684964e9511bc6887f",
+        "dispatched_at": "2026-06-23T15:58:11Z"
+      },
+      "result": {
+        "agent_id": "9172b39c-6e2d-4e9c-8c87-eb20a9d32f44",
+        "backend_used": "scripts/image_gen.py --backend auto (codex-oauth)",
+        "selected_source": "/Users/froglssh/Documents/AI課程/課諮師AI研習/drafts/slide_14_candidate.png",
+        "selected_source_sha256": "3a8645234eda6c8c9cdb62363619a31787b1874850226f221097b3527810c615",
+        "final_image": "origin_image/slide_14.png",
+        "final_image_sha256": "3a8645234eda6c8c9cdb62363619a31787b1874850226f221097b3527810c615",
+        "expected_backend": "scripts/image_gen.py --backend auto (codex-oauth)",
+        "expected_backend_labels": [
+          "scripts/image_gen.py --backend auto (codex-oauth)",
+          "scripts/image_gen.py"
+        ],
+        "sample_generation_method_matched": true,
+        "qa_note": "Text readable; style matches the approved sample.",
+        "recorded_at": "2026-06-23T16:00:47Z"
+      },
+      "blocker": null
+    },
+    {
+      "slide_id": "slide_15",
+      "number": 15,
+      "title": "科技工具：適性生涯探索的整合應用",
+      "job": "prompts/slide_15.json",
+      "out": "origin_image/slide_15.png",
+      "input_images": [],
+      "style_reference_images": [
+        {
+          "path": "/Users/froglssh/Documents/AI課程/課諮師AI研習/origin_image/slide_03.png",
+          "role": "approved sample slide style reference",
+          "fidelity": "match style only; do not copy layout or content"
+        }
+      ],
+      "requires_context_images": false,
+      "expected_generation_mode": "generate",
+      "status": "recorded",
+      "dispatch": {
+        "agent_id": "03a4ecaa-4929-49c7-bc2e-6b54ba04e1f7",
+        "agent_nickname": null,
+        "prompt": "prompts/slide_15.json",
+        "prompt_sha256": "14d28ef11e34a9599652f9e7d681bc889845d396bb8ea3f5538e5d4388c3b0c6",
+        "dispatched_at": "2026-06-23T15:58:35Z"
+      },
+      "result": {
+        "agent_id": "03a4ecaa-4929-49c7-bc2e-6b54ba04e1f7",
+        "backend_used": "scripts/image_gen.py --backend auto (codex-oauth)",
+        "selected_source": "/Users/froglssh/Documents/AI課程/課諮師AI研習/drafts/slide_15_candidate.png",
+        "selected_source_sha256": "eb24025db3e2b8cb87061e5fcf91ac7c7b479a103bbae07b1a280a502cb9f25a",
+        "final_image": "origin_image/slide_15.png",
+        "final_image_sha256": "eb24025db3e2b8cb87061e5fcf91ac7c7b479a103bbae07b1a280a502cb9f25a",
+        "expected_backend": "scripts/image_gen.py --backend auto (codex-oauth)",
+        "expected_backend_labels": [
+          "scripts/image_gen.py --backend auto (codex-oauth)",
+          "scripts/image_gen.py"
+        ],
+        "sample_generation_method_matched": true,
+        "qa_note": "Text readable; style matches the approved sample.",
+        "recorded_at": "2026-06-23T16:01:03Z"
+      },
+      "blocker": null
+    },
+    {
+      "slide_id": "slide_16",
+      "number": 16,
+      "title": "教育部作伴學手冊：大學教授看重什麼？",
+      "job": "prompts/slide_16.json",
+      "out": "origin_image/slide_16.png",
+      "input_images": [],
+      "style_reference_images": [
+        {
+          "path": "/Users/froglssh/Documents/AI課程/課諮師AI研習/origin_image/slide_03.png",
+          "role": "approved sample slide style reference",
+          "fidelity": "match style only; do not copy layout or content"
+        }
+      ],
+      "requires_context_images": false,
+      "expected_generation_mode": "generate",
+      "status": "recorded",
+      "dispatch": {
+        "agent_id": "79ba75be-3a76-4617-89a5-08cb13f099d5",
+        "agent_nickname": null,
+        "prompt": "prompts/slide_16.json",
+        "prompt_sha256": "3e6df552204dc9ce130357cc17481f43e9000e493f71fae2e5ad9648481aeafa",
+        "dispatched_at": "2026-06-23T15:58:57Z"
+      },
+      "result": {
+        "agent_id": "79ba75be-3a76-4617-89a5-08cb13f099d5",
+        "backend_used": "scripts/image_gen.py --backend auto (codex-oauth)",
+        "selected_source": "/Users/froglssh/Documents/AI課程/課諮師AI研習/drafts/slide_16_candidate.png",
+        "selected_source_sha256": "ccbef6c56bdaea08a373f62c64801027d6f4d968a483c82f743dad7185a64154",
+        "final_image": "origin_image/slide_16.png",
+        "final_image_sha256": "ccbef6c56bdaea08a373f62c64801027d6f4d968a483c82f743dad7185a64154",
+        "expected_backend": "scripts/image_gen.py --backend auto (codex-oauth)",
+        "expected_backend_labels": [
+          "scripts/image_gen.py --backend auto (codex-oauth)",
+          "scripts/image_gen.py"
+        ],
+        "sample_generation_method_matched": true,
+        "qa_note": "Text readable; style matches the approved sample.",
+        "recorded_at": "2026-06-23T16:01:29Z"
+      },
+      "blocker": null
+    },
+    {
+      "slide_id": "slide_17",
+      "number": 17,
+      "title": "成果優化：流水帳 vs 探究與解決歷程",
+      "job": "prompts/slide_17.json",
+      "out": "origin_image/slide_17.png",
+      "input_images": [],
+      "style_reference_images": [
+        {
+          "path": "/Users/froglssh/Documents/AI課程/課諮師AI研習/origin_image/slide_03.png",
+          "role": "approved sample slide style reference",
+          "fidelity": "match style only; do not copy layout or content"
+        }
+      ],
+      "requires_context_images": false,
+      "expected_generation_mode": "generate",
+      "status": "recorded",
+      "dispatch": {
+        "agent_id": "a1db235f-cd10-4ea1-b8d5-23e91ae75d06",
+        "agent_nickname": null,
+        "prompt": "prompts/slide_17.json",
+        "prompt_sha256": "2f106162e29e2f6eb8993b3e6e3a9311f69a6335675fcc2b6ed9c1ee38032f52",
+        "dispatched_at": "2026-06-23T15:59:14Z"
+      },
+      "result": {
+        "agent_id": "a1db235f-cd10-4ea1-b8d5-23e91ae75d06",
+        "backend_used": "scripts/image_gen.py --backend auto (codex-oauth)",
+        "selected_source": "/Users/froglssh/Documents/AI課程/課諮師AI研習/drafts/slide_17_candidate.png",
+        "selected_source_sha256": "a5a72c5e6a181c5054f3bb3a21d015ef874ba1425fdffaa49b2b898bc730331d",
+        "final_image": "origin_image/slide_17.png",
+        "final_image_sha256": "a5a72c5e6a181c5054f3bb3a21d015ef874ba1425fdffaa49b2b898bc730331d",
+        "expected_backend": "scripts/image_gen.py --backend auto (codex-oauth)",
+        "expected_backend_labels": [
+          "scripts/image_gen.py --backend auto (codex-oauth)",
+          "scripts/image_gen.py"
+        ],
+        "sample_generation_method_matched": true,
+        "qa_note": "Text readable; style matches the approved sample.",
+        "recorded_at": "2026-06-23T16:01:46Z"
+      },
+      "blocker": null
+    },
+    {
+      "slide_id": "slide_18",
+      "number": 18,
+      "title": "反思寫作五個提問引導與提示詞",
+      "job": "prompts/slide_18.json",
+      "out": "origin_image/slide_18.png",
+      "input_images": [],
+      "style_reference_images": [
+        {
+          "path": "/Users/froglssh/Documents/AI課程/課諮師AI研習/origin_image/slide_03.png",
+          "role": "approved sample slide style reference",
+          "fidelity": "match style only; do not copy layout or content"
+        }
+      ],
+      "requires_context_images": false,
+      "expected_generation_mode": "generate",
+      "status": "recorded",
+      "dispatch": {
+        "agent_id": "aad33d73-fca8-4d4e-b706-79b72a993bc4",
+        "agent_nickname": null,
+        "prompt": "prompts/slide_18.json",
+        "prompt_sha256": "7a53413830a5fbbe594ab16252dc0adc8bb42c45c9fd75e42b934676b6b0be68",
+        "dispatched_at": "2026-06-23T15:59:34Z"
+      },
+      "result": {
+        "agent_id": "aad33d73-fca8-4d4e-b706-79b72a993bc4",
+        "backend_used": "scripts/image_gen.py --backend auto (codex-oauth)",
+        "selected_source": "/Users/froglssh/Documents/AI課程/課諮師AI研習/drafts/slide_18_candidate.png",
+        "selected_source_sha256": "d65a3f01e1c666e28565c546986afd5d46374006a2620afcdd9ff2729b6c449e",
+        "final_image": "origin_image/slide_18.png",
+        "final_image_sha256": "d65a3f01e1c666e28565c546986afd5d46374006a2620afcdd9ff2729b6c449e",
+        "expected_backend": "scripts/image_gen.py --backend auto (codex-oauth)",
+        "expected_backend_labels": [
+          "scripts/image_gen.py --backend auto (codex-oauth)",
+          "scripts/image_gen.py"
+        ],
+        "sample_generation_method_matched": true,
+        "qa_note": "Text readable; style matches the approved sample.",
+        "recorded_at": "2026-06-23T16:02:18Z"
+      },
+      "blocker": null
+    },
+    {
+      "slide_id": "slide_19",
+      "number": 19,
+      "title": "自主學習計畫：重視執行力而非主題難度",
+      "job": "prompts/slide_19.json",
+      "out": "origin_image/slide_19.png",
+      "input_images": [],
+      "style_reference_images": [
+        {
+          "path": "/Users/froglssh/Documents/AI課程/課諮師AI研習/origin_image/slide_03.png",
+          "role": "approved sample slide style reference",
+          "fidelity": "match style only; do not copy layout or content"
+        }
+      ],
+      "requires_context_images": false,
+      "expected_generation_mode": "generate",
+      "status": "recorded",
+      "dispatch": {
+        "agent_id": "9f3fc106-4c90-4e41-8aa0-6e2dc7f4e0f3",
+        "agent_nickname": null,
+        "prompt": "prompts/slide_19.json",
+        "prompt_sha256": "9fb63354ab45247dd0f88c1ab7d39b0908055ece97fb496ca563668470e95c81",
+        "dispatched_at": "2026-06-23T16:00:30Z"
+      },
+      "result": {
+        "agent_id": "9f3fc106-4c90-4e41-8aa0-6e2dc7f4e0f3",
+        "backend_used": "scripts/image_gen.py --backend auto (codex-oauth)",
+        "selected_source": "/Users/froglssh/Documents/AI課程/課諮師AI研習/drafts/slide_19_candidate.png",
+        "selected_source_sha256": "f333cca449fc5ff7b0145710225f964c50c4c542b8a78123db8bc6c506ce8a58",
+        "final_image": "origin_image/slide_19.png",
+        "final_image_sha256": "f333cca449fc5ff7b0145710225f964c50c4c542b8a78123db8bc6c506ce8a58",
+        "expected_backend": "scripts/image_gen.py --backend auto (codex-oauth)",
+        "expected_backend_labels": [
+          "scripts/image_gen.py --backend auto (codex-oauth)",
+          "scripts/image_gen.py"
+        ],
+        "sample_generation_method_matched": true,
+        "qa_note": "Text readable; style matches the approved sample.",
+        "recorded_at": "2026-06-23T16:02:34Z"
+      },
+      "blocker": null
+    },
+    {
+      "slide_id": "slide_20",
+      "number": 20,
+      "title": "新開發課程：小論文與自主學習成果 AI 初評",
+      "job": "prompts/slide_20.json",
+      "out": "origin_image/slide_20.png",
+      "input_images": [],
+      "style_reference_images": [
+        {
+          "path": "/Users/froglssh/Documents/AI課程/課諮師AI研習/origin_image/slide_03.png",
+          "role": "approved sample slide style reference",
+          "fidelity": "match style only; do not copy layout or content"
+        }
+      ],
+      "requires_context_images": false,
+      "expected_generation_mode": "generate",
+      "status": "recorded",
+      "dispatch": {
+        "agent_id": "74e59762-f6a9-4cbd-bd07-d3ec538331d9",
+        "agent_nickname": null,
+        "prompt": "prompts/slide_20.json",
+        "prompt_sha256": "ba5560bd19a33723865b80974b8f828f064cca404465d0fe11b25dd04cf77edf",
+        "dispatched_at": "2026-06-23T16:03:16Z"
+      },
+      "result": {
+        "agent_id": "74e59762-f6a9-4cbd-bd07-d3ec538331d9",
+        "backend_used": "scripts/image_gen.py --backend auto (codex-oauth)",
+        "selected_source": "/Users/froglssh/Documents/AI課程/課諮師AI研習/drafts/slide_20_candidate.png",
+        "selected_source_sha256": "c86f2c415fa789803f3f67c476b093968c9c5b464a0f940ae13b533bb2109e1c",
+        "final_image": "origin_image/slide_20.png",
+        "final_image_sha256": "c86f2c415fa789803f3f67c476b093968c9c5b464a0f940ae13b533bb2109e1c",
+        "expected_backend": "scripts/image_gen.py --backend auto (codex-oauth)",
+        "expected_backend_labels": [
+          "scripts/image_gen.py --backend auto (codex-oauth)",
+          "scripts/image_gen.py"
+        ],
+        "sample_generation_method_matched": true,
+        "qa_note": "Text readable; style matches the approved sample.",
+        "recorded_at": "2026-06-23T16:05:44Z"
+      },
+      "blocker": null
+    },
+    {
+      "slide_id": "slide_21",
+      "number": 21,
+      "title": "實戰：利用 AI 量規提供結構化評語",
+      "job": "prompts/slide_21.json",
+      "out": "origin_image/slide_21.png",
+      "input_images": [],
+      "style_reference_images": [
+        {
+          "path": "/Users/froglssh/Documents/AI課程/課諮師AI研習/origin_image/slide_03.png",
+          "role": "approved sample slide style reference",
+          "fidelity": "match style only; do not copy layout or content"
+        }
+      ],
+      "requires_context_images": false,
+      "expected_generation_mode": "generate",
+      "status": "recorded",
+      "dispatch": {
+        "agent_id": "31643c3e-0f75-490b-a035-222f6009fd74",
+        "agent_nickname": null,
+        "prompt": "prompts/slide_21.json",
+        "prompt_sha256": "3bbc506142ce01c6b6b66a751cdcde10717c8d137676ba2f53c8449db6739508",
+        "dispatched_at": "2026-06-23T16:03:42Z"
+      },
+      "result": {
+        "agent_id": "31643c3e-0f75-490b-a035-222f6009fd74",
+        "backend_used": "scripts/image_gen.py --backend auto (codex-oauth)",
+        "selected_source": "/Users/froglssh/Documents/AI課程/課諮師AI研習/drafts/slide_21_candidate.png",
+        "selected_source_sha256": "26193200a614a3dc53595b27a8ec700d2810b5a44cfedb437ef0acdae2984c1a",
+        "final_image": "origin_image/slide_21.png",
+        "final_image_sha256": "26193200a614a3dc53595b27a8ec700d2810b5a44cfedb437ef0acdae2984c1a",
+        "expected_backend": "scripts/image_gen.py --backend auto (codex-oauth)",
+        "expected_backend_labels": [
+          "scripts/image_gen.py --backend auto (codex-oauth)",
+          "scripts/image_gen.py"
+        ],
+        "sample_generation_method_matched": true,
+        "qa_note": "Text readable; style matches the approved sample.",
+        "recorded_at": "2026-06-23T16:05:58Z"
+      },
+      "blocker": null
+    },
+    {
+      "slide_id": "slide_22",
+      "number": 22,
+      "title": "升學路徑抉擇：繁星 vs 申請 vs 分科測驗",
+      "job": "prompts/slide_22.json",
+      "out": "origin_image/slide_22.png",
+      "input_images": [],
+      "style_reference_images": [
+        {
+          "path": "/Users/froglssh/Documents/AI課程/課諮師AI研習/origin_image/slide_03.png",
+          "role": "approved sample slide style reference",
+          "fidelity": "match style only; do not copy layout or content"
+        }
+      ],
+      "requires_context_images": false,
+      "expected_generation_mode": "generate",
+      "status": "recorded",
+      "dispatch": {
+        "agent_id": "97759961-5f35-4f8e-892a-6bf4c50787f5",
+        "agent_nickname": null,
+        "prompt": "prompts/slide_22.json",
+        "prompt_sha256": "924bc4d0ea15ff14fa12d93a294bc17b22a9a5263d5df5396b0d78ffc61a9ef7",
+        "dispatched_at": "2026-06-23T16:04:02Z"
+      },
+      "result": {
+        "agent_id": "97759961-5f35-4f8e-892a-6bf4c50787f5",
+        "backend_used": "scripts/image_gen.py --backend auto (codex-oauth)",
+        "selected_source": "/Users/froglssh/Documents/AI課程/課諮師AI研習/drafts/slide_22_candidate.png",
+        "selected_source_sha256": "35be5389d72048724ec5132178113ad1ec33c5441e22d544a39c26cbb816fbb7",
+        "final_image": "origin_image/slide_22.png",
+        "final_image_sha256": "35be5389d72048724ec5132178113ad1ec33c5441e22d544a39c26cbb816fbb7",
+        "expected_backend": "scripts/image_gen.py --backend auto (codex-oauth)",
+        "expected_backend_labels": [
+          "scripts/image_gen.py --backend auto (codex-oauth)",
+          "scripts/image_gen.py"
+        ],
+        "sample_generation_method_matched": true,
+        "qa_note": "Text readable; style matches the approved sample.",
+        "recorded_at": "2026-06-23T16:06:11Z"
+      },
+      "blocker": null
+    },
+    {
+      "slide_id": "slide_23",
+      "number": 23,
+      "title": "線上落點預測資源的比較與志願建立",
+      "job": "prompts/slide_23.json",
+      "out": "origin_image/slide_23.png",
+      "input_images": [],
+      "style_reference_images": [
+        {
+          "path": "/Users/froglssh/Documents/AI課程/課諮師AI研習/origin_image/slide_03.png",
+          "role": "approved sample slide style reference",
+          "fidelity": "match style only; do not copy layout or content"
+        }
+      ],
+      "requires_context_images": false,
+      "expected_generation_mode": "generate",
+      "status": "recorded",
+      "dispatch": {
+        "agent_id": "61bae3de-0991-467c-a037-723cfa6d4d62",
+        "agent_nickname": null,
+        "prompt": "prompts/slide_23.json",
+        "prompt_sha256": "94b80b4112294f4e002f898cb73aff917bcc765965b44d5568cef8e52361e0ec",
+        "dispatched_at": "2026-06-23T16:04:11Z"
+      },
+      "result": {
+        "agent_id": "61bae3de-0991-467c-a037-723cfa6d4d62",
+        "backend_used": "scripts/image_gen.py --backend auto (codex-oauth)",
+        "selected_source": "/Users/froglssh/Documents/AI課程/課諮師AI研習/drafts/slide_23_candidate.png",
+        "selected_source_sha256": "c604a6dae3b4bdf4630f87bcda83d7f968b726c8d4a0e26133d10194c7a9f12f",
+        "final_image": "origin_image/slide_23.png",
+        "final_image_sha256": "c604a6dae3b4bdf4630f87bcda83d7f968b726c8d4a0e26133d10194c7a9f12f",
+        "expected_backend": "scripts/image_gen.py --backend auto (codex-oauth)",
+        "expected_backend_labels": [
+          "scripts/image_gen.py --backend auto (codex-oauth)",
+          "scripts/image_gen.py"
+        ],
+        "sample_generation_method_matched": true,
+        "qa_note": "Text readable; style matches the approved sample.",
+        "recorded_at": "2026-06-23T16:06:23Z"
+      },
+      "blocker": null
+    },
+    {
+      "slide_id": "slide_24",
+      "number": 24,
+      "title": "新開發課程：AI 智能模擬口試系統",
+      "job": "prompts/slide_24.json",
+      "out": "origin_image/slide_24.png",
+      "input_images": [],
+      "style_reference_images": [
+        {
+          "path": "/Users/froglssh/Documents/AI課程/課諮師AI研習/origin_image/slide_03.png",
+          "role": "approved sample slide style reference",
+          "fidelity": "match style only; do not copy layout or content"
+        }
+      ],
+      "requires_context_images": false,
+      "expected_generation_mode": "generate",
+      "status": "recorded",
+      "dispatch": {
+        "agent_id": "0f48e163-0ae1-4b5b-82e9-542867243356",
+        "agent_nickname": null,
+        "prompt": "prompts/slide_24.json",
+        "prompt_sha256": "dc88997641fb4d1c58700404507f7a061c1fa08c0539b1c2fbfaecd4a5bd6725",
+        "dispatched_at": "2026-06-23T16:04:27Z"
+      },
+      "result": {
+        "agent_id": "0f48e163-0ae1-4b5b-82e9-542867243356",
+        "backend_used": "scripts/image_gen.py --backend auto (codex-oauth)",
+        "selected_source": "/Users/froglssh/Documents/AI課程/課諮師AI研習/drafts/slide_24_candidate.png",
+        "selected_source_sha256": "0ecb583408a2001c168861c862e316d77e6a887628b1c652b736141974eb5fb3",
+        "final_image": "origin_image/slide_24.png",
+        "final_image_sha256": "0ecb583408a2001c168861c862e316d77e6a887628b1c652b736141974eb5fb3",
+        "expected_backend": "scripts/image_gen.py --backend auto (codex-oauth)",
+        "expected_backend_labels": [
+          "scripts/image_gen.py --backend auto (codex-oauth)",
+          "scripts/image_gen.py"
+        ],
+        "sample_generation_method_matched": true,
+        "qa_note": "Text readable; style matches the approved sample.",
+        "recorded_at": "2026-06-23T16:06:32Z"
+      },
+      "blocker": null
+    },
+    {
+      "slide_id": "slide_25",
+      "number": 25,
+      "title": "實戰：模擬面試教授與對話演練",
+      "job": "prompts/slide_25.json",
+      "out": "origin_image/slide_25.png",
+      "input_images": [],
+      "style_reference_images": [
+        {
+          "path": "/Users/froglssh/Documents/AI課程/課諮師AI研習/origin_image/slide_03.png",
+          "role": "approved sample slide style reference",
+          "fidelity": "match style only; do not copy layout or content"
+        }
+      ],
+      "requires_context_images": false,
+      "expected_generation_mode": "generate",
+      "status": "recorded",
+      "dispatch": {
+        "agent_id": "ffaf464e-cb7a-425f-8b8c-e5553682cd28",
+        "agent_nickname": null,
+        "prompt": "prompts/slide_25.json",
+        "prompt_sha256": "e705b040b9ed6f36dc86fe8b47bad85ca0eb7a1b8f59a04529e05d47725e0f72",
+        "dispatched_at": "2026-06-23T16:05:17Z"
+      },
+      "result": {
+        "agent_id": "ffaf464e-cb7a-425f-8b8c-e5553682cd28",
+        "backend_used": "scripts/image_gen.py --backend auto (codex-oauth)",
+        "selected_source": "/Users/froglssh/Documents/AI課程/課諮師AI研習/drafts/slide_25_candidate.png",
+        "selected_source_sha256": "c0976083f0c3cf32b3dfa78d7471f80bd84df8b917058cf503bf297ff1d5327f",
+        "final_image": "origin_image/slide_25.png",
+        "final_image_sha256": "c0976083f0c3cf32b3dfa78d7471f80bd84df8b917058cf503bf297ff1d5327f",
+        "expected_backend": "scripts/image_gen.py --backend auto (codex-oauth)",
+        "expected_backend_labels": [
+          "scripts/image_gen.py --backend auto (codex-oauth)",
+          "scripts/image_gen.py"
+        ],
+        "sample_generation_method_matched": true,
+        "qa_note": "Text readable; style matches the approved sample.",
+        "recorded_at": "2026-06-23T16:06:41Z"
+      },
+      "blocker": null
+    },
+    {
+      "slide_id": "slide_26",
+      "number": 26,
+      "title": "即時回饋：面試回答 STAR 結構優化",
+      "job": "prompts/slide_26.json",
+      "out": "origin_image/slide_26.png",
+      "input_images": [],
+      "style_reference_images": [
+        {
+          "path": "/Users/froglssh/Documents/AI課程/課諮師AI研習/origin_image/slide_03.png",
+          "role": "approved sample slide style reference",
+          "fidelity": "match style only; do not copy layout or content"
+        }
+      ],
+      "requires_context_images": false,
+      "expected_generation_mode": "generate",
+      "status": "recorded",
+      "dispatch": {
+        "agent_id": "569c9360-c1d0-4785-8c1e-065d7384ff26",
+        "agent_nickname": null,
+        "prompt": "prompts/slide_26.json",
+        "prompt_sha256": "f8d6951836fdee10b44be98687b78ce249a482d8723272d10d2934841b950bd6",
+        "dispatched_at": "2026-06-23T16:07:24Z"
+      },
+      "result": {
+        "agent_id": "569c9360-c1d0-4785-8c1e-065d7384ff26",
+        "backend_used": "scripts/image_gen.py --backend auto (codex-oauth)",
+        "selected_source": "/Users/froglssh/Documents/AI課程/課諮師AI研習/drafts/slide_26_candidate.png",
+        "selected_source_sha256": "5bc8338b918d65ef910c27ffbcebf43a8a4d2747082633bf6bd593962ff2ebe2",
+        "final_image": "origin_image/slide_26.png",
+        "final_image_sha256": "5bc8338b918d65ef910c27ffbcebf43a8a4d2747082633bf6bd593962ff2ebe2",
+        "expected_backend": "scripts/image_gen.py --backend auto (codex-oauth)",
+        "expected_backend_labels": [
+          "scripts/image_gen.py --backend auto (codex-oauth)",
+          "scripts/image_gen.py"
+        ],
+        "sample_generation_method_matched": true,
+        "qa_note": "Text readable; style matches the approved sample.",
+        "recorded_at": "2026-06-23T16:10:31Z"
+      },
+      "blocker": null
+    },
+    {
+      "slide_id": "slide_27",
+      "number": 27,
+      "title": "備課解放：選課說明會與講座腳本生成",
+      "job": "prompts/slide_27.json",
+      "out": "origin_image/slide_27.png",
+      "input_images": [],
+      "style_reference_images": [
+        {
+          "path": "/Users/froglssh/Documents/AI課程/課諮師AI研習/origin_image/slide_03.png",
+          "role": "approved sample slide style reference",
+          "fidelity": "match style only; do not copy layout or content"
+        }
+      ],
+      "requires_context_images": false,
+      "expected_generation_mode": "generate",
+      "status": "recorded",
+      "dispatch": {
+        "agent_id": "e1cb99a0-4f49-4de7-9ba1-6cc1628482d9",
+        "agent_nickname": null,
+        "prompt": "prompts/slide_27.json",
+        "prompt_sha256": "0ab25640322f9dc59491f4a9ad24e176b108791953cf44b04d8d6783f3195e8c",
+        "dispatched_at": "2026-06-23T16:07:37Z"
+      },
+      "result": {
+        "agent_id": "e1cb99a0-4f49-4de7-9ba1-6cc1628482d9",
+        "backend_used": "scripts/image_gen.py --backend auto (codex-oauth)",
+        "selected_source": "/Users/froglssh/Documents/AI課程/課諮師AI研習/drafts/slide_27_candidate.png",
+        "selected_source_sha256": "ed96563ab04bd134e0a85a56119279323b766763697f295f0addf1ae55476a01",
+        "final_image": "origin_image/slide_27.png",
+        "final_image_sha256": "ed96563ab04bd134e0a85a56119279323b766763697f295f0addf1ae55476a01",
+        "expected_backend": "scripts/image_gen.py --backend auto (codex-oauth)",
+        "expected_backend_labels": [
+          "scripts/image_gen.py --backend auto (codex-oauth)",
+          "scripts/image_gen.py"
+        ],
+        "sample_generation_method_matched": true,
+        "qa_note": "Text readable; style matches the approved sample.",
+        "recorded_at": "2026-06-23T16:09:30Z"
+      },
+      "blocker": null
+    },
+    {
+      "slide_id": "slide_28",
+      "number": 28,
+      "title": "教學創新：選課互動班會與引導式學習單",
+      "job": "prompts/slide_28.json",
+      "out": "origin_image/slide_28.png",
+      "input_images": [],
+      "style_reference_images": [
+        {
+          "path": "/Users/froglssh/Documents/AI課程/課諮師AI研習/origin_image/slide_03.png",
+          "role": "approved sample slide style reference",
+          "fidelity": "match style only; do not copy layout or content"
+        }
+      ],
+      "requires_context_images": false,
+      "expected_generation_mode": "generate",
+      "status": "recorded",
+      "dispatch": {
+        "agent_id": "016bb6ae-b000-472c-bb4b-336f59b6ac12",
+        "agent_nickname": null,
+        "prompt": "prompts/slide_28.json",
+        "prompt_sha256": "24b714f7d075d2fa3bd6fc3d4a4f0e977b495773382a79f0d1007c48db229a5d",
+        "dispatched_at": "2026-06-23T16:07:48Z"
+      },
+      "result": {
+        "agent_id": "016bb6ae-b000-472c-bb4b-336f59b6ac12",
+        "backend_used": "scripts/image_gen.py --backend auto (codex-oauth)",
+        "selected_source": "/Users/froglssh/Documents/AI課程/課諮師AI研習/drafts/slide_28_candidate.png",
+        "selected_source_sha256": "f6677b086419ab389c129c642aa1838f7a8312df5f20dab2b7ccfd13a5f5e731",
+        "final_image": "origin_image/slide_28.png",
+        "final_image_sha256": "f6677b086419ab389c129c642aa1838f7a8312df5f20dab2b7ccfd13a5f5e731",
+        "expected_backend": "scripts/image_gen.py --backend auto (codex-oauth)",
+        "expected_backend_labels": [
+          "scripts/image_gen.py --backend auto (codex-oauth)",
+          "scripts/image_gen.py"
+        ],
+        "sample_generation_method_matched": true,
+        "qa_note": "Text readable; style matches the approved sample.",
+        "recorded_at": "2026-06-23T16:10:22Z"
+      },
+      "blocker": null
+    },
+    {
+      "slide_id": "slide_29",
+      "number": 29,
+      "title": "親師溝通：家長說明常見 Q&A 與致家長信",
+      "job": "prompts/slide_29.json",
+      "out": "origin_image/slide_29.png",
+      "input_images": [],
+      "style_reference_images": [
+        {
+          "path": "/Users/froglssh/Documents/AI課程/課諮師AI研習/origin_image/slide_03.png",
+          "role": "approved sample slide style reference",
+          "fidelity": "match style only; do not copy layout or content"
+        }
+      ],
+      "requires_context_images": false,
+      "expected_generation_mode": "generate",
+      "status": "recorded",
+      "dispatch": {
+        "agent_id": "96984fe7-6a9c-4018-9904-46d404c3fe5c",
+        "agent_nickname": null,
+        "prompt": "prompts/slide_29.json",
+        "prompt_sha256": "788f2746117e5f8e27ec7d5083a2d215b84226fb309513c39c9eec8444f8e346",
+        "dispatched_at": "2026-06-23T16:08:01Z"
+      },
+      "result": {
+        "agent_id": "96984fe7-6a9c-4018-9904-46d404c3fe5c",
+        "backend_used": "scripts/image_gen.py --backend auto (codex-oauth)",
+        "selected_source": "/Users/froglssh/Documents/AI課程/課諮師AI研習/drafts/slide_29_candidate.png",
+        "selected_source_sha256": "149de845bf1d9006af3641d44caeb851b2d3bcc4773456864ad18799b8116625",
+        "final_image": "origin_image/slide_29.png",
+        "final_image_sha256": "149de845bf1d9006af3641d44caeb851b2d3bcc4773456864ad18799b8116625",
+        "expected_backend": "scripts/image_gen.py --backend auto (codex-oauth)",
+        "expected_backend_labels": [
+          "scripts/image_gen.py --backend auto (codex-oauth)",
+          "scripts/image_gen.py"
+        ],
+        "sample_generation_method_matched": true,
+        "qa_note": "Text readable; style matches the approved sample.",
+        "recorded_at": "2026-06-23T16:09:54Z"
+      },
+      "blocker": null
+    },
+    {
+      "slide_id": "slide_30",
+      "number": 30,
+      "title": "高效行政：全學年工作計畫與 PLC 社群",
+      "job": "prompts/slide_30.json",
+      "out": "origin_image/slide_30.png",
+      "input_images": [],
+      "style_reference_images": [
+        {
+          "path": "/Users/froglssh/Documents/AI課程/課諮師AI研習/origin_image/slide_03.png",
+          "role": "approved sample slide style reference",
+          "fidelity": "match style only; do not copy layout or content"
+        }
+      ],
+      "requires_context_images": false,
+      "expected_generation_mode": "generate",
+      "status": "recorded",
+      "dispatch": {
+        "agent_id": "f3000501-d6b5-43a4-8475-06c51d12d73f",
+        "agent_nickname": null,
+        "prompt": "prompts/slide_30.json",
+        "prompt_sha256": "a2e55bc92293f60e1fda003093770629bd95e54944f5552c26e9dd6677150cec",
+        "dispatched_at": "2026-06-23T16:08:18Z"
+      },
+      "result": {
+        "agent_id": "f3000501-d6b5-43a4-8475-06c51d12d73f",
+        "backend_used": "scripts/image_gen.py --backend auto (codex-oauth)",
+        "selected_source": "/Users/froglssh/Documents/AI課程/課諮師AI研習/drafts/slide_30_candidate.png",
+        "selected_source_sha256": "51b3b8328bcd2c3525565a4014979d194fd7bdeba1b08c26a9889167ea86a8eb",
+        "final_image": "origin_image/slide_30.png",
+        "final_image_sha256": "51b3b8328bcd2c3525565a4014979d194fd7bdeba1b08c26a9889167ea86a8eb",
+        "expected_backend": "scripts/image_gen.py --backend auto (codex-oauth)",
+        "expected_backend_labels": [
+          "scripts/image_gen.py --backend auto (codex-oauth)",
+          "scripts/image_gen.py"
+        ],
+        "sample_generation_method_matched": true,
+        "qa_note": "Text readable; style matches the approved sample.",
+        "recorded_at": "2026-06-23T16:10:08Z"
+      },
+      "blocker": null
+    },
+    {
+      "slide_id": "slide_31",
+      "number": 31,
+      "title": "新開發課程：選課與資格陳情申訴合規回應",
+      "job": "prompts/slide_31.json",
+      "out": "origin_image/slide_31.png",
+      "input_images": [],
+      "style_reference_images": [
+        {
+          "path": "/Users/froglssh/Documents/AI課程/課諮師AI研習/origin_image/slide_03.png",
+          "role": "approved sample slide style reference",
+          "fidelity": "match style only; do not copy layout or content"
+        }
+      ],
+      "requires_context_images": false,
+      "expected_generation_mode": "generate",
+      "status": "recorded",
+      "dispatch": {
+        "agent_id": "5132adfa-9b2a-486a-8c24-c7bb1f375591",
+        "agent_nickname": null,
+        "prompt": "prompts/slide_31.json",
+        "prompt_sha256": "2f27cb96257005232a45964573a8e099d7402a61708448ebf49a1ef8c4105903",
+        "dispatched_at": "2026-06-23T16:08:53Z"
+      },
+      "result": {
+        "agent_id": "5132adfa-9b2a-486a-8c24-c7bb1f375591",
+        "backend_used": "scripts/image_gen.py --backend auto (codex-oauth)",
+        "selected_source": "/Users/froglssh/Documents/AI課程/課諮師AI研習/drafts/slide_31_candidate.png",
+        "selected_source_sha256": "4cd49a1b8367a3b3bfc3d0acd871a24b986dc5912b4f7dc37f79d2df98df88b8",
+        "final_image": "origin_image/slide_31.png",
+        "final_image_sha256": "4cd49a1b8367a3b3bfc3d0acd871a24b986dc5912b4f7dc37f79d2df98df88b8",
+        "expected_backend": "scripts/image_gen.py --backend auto (codex-oauth)",
+        "expected_backend_labels": [
+          "scripts/image_gen.py --backend auto (codex-oauth)",
+          "scripts/image_gen.py"
+        ],
+        "sample_generation_method_matched": true,
+        "qa_note": "Text readable; style matches the approved sample.",
+        "recorded_at": "2026-06-23T16:09:41Z"
+      },
+      "blocker": null
+    },
+    {
+      "slide_id": "slide_32",
+      "number": 32,
+      "title": "回歸以人為本：課諮師與 AI 的合作邊界",
+      "job": "prompts/slide_32.json",
+      "out": "origin_image/slide_32.png",
+      "input_images": [],
+      "style_reference_images": [
+        {
+          "path": "/Users/froglssh/Documents/AI課程/課諮師AI研習/origin_image/slide_03.png",
+          "role": "approved sample slide style reference",
+          "fidelity": "match style only; do not copy layout or content"
+        }
+      ],
+      "requires_context_images": false,
+      "expected_generation_mode": "generate",
+      "status": "recorded",
+      "dispatch": {
+        "agent_id": "2ba2fb69-6fca-4c16-9838-4c2c2bc5932c",
+        "agent_nickname": null,
+        "prompt": "prompts/slide_32.json",
+        "prompt_sha256": "6f992ae2e3e6e4d5f2e6e23de8bf3337373e41ab11bbd2aa2eff5e2ab8d9cd86",
+        "dispatched_at": "2026-06-23T16:11:17Z"
+      },
+      "result": {
+        "agent_id": "2ba2fb69-6fca-4c16-9838-4c2c2bc5932c",
+        "backend_used": "scripts/image_gen.py --backend auto (codex-oauth)",
+        "selected_source": "/Users/froglssh/Documents/AI課程/課諮師AI研習/drafts/slide_32_candidate.png",
+        "selected_source_sha256": "9bee68dd75a945a7ac5d5caec86ec27ec39c771af70a00269149caf74d015732",
+        "final_image": "origin_image/slide_32.png",
+        "final_image_sha256": "9bee68dd75a945a7ac5d5caec86ec27ec39c771af70a00269149caf74d015732",
+        "expected_backend": "scripts/image_gen.py --backend auto (codex-oauth)",
+        "expected_backend_labels": [
+          "scripts/image_gen.py --backend auto (codex-oauth)",
+          "scripts/image_gen.py"
+        ],
+        "sample_generation_method_matched": true,
+        "qa_note": "Text readable; style matches the approved sample.",
+        "recorded_at": "2026-06-23T16:13:40Z"
+      },
+      "blocker": null
+    },
+    {
+      "slide_id": "slide_33",
+      "number": 33,
+      "title": "課後行動：一週內啟動你的 AI 智庫",
+      "job": "prompts/slide_33.json",
+      "out": "origin_image/slide_33.png",
+      "input_images": [],
+      "style_reference_images": [
+        {
+          "path": "/Users/froglssh/Documents/AI課程/課諮師AI研習/origin_image/slide_03.png",
+          "role": "approved sample slide style reference",
+          "fidelity": "match style only; do not copy layout or content"
+        }
+      ],
+      "requires_context_images": false,
+      "expected_generation_mode": "generate",
+      "status": "recorded",
+      "dispatch": {
+        "agent_id": "bb2c42b6-07bb-40e2-8649-bc9e6376925c",
+        "agent_nickname": null,
+        "prompt": "prompts/slide_33.json",
+        "prompt_sha256": "a6602e527f3363690ef3f74454ec1dbf4f55abf962658a797f6e457bda4d5da9",
+        "dispatched_at": "2026-06-23T16:11:32Z"
+      },
+      "result": {
+        "agent_id": "bb2c42b6-07bb-40e2-8649-bc9e6376925c",
+        "backend_used": "scripts/image_gen.py --backend auto (codex-oauth)",
+        "selected_source": "/Users/froglssh/Documents/AI課程/課諮師AI研習/drafts/slide_33_candidate.png",
+        "selected_source_sha256": "d76d695878e52d1b4674817ccd351d6ea4080eb4820929fb2db644c3998cea6f",
+        "final_image": "origin_image/slide_33.png",
+        "final_image_sha256": "d76d695878e52d1b4674817ccd351d6ea4080eb4820929fb2db644c3998cea6f",
+        "expected_backend": "scripts/image_gen.py --backend auto (codex-oauth)",
+        "expected_backend_labels": [
+          "scripts/image_gen.py --backend auto (codex-oauth)",
+          "scripts/image_gen.py"
+        ],
+        "sample_generation_method_matched": true,
+        "qa_note": "Text readable; style matches the approved sample.",
+        "recorded_at": "2026-06-23T16:13:26Z"
+      },
+      "blocker": null
+    },
+    {
+      "slide_id": "slide_34",
+      "number": 34,
+      "title": "提問與交流 (Q&A)",
+      "job": "prompts/slide_34.json",
+      "out": "origin_image/slide_34.png",
+      "input_images": [],
+      "style_reference_images": [
+        {
+          "path": "/Users/froglssh/Documents/AI課程/課諮師AI研習/origin_image/slide_03.png",
+          "role": "approved sample slide style reference",
+          "fidelity": "match style only; do not copy layout or content"
+        }
+      ],
+      "requires_context_images": false,
+      "expected_generation_mode": "generate",
+      "status": "recorded",
+      "dispatch": {
+        "agent_id": "17f24434-4e21-45de-ac8f-bfbd2d7a6ae5",
+        "agent_nickname": null,
+        "prompt": "prompts/slide_34.json",
+        "prompt_sha256": "3a2df9c2691a5f6ba8750c64a8717145521f5fc9f7e8b3827091176c5f5b4570",
+        "dispatched_at": "2026-06-23T16:11:54Z"
+      },
+      "result": {
+        "agent_id": "17f24434-4e21-45de-ac8f-bfbd2d7a6ae5",
+        "backend_used": "scripts/image_gen.py --backend auto (codex-oauth)",
+        "selected_source": "/Users/froglssh/Documents/AI課程/課諮師AI研習/drafts/slide_34_candidate.png",
+        "selected_source_sha256": "1afabb1b5defc27ea8e469b2ca28d1a3298992d168c08d2fa560465ceea2bd80",
+        "final_image": "origin_image/slide_34.png",
+        "final_image_sha256": "1afabb1b5defc27ea8e469b2ca28d1a3298992d168c08d2fa560465ceea2bd80",
+        "expected_backend": "scripts/image_gen.py --backend auto (codex-oauth)",
+        "expected_backend_labels": [
+          "scripts/image_gen.py --backend auto (codex-oauth)",
+          "scripts/image_gen.py"
+        ],
+        "sample_generation_method_matched": true,
+        "qa_note": "Text readable; style matches the approved sample.",
+        "recorded_at": "2026-06-23T16:13:59Z"
+      },
+      "blocker": null
+    }
+  ],
+  "updated_at": "2026-06-23T16:13:59Z"
+}

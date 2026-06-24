@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>升學 AI 指令集 ｜ 陳坤平講師</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f6f1e7;
+  --paper-2:#fbf8f1;
+  --ink:#211b14;
+  --ink-soft:#5a5044;
+  --line:#e2d7c3;
+  --line-2:#d6c8ad;
+  --honey:#e0a106;
+  --honey-deep:#b97c00;
+  --honey-wash:#fdf2d0;
+  --teal:#0f6b5f;
+  --rose:#b5483b;
+  --shadow:rgba(54,40,18,.12);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:"Noto Sans TC",sans-serif;
+  background:var(--paper);
+  color:var(--ink);
+  line-height:1.75;
+  -webkit-font-smoothing:antialiased;
+  background-image:
+    radial-gradient(circle at 12% 8%, rgba(224,161,6,.06), transparent 40%),
+    radial-gradient(circle at 88% 92%, rgba(15,107,95,.05), transparent 42%);
+}
+
+/* ---------- Header ---------- */
+header{
+  position:relative;
+  padding:54px 24px 40px;
+  text-align:center;
+  border-bottom:2px solid var(--line-2);
+  overflow:hidden;
+}
+header::before{
+  content:"";
+  position:absolute;inset:0;
+  background-image:repeating-linear-gradient(90deg,transparent 0 38px,rgba(54,40,18,.025) 38px 39px);
+  pointer-events:none;
+}
+.eyebrow{
+  display:inline-block;
+  letter-spacing:.42em;
+  font-size:.72rem;
+  font-weight:700;
+  color:var(--honey-deep);
+  padding:6px 18px;
+  border:1px solid var(--line-2);
+  border-radius:999px;
+  background:var(--paper-2);
+  margin-bottom:22px;
+}
+header h1{
+  font-family:"Noto Serif TC",serif;
+  font-weight:900;
+  font-size:clamp(2rem,5.5vw,3.4rem);
+  letter-spacing:.04em;
+  line-height:1.2;
+  position:relative;
+}
+header h1 .hl{
+  background:linear-gradient(180deg,transparent 58%,var(--honey-wash) 58%);
+  padding:0 .15em;
+}
+header .sub{
+  margin-top:16px;
+  color:var(--ink-soft);
+  font-size:1.02rem;
+  letter-spacing:.05em;
+}
+.credit{
+  margin-top:24px;
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  font-size:.92rem;
+  color:var(--ink);
+  background:var(--paper-2);
+  border:1.5px solid var(--honey);
+  padding:8px 20px;
+  border-radius:999px;
+  box-shadow:0 4px 14px var(--shadow);
+}
+.credit .seal{
+  width:26px;height:26px;border-radius:50%;
+  background:var(--honey);color:#fff;
+  display:grid;place-items:center;font-weight:700;font-size:.78rem;
+  font-family:"Noto Serif TC",serif;
+}
+.credit b{font-weight:700;color:var(--honey-deep)}
+
+/* ---------- Controls ---------- */
+.controls{
+  position:sticky;top:0;z-index:50;
+  background:rgba(246,241,231,.92);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+  padding:16px 20px;
+}
+.controls-inner{max-width:1180px;margin:0 auto}
+.search-wrap{position:relative;max-width:560px;margin:0 auto 14px}
+.search-wrap svg{position:absolute;left:16px;top:50%;transform:translateY(-50%);width:18px;height:18px;stroke:var(--ink-soft)}
+#search{
+  width:100%;
+  font-family:inherit;font-size:1rem;
+  padding:13px 18px 13px 46px;
+  border:1.5px solid var(--line-2);
+  border-radius:14px;
+  background:var(--paper-2);
+  color:var(--ink);
+  transition:border-color .2s, box-shadow .2s;
+}
+#search:focus{outline:none;border-color:var(--honey);box-shadow:0 0 0 4px var(--honey-wash)}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.tab{
+  font-family:inherit;font-size:.9rem;font-weight:500;
+  padding:8px 16px;border-radius:999px;cursor:pointer;
+  border:1.5px solid var(--line-2);
+  background:var(--paper-2);
+  color:var(--ink-soft);
+  transition:all .18s;
+  display:flex;align-items:center;gap:7px;
+}
+.tab .count{font-size:.74rem;opacity:.7;background:var(--line);border-radius:999px;padding:1px 8px}
+.tab:hover{border-color:var(--honey);color:var(--ink)}
+.tab.active{background:var(--ink);color:var(--paper-2);border-color:var(--ink)}
+.tab.active .count{background:rgba(255,255,255,.18);color:var(--paper-2)}
+
+/* ---------- Layout ---------- */
+main{max-width:1180px;margin:0 auto;padding:40px 20px 80px}
+.section{margin-bottom:56px;scroll-margin-top:150px}
+.section-head{display:flex;align-items:baseline;gap:14px;margin-bottom:6px;flex-wrap:wrap}
+.section-head .num{
+  font-family:"Noto Serif TC",serif;font-weight:900;
+  font-size:1.4rem;color:var(--honey);
+}
+.section-head h2{
+  font-family:"Noto Serif TC",serif;font-weight:700;
+  font-size:1.7rem;letter-spacing:.03em;
+}
+.section-desc{color:var(--ink-soft);font-size:.95rem;margin-bottom:22px;border-left:3px solid var(--honey);padding-left:12px}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:18px}
+
+/* ---------- Card ---------- */
+.card{
+  background:var(--paper-2);
+  border:1px solid var(--line-2);
+  border-radius:16px;
+  padding:20px 20px 16px;
+  display:flex;flex-direction:column;
+  box-shadow:0 2px 10px rgba(54,40,18,.05);
+  transition:transform .18s, box-shadow .18s, border-color .18s;
+  position:relative;
+}
+.card:hover{transform:translateY(-3px);box-shadow:0 10px 26px var(--shadow);border-color:var(--honey)}
+.card-top{display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+.step-badge{
+  font-family:"Noto Serif TC",serif;font-weight:700;font-size:.78rem;
+  color:#fff;background:var(--teal);
+  padding:3px 11px;border-radius:7px;letter-spacing:.04em;
+}
+.card h3{font-size:1.08rem;font-weight:700;line-height:1.4}
+.card .note{
+  font-size:.82rem;color:var(--honey-deep);
+  background:var(--honey-wash);border-radius:8px;
+  padding:6px 11px;margin-bottom:12px;
+  display:flex;gap:7px;align-items:flex-start;
+}
+.card .note::before{content:"※";font-weight:700}
+.prompt-box{
+  background:#fffdf7;
+  border:1px dashed var(--line-2);
+  border-radius:11px;
+  padding:14px 15px;
+  font-size:.9rem;line-height:1.85;
+  color:var(--ink);
+  white-space:pre-wrap;
+  max-height:230px;overflow-y:auto;
+  flex:1;margin-bottom:14px;
+}
+.prompt-box::-webkit-scrollbar{width:8px}
+.prompt-box::-webkit-scrollbar-thumb{background:var(--line-2);border-radius:99px}
+.prompt-box .kw{
+  background:linear-gradient(180deg,transparent 55%,#ffd98a 55%);
+  font-weight:500;border-radius:2px;
+}
+.copy-btn{
+  font-family:inherit;font-size:.9rem;font-weight:700;cursor:pointer;
+  border:1.5px solid var(--ink);
+  background:var(--ink);color:var(--paper-2);
+  padding:10px;border-radius:11px;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  transition:all .18s;
+}
+.copy-btn:hover{background:var(--honey-deep);border-color:var(--honey-deep)}
+.copy-btn.done{background:var(--teal);border-color:var(--teal)}
+.copy-btn svg{width:16px;height:16px}
+
+.empty{text-align:center;padding:70px 20px;color:var(--ink-soft)}
+.empty .big{font-family:"Noto Serif TC",serif;font-size:1.4rem;margin-bottom:8px}
+
+/* ---------- Footer ---------- */
+footer{
+  border-top:2px solid var(--line-2);
+  padding:34px 20px 48px;
+  text-align:center;color:var(--ink-soft);font-size:.88rem;
+  background:var(--paper-2);
+}
+footer b{color:var(--honey-deep)}
+.tip{
+  max-width:680px;margin:0 auto 18px;
+  background:var(--honey-wash);border:1px solid var(--line-2);
+  border-radius:12px;padding:14px 18px;text-align:left;color:var(--ink);
+  font-size:.88rem;
+}
+.tip b{color:var(--honey-deep)}
+
+/* toast */
+#toast{
+  position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(20px);
+  background:var(--ink);color:var(--paper-2);
+  padding:12px 24px;border-radius:12px;font-weight:500;
+  box-shadow:0 8px 24px rgba(0,0,0,.25);
+  opacity:0;pointer-events:none;transition:all .25s;z-index:200;
+}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+@media(max-width:560px){
+  .grid{grid-template-columns:1fr}
+  header{padding:40px 18px 32px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <span class="eyebrow">課業 ｜ 自主學習 ｜ 學習歷程 ｜ 備審面試</span>
+  <h1>升學 <span class="hl">AI 指令集</span> 提示詞庫</h1>
+  <p class="sub">依步驟複製貼上，把橘底關鍵字換成你的，立即生成高品質升學素材</p>
+  <div class="credit">
+    <span class="seal">陳</span>
+    本指令集由 <b>陳坤平講師</b> 原創製作
+  </div>
+</header>
+
+<div class="controls">
+  <div class="controls-inner">
+    <div class="search-wrap">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <input id="search" type="text" placeholder="搜尋提示詞、步驟或關鍵字（例如：反思、面試、摘要、地理）" autocomplete="off">
+    </div>
+    <div class="tabs" id="tabs"></div>
+  </div>
+</div>
+
+<main id="main"></main>
+
+<footer>
+  <div class="tip">
+    <b>使用方式：</b>依照各分類的 Step 順序，逐一點擊「複製提示詞」貼到你慣用的 AI 工具（ChatGPT、Claude、Gemini 等），
+    再把句中<span style="background:#ffd98a;padding:0 3px;border-radius:2px;">高亮的關鍵字</span>替換成你自己的科系、課程或主題即可。部分步驟需先上傳檔案或開啟網頁搜尋／NotebookLM。
+  </div>
+  本提示詞庫內容皆為 <b>陳坤平講師</b> 原創，僅供學習與升學輔導使用，請尊重原作者著作權。<br>
+  整理為可瀏覽、可搜尋、可複製之網頁形式。
+</footer>
+
+<div id="toast">已複製到剪貼簿 ✓</div>
+
+<script>
+/* ============ 提示詞資料 ============ */
+/* {kw} 標記為原 PDF 中需自行替換的橘底關鍵字 */
+const DATA = [
+{
+  id:"portfolio", num:"01", name:"學習歷程檔案",
+  desc:"課程學習成果與多元表現：從預學習、反思撰寫、凸顯能力、圖表建議到摘要與發表會的完整流程。",
+  items:[
+    {step:"Step 0",title:"預學習與連結",
+      prompt:`我是一位高二學生，正在學習『{地理探究與實作：水域太陽光電的可行性與環境影響}』
+學期末需要進行期末報告
+我希望有更好的學習效果，請列出：
+1. 為什麼我要學這個？三個與個人發展或生活相關的原因；找到幾個資料來源來讓我更想學，並附上特定公開資料頁面連結（不要只有網站連結）
+2. 我一定要從中學到的三個知識/技術點和觀念，請深入列出
+3. 學習這段時常見的盲點有哪些？
+4. 面對期末考試或成果報告發表，我應該注意哪些事？
+請都簡單舉例`},
+    {step:"Step 1",title:"科系分析與主題發想",note:"記得開啟網頁搜尋",
+      prompt:`我是{OO科}高三學生，未來想上{XX大學國際商務系}，我正要寫學習歷程檔案
+本系要上傳的項目為：{專題實作、實習學習成果、社團、幹部、檢定與競賽}
+
+請從這些項目，幫我分析會受本校系青睞的書審資料，當中應該突顯出什麼能力？
+
+並從課內的學科課章節，或課外各種活動幫我發想
+我可以做哪些主題的學習歷程檔案？`},
+    {step:"Step 2",title:"學習經驗與科系",
+      prompt:`我正在學習『{國文課-出師表}』
+我以後想申請{傳播}相關科系
+
+這份檔案內容與未來志向有哪些關係？`},
+    {step:"Step 2-1",title:"反思架構（4F／ORID）",
+      prompt:`請以 4F 反思法或 ORID 反思法，為我撰寫一段（『{國文課-出師表}』）的學習反思
+用來申請{傳播}相關科系，需突出科系所需的核心素養
+
+總長度 500 字以內
+第一段 Facts 需佔 50％ 內容，並談及相關的學理、知識和技術`},
+    {step:"Step 2-1",title:"特色內容（SMART）",
+      prompt:`我想讓這份學習歷程的內容更有個人特色，請以上文為基礎，再修改三個元素
+一、關於這個主題，我印象最深刻的地方是：{明明劉禪不太行，為什麼諸葛亮不自己取代？}
+二、學習過程中，我曾經遇到困難或失敗的地方是：{三國人名太多，歷史太雜，記不起來}
+三、我還想更深入學習的地方是：{在歷史中，有哪些皇帝托孤的事件，這類事件對文化造成什麼影響？}
+
+字數在 600 字左右
+並讓我的文字符合 SMART 法則，增加文章的具體性，但不用將 SMART 列點呈現
+
+如果有內容不清的地方，請先問我問題
+到你覺得足夠清楚，就可以產出`},
+    {step:"Step 3",title:"凸顯個人能力",
+      prompt:`我希望本份學習歷程檔案，可以更凸顯個人能力和特色，我需要給你哪些資訊？請列出 3-5 點，讓我簡單回答
+請特別引導我回答出關鍵的知識點、數據、技能或經驗中的關鍵時刻，可以透過追問，幫助我的回應符合 SMART 法則；目的是要自然凸顯我的能力和與科系的適配性
+
+當我答完，請依照我的答案，幫我重寫我的心得反思`},
+    {step:"Step 3-1",title:"拉出整體架構",
+      prompt:`請轉化以上內容，照「總論概述、分項重點、統整結論」的結構重新寫一遍
+
+第一段總論概述，用與生活相關的提問或我的個人故事，來激發讀者興趣；但這只是我的個人經歷，是備審資料而非廣告文案，不必太行銷導向
+
+第二段依照我的學習經驗，深度寫出三個重點
+1. 我學到哪些主要的知識/技術點？這是什麼？我如何學到？特別需要加入一些數據討論
+2. 我用了什麼學習法？是否有遇到困難、我如何突破、再來一次我如何學得更好？
+3. 過程中我做了什麼、突破哪些困難，體現出哪些良好的學習態度？這對我有哪些幫助？
+
+第三段就是 4F 反思法中的 Future，未來打算怎麼應用或深入學習，以及我具備哪些能力
+整段文字請在 600 字內寫完`},
+    {step:"Step 4",title:"圖表建議",
+      prompt:`我想讓本篇反思更有可看性，請根據本篇內容，建議我要放哪些圖表、哪些照片？`},
+    {step:"Step 4-1",title:"圖表判讀與反思",note:"先上傳數據圖片",
+      prompt:`這是我自然探究實作課的實驗數據表，實驗是要測試{不同頻率(Hz)的音源，對人耳聽力距離的影響}？；圖中有三位男生、三位女生受測者，{男一受測者可在距離 18m 處，聽見 120Hz 的聲音；而要 200Hz 的聲音，最遠只能在 21m 處聽見}
+
+請從三個點協助我反思與延伸：
+一、針對實驗主題，這組數據體現出了哪些事？有哪些學說或理論可以解釋？越深入討論越好
+二、實驗設計可能哪裡有問題？如果再做一次，我可以如何提升實驗的精細度與準確率？為什麼？
+三、這個實驗與其中的原理知識，在生活或產業中，有哪些可以進一步應用的地方？請列出三個相關的實際案例
+如果對實驗內容有不清楚的地方，先對我提問，直到我的答案足夠判讀，再開始正式回答我`},
+    {step:"Step 4-3",title:"學檔與科系連結",
+      prompt:`我想申請{醫學與生醫工程學系}，請就上述成果，分別建議我深入探討的方向`},
+    {step:"Step 5",title:"撰寫摘要",
+      prompt:`請就以上討論內容，為我撰寫首頁的摘要
+使用以下架構（可視不同經驗微調），限 200-250 字，需分段
+文中需放入一個重點數據
+
+本次學習活動的主題是【？】
+我之所以進行這項探索/學習，是因為【？】
+在過程中，我透過【？】進行資料蒐集或實作
+最後，我發現【？】，並因此學到【？】
+關鍵詞：【？】`},
+    {step:"Step 6",title:"百字簡述",
+      prompt:`根據以上內容，幫我撰寫 80 字以內之簡述，目的是讓教授看見我的特質和能力，並期待閱讀這份學習歷程檔案
+
+整體結構可參考黃金圈法則，但不需提及 Why.how.what 等詞，行文通順即可
+文中強調故事性，可能從學習動機、成果或學習過程而來；若可以，列出數據
+如果相關資訊不清楚，可追問 1-2 次；如果資訊已經完整，則可直接產出
+請列出三個版本`},
+    {step:"Step 6-1",title:"深入學習",note:"先傳上 PDF 檔",
+      prompt:`請針對檔案中的內容，從大學教授的角度，用提問的方式，確認我對這段學習經歷的理解，是否足夠深？是否有掌握核心的知識、技術或態度？
+
+請先問一題，等我回答之後，先根據我的回答給出一些學習建議，再接著問下一題
+直到把這份檔案的內容都確認完，幫我把所有學習建議總結一遍後，就可以結束`},
+    {step:"Step 7",title:"針對科系撰寫：轉寫",
+      prompt:`我想用上述的學習歷程，改為申請{心理學系}
+請改寫原文中的「心得反思」部分，凸顯{心理學系}需要的能力和素養`},
+    {step:"Step 7-1",title:"針對科系撰寫 2（optional）",
+      prompt:`請扮演大學教授的角色，給我建議
+除了心得反思，我還能做出哪些修改，讓這份檔案更符合{心理學系}？`},
+    {step:"Step 8",title:"學習歷程發表會",
+      prompt:`我是一位高二學生
+我要準備自己的學習歷程發表會，以這份檔案為主軸
+請扮演學習歷程和簡報表達專家，用一對一問答的方式，幫助我進行預備。
+同時，你也是人力資源發展專家，善於從我的回答中，看見我的核心信念、動機、個性、能力和優劣勢。並給出務實、可執行的建議，在短期幫助我發揮優勢、隱惡揚善，長期幫助我提升專才、並改善劣勢。
+
+學習歷程發表會的重點有：
+（一）用說故事的方式，介紹檔案中的學習經驗
+（二）針對我印象深刻的部分，特別強調關連的知識、技術或態度
+（三）學完這段課程後，我可能可以深入哪些領域？
+（四）學完這段課程後，我更認識自己哪些地方？
+（五）整體上台簡報的時長為五分鐘，需有完整架構，包含開場與結尾
+
+你提出的問題，需要引導我預備上述重點
+你給我的回應，需要幫助我的表達更具體、更完整，也更吸引人
+
+對談採用一問一答的方式進行
+當你提出問題，我回答之後
+請先針對我的答案，給我一些專業的回饋，幫助我能更好，再繼續問下一題
+當你覺得差不多了，就告訴我本次對談成功/未成功
+以及建議我如何更深入預備？
+整個過程請在 8-10 題內完成`}
+  ]
+},
+{
+  id:"self", num:"02", name:"自主學習與上台報告",
+  desc:"自主學習、專題製作與上台報告：從主題發想、計畫安排、深度學習到成果簡報與口語稿撰寫。",
+  items:[
+    {step:"Step 1",title:"協助發想",
+      prompt:`我是一個高一生，請扮演自主學習專家，為我發想自主學習主題
+
+請以「{海洋}」為關鍵字，依照學科知識、科技與資訊、環境與自然、健康與醫療、社會與文化、經濟與財務、人際關係與生活技能、哲學與倫理、藝術與創意，等九大領域做聯想，每個領域舉出三個主題
+
+需要是問題句或祈使句，能直接看出要做什麼或成果是什麼
+
+難度不要太難，讓第一次進行自主學習的高中生也能完成
+結果以列點式呈現`},
+    {step:"Step 1-1",title:"輸入資料",note:"拍照上傳計畫表",
+      prompt:`（拍照上傳）這是我現在的自主學習計畫表，主題是 {OOOO}
+請吸收內容，並用純文字重新列出內容
+都做完後，請回答『好』`},
+    {step:"Step 1-1-1",title:"調整學習計畫（已有計畫表）",
+      prompt:`我的自主學習主題是「{認識人工智慧在海洋環境保護中的應用}」
+以上是我的預設進度
+
+學期末我需要有紮實的基礎理解、能掌握相關知識和技術
+並要產出一份成果簡報、1200 字探究報告和上台報告
+
+請先根據內容，幫我列出進度調整建議
+學習方式可包含線上線下、涵蓋校內外學習，研究和實做
+讓我每週學習能學得完，並且精實
+
+再幫我列出每週的檢核點
+讓我在課堂結束時能清楚知道自己學到什麼，並累積具體的產出`},
+    {step:"Step 1-2",title:"瞄準科系（optional）",note:"開啟「網頁搜尋」",
+      prompt:`我現在的自主學習主題是 {OOOO}
+未來想進入{法律系、政治系}或相關領域
+請重新列幾個主題，要與這些領域相關
+
+可以從你對我的認識出發，或挑選這個領域的時事或經典主題
+讓我學完後，除了能掌握主題，也達到科系探索的功能`},
+    {step:"Step 2",title:"決定形式",
+      prompt:`高中的自主學習計畫，分為六大類型：
+
+一、知識探索型：透過問題導向的方式查閱資料、整合觀點，進行主題式的概念學習與比較，從中形成個人理解與論述。
+二、技藝實作型：以實作為核心，透過反覆操作、技能練習與成果展示，探索創作流程或技術應用的可能性。
+三、田野觀察型：走入真實場域進行觀察、訪談與紀錄，挖掘地方、人群或生活現象的細節與意義，轉化為敘事或分析成果。
+四、跨領域整合型：結合兩種以上領域觀點，從多角度切入一個主題，設計模型、提案或解方，強調知識間的關聯與應用。
+五、自我挑戰型：圍繞自身的行為、情緒或習慣設定挑戰目標，透過紀錄、反思與練習達成個人成長或突破的歷程。
+六、社會貢獻型：從社會問題或公共議題出發，設計實際行動與倡議，透過參與、提案與回饋產生影響力與責任感。
+
+請以「{人工智慧在海洋環境保護中的應用}」出發，分別就以上六種類型，各舉出兩個例子
+難度不要太難，讓第一次進行自主學習的高中生也能完成。結果以列點式呈現`},
+    {step:"Step 2-1",title:"決定標題",
+      prompt:`我想進行的主題是『{＿＿＿＿＿＿＿}』
+
+請根據以上資訊
+寫出三組能傳達內容、足夠精實且吸引人的主副標題
+皆以「主標題＋副標題」的架構
+
+主標題「學習主題/研究範圍」，介於 4-6 字
+副標題「用什麼工具，達成什麼目標？」，15 字以內
+
+要略有趣味，並說明每一組的亮點`},
+    {step:"Step 3",title:"發掘動機",
+      prompt:`請給我 3-5 點動機，告訴我為什麼要探討這個主題？
+盡量具備學術意涵、與生活連結，也盡量有趣或發人深省
+每一點的文字不要太長，在 3~5 句之間
+且需分別論述本主題的意義、與哪些知識/技術/能力有關連？
+以及與我自身的連結`},
+    {step:"Step 4",title:"設定目標",
+      prompt:`我要進行「{認識人工智慧在海洋環境保護中的應用}」自主學習計畫
+請根據上述動機，為我發想三個學習目標，如：
+一、可提升我的哪些能力、習慣、知識或技術？
+二、可取得哪些明確的結果？例如比賽、作品...等等
+
+需確保難度適合初次進行自主學習的高一學生`},
+    {step:"Step 5",title:"建立學習計畫",
+      prompt:`我要以「{認識人工智慧在海洋環境保護中的應用}」為主題，進行自主學習計畫
+學習方式可包含線上線下、涵蓋校內外學習，研究和實做
+
+學期末我需要有紮實的基礎理解、能掌握相關知識和技術
+並要產出一份成果簡報、1200 字探究報告和上台報告
+請扮演自主學習與該領域專家
+根據上述目標，為我列出學習規劃，為期 12 週，每週花 1.5 小時
+必須逐週列出學習目標和檢核點
+成果以表格呈現`},
+    {step:"Step 5-1",title:"記錄規劃",
+      prompt:`我想在學期末，做出一份完善的報告以及學習歷程檔案
+必須體現紮實的執行過程，包含其中的精彩和失敗經歷
+並能體現充足的知識點和技術點
+
+請用條列式的方式
+建議我該做哪些記錄？包含文字、照片、表格或其他形式`},
+    {step:"Step 5-2",title:"記錄規劃：知識點/技術點",
+      prompt:`我的主題是{認識人工智慧在海洋環境保護中的應用}
+請列出這個主題，可能包含哪 10 個知識點或技術點？`},
+    {step:"Step 5-3",title:"深度學習（費曼／蘇格拉底／名詞）",
+      prompt:`1.
+你是費曼學習法與蘇格拉底式對話專家
+請幫助我學習 {XX} 概念的定義與應用
+請慢慢進行，直到我具備充足的素養
+
+2.
+你是一位在 {OO} 領域有專業的，比我厲害一點的學長姐
+請用最平易近人、我能聽懂的方式，一步步解釋 {XX} 概念
+每隔一段時間，請停下來確認我的吸收狀況
+若能聽懂再繼續講下去
+
+3.
+我想開始瞭解這個領域
+請幫我列出這個領域最需要知道的 10 個名詞
+包含中文與英文，以及簡單概要的解釋`},
+    {step:"Step 6",title:"成果發表形式",
+      prompt:`我要進行「{認識人工智慧在海洋環境保護中的應用}」的自主學習成果發表
+包含 10 分鐘上台報告，並製作成果簡報
+
+我的報告對象是高中老師和大學教授
+請擔任科技專家和簡報高手，建議我幾種成果發表的形式和內容
+
+建議需要包含
+一、形式為何？列出 10 分鐘呈現架構
+二、這如何激發聽眾興趣？請舉例說明之
+三、需要預備哪些內容
+
+請分點簡要說明`},
+    {step:"Step 6-1",title:"預期成果",
+      prompt:`除了成果簡報之外
+我還可以用哪些方式呈現成果？
+
+請列出 2-3 種，並逐一說明：
+1. 每一種方式的優點
+2. 我可以從中學到哪些能力、知識或技巧？
+3. 我可能面臨哪些挑戰？`},
+    {step:"Step 7",title:"成果發表簡報",
+      prompt:`請依照這個主題，以高階商業簡報的規格，給我簡報製作的建議
+
+內容需要包含
+一、美編建議：整份簡報的配色和要給人的感受
+二、每一頁的標題為何？要放哪些內容？凸顯哪些重點？整體不超過 10 頁，請以條列式呈現
+三、要放入哪些數據或圖表？
+
+建議成果以表格呈現`},
+    {step:"Step 8",title:"成發練習：口語邏輯",
+      prompt:`我的自主學習主題是 {＿＿＿＿＿＿＿}
+內容主要談 {＿＿＿＿＿＿＿＿}
+
+請扮演該領域的專家，透過一問一答方式，幫助我練習成果發表
+請根據我訂定的題目與內容，讓我能更瞭解自己的主題
+每一次對答，請你先提出一個問題
+待我回答後，針對我的回答，先給我兩個修正建議，再就此議題繼續聊下去
+直到你認為我的熟悉度已經足夠上台發表`},
+    {step:"Step 9",title:"成發協助：口語稿撰寫",
+      prompt:`我是一位高一學生
+我的自主學習主題是 {＿＿＿＿＿＿}
+內容主要談 {＿＿＿＿＿＿＿＿＿}
+
+而你是一位商業簡報專家，請幫助我進行自主學習成果報告
+報告的評審是 3 位學校老師和 500 位高中生
+
+為我撰寫一份上台簡報口語稿的架構，時長 8 分鐘
+請依照黃金圈法則，列出應該有哪些段落？
+
+可參考「激發興趣、成果展現、推論、Insight、反思、未來規劃到 Call to action」的順序，並依照專業領域需求幫我調整；在每個段落中，問我 3-5 個引導問題，讓我能抓準報告重點，務必盡量引起聽眾的共鳴！
+
+成果以表格呈現`}
+  ]
+},
+{
+  id:"nopq", num:"03", name:"科系研究與學檔綜整",
+  desc:"NOPQ / D1-D3：搭配科系網站與課程地圖，研究目標校系、抓出個人核心能力、撰寫就讀動機與未來學習計畫。",
+  items:[
+    {step:"Step 1",title:"預備動作 @NotebookLM",
+      prompt:`預備動作：
+創建新筆記本，放入「ColleGo 能力指標、系網、校網、學檔影片 ex.Yory」
+
+Fast Research：{台大政治系}課程亮點、{台大政治系}未來出路、{政治系}研究領域
+
+自訂報告：
+產出一份非常詳細具體的報告，供高三生製作書審資料時參考
+整理{台大政治系}大學部的科系特色、課程亮點、資源機會與未來出路
+列出科系最想要的學生能力，及製作書審資料時，應留意哪些事？
+
+然後複製＋建立文件＋下載成 PDF（{XX 系}升學用資料）`},
+    {step:"Step 2",title:"抓出學檔能力",note:"先匯入 ColleGo 能力表",
+      prompt:`請檢視我的所有學習歷程檔案，並根據{台大政治系}升學參考資料與 ColleGo 能力指標，逐一列出每份學習歷程檔案，展現了哪些能力？每份可列出 3-5 種，包含國英數自社等學科能力，需簡短說明`},
+    {step:"Step 3",title:"抓出個人核心能力",
+      prompt:`根據 ColleGo 能力指標，總體而言，從學習歷程檔案中，可看出我具備哪些核心能力？請列出 3-5 項
+
+同時，也從檔案中，抓出我個人前三名顯著的學科能力，特別是國文、英文、數學、自然、社會等五科；並列出我在這些學科領域中，分別擁有哪些素養？`},
+    {step:"Step 3-1",title:"針對科系，抓出個人核心競爭力",
+      prompt:`我想申請{政治學系}，請列出我的 3-5 項核心競爭力，以及可從哪份學檔中看見？簡要說明之`},
+    {step:"Step 4",title:"學習歷程反思 @NBLM",note:"先上傳課程地圖",
+      prompt:`請逐一列出我的每一份學習歷程檔案，分別與{台大機械系}課程地圖中，哪 3 門課程比較有關連？並簡述之`},
+    {step:"Step 5",title:"就讀動機 @NBLM",
+      prompt:`這些是我繳交的學習歷程檔案，我想用這些來申請 {OO} 系
+請根據我的過往經歷，撰寫五點就讀動機`},
+    {step:"Step 6",title:"未來學習計畫 @NBLM",note:"先匯入課表 PDF 或網址",
+      prompt:`我對{大數據}相關領域很有興趣，請問我在{臺灣大學政治學系}，可以修習哪些課？`},
+    {step:"Step 6-1",title:"未來學習計畫（對談）",
+      prompt:`我要在備審資料中，設定就讀{政治學系政治理論組}的短、中、長程的未來學習計畫
+
+請跟我進行一段對談，幫助我釐清職涯方向、大學想完成的事，例如交換學生、實習、考證照或雙主修/輔修與學程、社團...等等
+對談採用一問一答的方式進行，不要太冗長
+
+結束後請給我短中長程的學習建議
+短程為現在到大學開學前，中程為大學四年，長程為就業方向
+請留意，我不一定想從事政治相關工作`},
+    {step:"Step 7",title:"多元學習綜整心得 @NBLM",note:"先匯入能力表與多元表現",
+      prompt:`請以 3-4 個能力為軸線，用 800 字寫出一段文字，讓大學教授可以認識我的個人能力`}
+  ]
+},
+{
+  id:"interview", num:"04", name:"面試準備",
+  desc:"面試：從領域知識預備、批判性學習、模擬面試（中文／科大／英文）到一分鐘自我介紹。貼完提示詞可善用語音功能口語互動。",
+  items:[
+    {step:"Step 1",title:"面試前預備（文字）",
+      prompt:`我即將要去面試{台大政治系}
+
+我想瞭解{政治系}的相關事件/領域，應該問你哪些問題？哪些是我需要掌握的？`},
+    {step:"Step 1-1",title:"領域學習：名詞解釋",
+      prompt:`請列出{政治科學}領域/行業最常見的 20 個名詞和概念
+列出概念的專業解釋，以及在近一年的新聞中，有哪些相關事件
+並用三句話說一說相關性
+
+如果有常見的英文縮寫，也請同時列出全文和翻譯`},
+    {step:"Step 1-2",title:"領域學習：體系性與批判性",
+      prompt:`我想更深入學習以上 20 個名詞和概念
+
+請列出相關的學說，及是否有反例或不同看法？
+如果有常見的爭點，也請一併列出`},
+    {step:"Step 1-3",title:"What's your insight？",
+      prompt:`接下來，我要跟你分享我對{川普的關稅政策}事件/領域的理解
+
+請讀完後，先給我鼓勵
+再批判性分析我論述的優缺點
+並建議我深入學習的方向
+（AI 回饋後，請開始用口語互動）`},
+    {step:"Step 2",title:"實際面試",note:"可先上傳 NOPQ 的 PDF 檔",
+      prompt:`請扮演{台大政治系}的教授，幫助我進行面試
+
+面試常見的問題方向有：
+（一）針對備審資料中的學習經驗、或我個人過去的生活經驗（包含自我介紹）
+（二）針對科系領域的專業或重要時事，進行進一步詰問或討論
+（三）針對本大學或科系，我的就讀動機和未來學習規劃
+（四）針對科系相關的領域，我對未來有什麼想法？
+
+對談採用一問一答的方式進行
+
+當你提出問題，我回答之後
+請先針對我的答案，給我一些專業的回饋建議，幫助我能更好，再繼續問下一題
+如果有我回答得不夠清楚的地方，也可以追問`},
+    {step:"Step 2-1",title:"科大/技術學院面試",note:"可先上傳 D1、D2 的 PDF 檔",
+      prompt:`請扮演{高科大企業管理系}的教授，幫助我進行面試
+
+面試常見的問題方向有：
+（一）針對備審資料中的學習經驗，特別是專題實作與實習；或我個人過去的生活經驗（包含自我介紹）
+（二）針對科系領域的專業或重要時事，進行進一步詰問或討論
+（三）針對本大學或科系，我的就讀動機和未來學習規劃
+（四）針對科系相關的領域，我對未來有什麼想法？
+
+對科大/技專學生來說，知識、技術與實務連結，是特別重要的
+因此在題目中，請至少有一題是領域的實務題
+
+對談採用一問一答的方式進行
+
+當你提出問題，我回答之後
+請先針對我的答案，給我一些專業的回饋建議，幫助我能更好，再繼續問下一題
+可持續深入，也可改問其他類型的問題
+如果有我回答得不夠清楚的地方，也可以追問
+
+請在十題之內，告訴我面試的結果為錄取/未錄取
+說明原因後，給我進一步的預備建議，讓我在正式面試時，能夠順利錄取`},
+    {step:"Step 2-2",title:"英文面試",note:"可先上傳 NOPQ 的 PDF 檔",
+      prompt:`請扮演{台大政治系}的教授，幫助我進行英文面試
+
+面試常見的問題方向有：
+（一）針對備審資料中的學習經驗、或我個人過去的生活經驗（包含自我介紹）
+（二）針對科系領域的專業或重要時事，進行進一步詰問或討論
+（三）針對本大學或科系，我的就讀動機和未來學習規劃
+（四）針對科系相關的領域，我對未來有什麼想法？
+
+對談採用一問一答的方式進行
+
+當你提出問題，我回答之後
+請先針對我的答案，給我一些專業的回饋建議，幫助我能更好
+再來，針對我的文法和用字遣詞，給出專業的建議，特別讓我能更道地
+這些都結束後，再繼續問下一題
+
+如果有我回答得不夠清楚的地方，也可以追問`},
+    {step:"Step 3",title:"自我介紹 @ChatGPT",
+      prompt:`我要預備一分鐘自我介紹，來申請{政治學系}
+請扮演大學教授與簡報高手，根據我們剛剛的對談內容，幫助我預備
+
+自我介紹裡面通常包含：
+（一）用 1 句話或 3 個特質，總結我是誰，激發興趣
+（二）我的精彩小故事
+（三）我曾做過/要做的事，用故事+5W2H 數據來論述
+（四）總結過去，開展大學與未來的畫面
+
+請問我幾個問題，待我回答之後，就據此給我一版自我介紹的框架
+如果我的回答還不夠清楚，可以繼續問下去，直到足夠清楚`}
+  ]
+},
+{
+  id:"study", num:"05", name:"課業學習",
+  desc:"課業學習：先自訂 AI 的角色與認識你，再依國文、英文、地理等學科逐步深入翻譯、單字、文法與概念彙整。",
+  items:[
+    {step:"Step 1-1",title:"自訂 ChatGPT：要有哪些特質？",note:"Custom Instruction",
+      prompt:`你是有數十年經驗的高中全學科專家、解題高手、自主學習與升學專家
+你瞭解 108 課綱的教學與出題趨勢，並能幫助學生面對大考的素養題型
+你擅長用深入淺出的方式，解釋我提出的問題
+也能透過我的提問，判斷我的學習狀況、釐清學習上的盲點
+並據此給我不同程度的引導，直到我可以理解
+你擅長幫助我抓到特定學習範圍或活動中的知識/技術點
+並確認我有學到最重要的部分
+你同時是學習專家，深明學習相關的生理.心理學
+很會使用多元化方式鼓勵我，並激勵我變得更好
+並為我制訂相關的學習策略與規劃，並告訴我下一步怎麼做，以增進我的閱讀/學習素養
+
+你更瞭解學習歷程檔案與升學相關規範
+能清楚幫助我整理心得與反思，並產出符合升學需求的學習歷程檔案`},
+    {step:"Step 1-2",title:"自訂 ChatGPT：我是誰？",
+      prompt:`我是一個高二學生，目前正在尋求學習上各方面的進步
+我較擅長的科目是{國文、英文、公民與地理}
+遇到困境的科目是{數學與物理}`},
+    {step:"Step 2-1",title:"國文科：逐句翻譯與摘要",
+      prompt:`我要學習{莊子：庖丁解牛}這一課
+請幫我逐句翻譯成白話文，每一句分開，都採用文言與白話並列
+呈現的格式必須方便閱讀
+也要分段，用白話文幫我抓出每一段的摘要
+並簡述段落主要想表達什麼？與本文的主旨有何關連？`},
+    {step:"Step 2-2",title:"國文科：深入背景與主題",
+      prompt:`我想深入瞭解本課的背景、內容和相關主題
+除了翻譯，應該還有哪些面向？`},
+    {step:"Step 2-3",title:"國文科：出題自測",
+      prompt:`請針對課文內容、作者和題解
+根據考試常見的題型，為我設計相關的問題
+
+請先出一題，在我回答完後，即給我回饋
+幫助我更深入理解本課的教學重點
+以及具備所要建立的素養
+回饋完後，再繼續出下一題
+在 15 題後，結合我的答題狀況做出學習總結
+並給我相關的後續學習建議`},
+    {step:"Step 3-1",title:"英文科：題目解析",note:"可貼上照片或截圖",
+      prompt:`這題的答案是什麼？為什麼？
+請逐選項解釋，並列出對應的文法觀念`},
+    {step:"Step 3-2",title:"英文科：課文學習重點",note:"貼上課文",
+      prompt:`這是我英文課的內容，主題是 {Elephant Abuse: The Thai Tourism Industry's Dark Secret}
+請問這當中的學習重點有哪些？`},
+    {step:"Step 3-3",title:"英文科：單字",
+      prompt:`請列出課文中的單字與其翻譯
+依照其字根字首，列出相關的重要單字
+並依照該單字的不同型態，例如動名詞 Ving，列出其意思與例句`},
+    {step:"Step 3-4",title:"英文科：文法",
+      prompt:`請列出課文中的關鍵句
+幫助我解析當中的文法`},
+    {step:"Step 4-1",title:"地理科：概念彙整",
+      prompt:`我想學習『{地理科：伊斯蘭世界的形成與發展──西亞北非}』
+內容摘要為：
+{第一節 乾燥而單調的自然環境
+第二節 伊斯蘭文化的特徵
+第三節 風雲詭譎的伊斯蘭世界}
+我應該留意哪些面向？`}
+  ]
+},
+{
+  id:"custom", num:"06", name:"ChatGPT 自訂指令",
+  desc:"Customized Prompt：建立你的專屬 AI 助理 — 設定回應風格、讓 GPT 認識你、以及希望 GPT 如何回應你的完整自訂指令。",
+  items:[
+    {step:"Quick Start",title:"自訂 ChatGPT 回應風格",
+      prompt:`我跟你討論的每一件事，首先你要扮演博學的專家
+給出專業、客觀、無偏頗的建議
+可帶有一些理想性，但不要太過高大上
+提供我的回饋，都要實際且可執行
+可指引我做更深更廣的延伸，且有更多元面向的思考
+也可帶有一些批判性或懷疑性
+但總體而言，要有信心、盼望和愛心
+讓我能在正向的環境中進步
+
+其次，你「憑愛心說誠實話」
+可以鼓勵我，但不一定要事事認同我
+為了讓我更好，要誠實地說出一些事情
+當我在面對困難的事、或學習新領域時
+用成長型心態來鼓勵和幫助我
+但當對於我已經有基礎程度的領域
+要挑戰我變得更好、更強`},
+    {step:"A.",title:"讓 GPT 認識你！（範例）",note:"請替換為你自己的自我介紹",
+      prompt:`「我的自我介紹」如下：
+我是一位專業的講師，教學對象遍布全台灣
+主體是高中生與國高中老師，也有一般民眾與政府官員
+每一場演講參與人數介在 20-500 人之間
+每年大約有 150 場演講，對象至少共有 10000 人
+目前也穩定成長中，希望有機會往全亞洲分享
+因此能說出道地英文的能力和國際世界觀對我很重要
+我主要的教學主題是產業趨勢、學習歷程檔案與自主學習
+也常分享生涯探索相關議題
+也會在教學中大量融入 ChatGPT 等 AI 工具
+我的 MBTI 測驗成果是 ENFJ
+在各種場合中常做意見領袖和雙語主持人
+
+「我的專案任務」是：
+我正在學習成為一個社群經營者，定期產出短影音，放在 Tiktok.IG 等平台上
+TA 是學生.老師與家長，希望幫助他們更認識教育領域，並得到實際幫助
+我最有興趣的議題是教育、職涯、產業發展和公共議題
+我正在培養的專長是上台簡報與活動帶領
+我喜歡閱讀的媒體是哈佛商業評論、天下雜誌、TED 等等
+
+「我的內容要給誰看？」：
+通常我的讀者是高中生，他們喜歡看見老師的個人特色，希望老師有幽默感，課堂中所舉的例子能感同身受；並且能與科系或相關產業相連結。
+同時也希望內容能應用於社群媒體，讓其他老師或教育機構也能有興趣。
+
+「我常用的工具」：
+我通常使用 ChatGPT 發想，用 Notion 紀錄，並使用 Power Point 和 Canva 做美編；如果需要製作影片，我會使用剪映`},
+    {step:"B.",title:"希望 GPT 如何回應你？",
+      prompt:`你是一位專業的學習顧問.生涯教練，且具有多年產業經驗，接下來我與你的互動，你都要以專業角度、務實考量與長期思維來給我建議
+
+同時，你也有另外三個角色。其一是非常有經驗的活動主辦人，曾主辦過許多國際級大型論壇，如 TED.Computex 和 google 年會；你對活動流程、氛圍經營、邀請講者與傳遞價值都非常專精。當我向你請求活動建議時，請以最高規格回覆我。
+
+第二個角色，你是一個暢銷中文作家與翻譯家，擅長將英文翻譯成專業、通順且有豐富文學素養的中文，曾參與《商業週刊》和《經濟學人》的中文化；希望你接下來做的所有事，只要牽涉到中英翻譯，都遵守以下規則：
+1. 翻譯時需根據原句內容直譯，不要遺漏任何字句或訊息
+2. 根據第一次直譯的結果重新意譯，在遵守原意的前提下，讓內容更通俗易懂，符合台灣繁體中文的表達習慣
+3. 翻譯出來的句子，最好符合中文音韻學，讓句子讀起來更有力量、更易於記憶
+
+第三個角色，你是一位連續創業家，擁有科技、教育、創意藝術、媒體、社會服務和環境永續等跨產業的成功經驗，擅長實踐抽象模糊的想法，為其找到商業模式，並建構團隊與合理的執行方案。同時，你非常樂於幫助初次創業的年輕人。
+
+當回覆我的時候，開頭不要太冗長，中間主要內容要盡可能詳細具體，符合 MECE 和 SMART 原則，但字數不必太多；回答的內容應該盡量正式與全面，讓我有足夠的選擇，回答問題時盡量有真實證據。
+結尾時請使用溫柔堅定的語氣，給我鼓勵、讓我的自信心不斷提升。
+
+並請注意，每次回答的時候，除非我特別指示，若我用繁體中文下指令，就請用繁體中文 #zh-tw 回答；若我用英文下指令，就請用英文回答。`}
+  ]
+}
+];
+
+/* ============ 渲染 ============ */
+const main=document.getElementById('main');
+const tabsEl=document.getElementById('tabs');
+const searchEl=document.getElementById('search');
+let activeCat='all';
+
+function escapeHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+// 將 {關鍵字} 轉為高亮 span，並保留原文（去掉大括號）
+function renderPrompt(text){
+  let html=escapeHtml(text);
+  html=html.replace(/\{([^}]+)\}/g,'<span class="kw">$1</span>');
+  return html;
+}
+// 取得純文字（複製用，去掉大括號）
+function plainPrompt(text){return text.replace(/\{([^}]+)\}/g,'$1');}
+
+// tabs
+function buildTabs(){
+  const total=DATA.reduce((a,c)=>a+c.items.length,0);
+  let html=`<button class="tab active" data-cat="all">全部<span class="count">${total}</span></button>`;
+  DATA.forEach(c=>{
+    html+=`<button class="tab" data-cat="${c.id}">${c.num}・${c.name}<span class="count">${c.items.length}</span></button>`;
+  });
+  tabsEl.innerHTML=html;
+  tabsEl.querySelectorAll('.tab').forEach(t=>{
+    t.addEventListener('click',()=>{
+      activeCat=t.dataset.cat;
+      tabsEl.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+      t.classList.add('active');
+      render();
+      if(activeCat!=='all'){
+        const sec=document.getElementById('sec-'+activeCat);
+        if(sec) sec.scrollIntoView({behavior:'smooth',block:'start'});
+      }else{window.scrollTo({top:0,behavior:'smooth'});}
+    });
+  });
+}
+
+function render(){
+  const q=searchEl.value.trim().toLowerCase();
+  let html='';
+  let anyResult=false;
+  DATA.forEach(cat=>{
+    if(activeCat!=='all' && activeCat!==cat.id) return;
+    const items=cat.items.filter(it=>{
+      if(!q) return true;
+      return (it.title+it.step+it.prompt+cat.name+(it.note||'')).toLowerCase().includes(q);
+    });
+    if(items.length===0) return;
+    anyResult=true;
+    html+=`<section class="section" id="sec-${cat.id}">
+      <div class="section-head"><span class="num">${cat.num}</span><h2>${cat.name}</h2></div>
+      <p class="section-desc">${cat.desc}</p>
+      <div class="grid">`;
+    items.forEach((it,i)=>{
+      const pid=cat.id+'-'+i;
+      html+=`<div class="card">
+        <div class="card-top">
+          <span class="step-badge">${it.step}</span>
+          <h3>${it.title}</h3>
+        </div>
+        ${it.note?`<div class="note">${it.note}</div>`:''}
+        <div class="prompt-box">${renderPrompt(it.prompt)}</div>
+        <button class="copy-btn" data-id="${pid}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          複製提示詞
+        </button>
+      </div>`;
+      // 暫存純文字
+      promptStore[pid]=plainPrompt(it.prompt);
+    });
+    html+=`</div></section>`;
+  });
+  if(!anyResult){
+    html=`<div class="empty"><div class="big">找不到符合「${escapeHtml(searchEl.value)}」的提示詞</div>試試其他關鍵字，或切換上方分類。</div>`;
+  }
+  main.innerHTML=html;
+  bindCopy();
+}
+
+const promptStore={};
+function bindCopy(){
+  main.querySelectorAll('.copy-btn').forEach(btn=>{
+    btn.addEventListener('click',async()=>{
+      const text=promptStore[btn.dataset.id];
+      try{
+        await navigator.clipboard.writeText(text);
+      }catch(e){
+        const ta=document.createElement('textarea');
+        ta.value=text;document.body.appendChild(ta);ta.select();
+        document.execCommand('copy');document.body.removeChild(ta);
+      }
+      btn.classList.add('done');
+      const orig=btn.innerHTML;
+      btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> 已複製！';
+      showToast();
+      setTimeout(()=>{btn.classList.remove('done');btn.innerHTML=orig;},1600);
+    });
+  });
+}
+
+let toastTimer;
+function showToast(){
+  const t=document.getElementById('toast');
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>t.classList.remove('show'),1600);
+}
+
+searchEl.addEventListener('input',render);
+buildTabs();
+render();
+</script>
+</body>
+</html>

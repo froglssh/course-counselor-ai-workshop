@@ -1,0 +1,1350 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 助攻！NotebookLM 課程諮詢實戰提示詞手冊</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700;900&family=Noto+Sans+TC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1a2e;
+    --ink-soft: #2d2d4e;
+    --paper: #faf8f4;
+    --cream: #f5f0e8;
+    --accent: #e85d26;
+    --accent-warm: #f4a338;
+    --accent-cool: #3d7ab5;
+    --accent-green: #2d8a5e;
+    --accent-purple: #7c3aed;
+    --line: #ddd8cc;
+    --tag-bg: #ede8df;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Noto Sans TC', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.8;
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 3rem 2rem 2.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 320px; height: 320px;
+    background: radial-gradient(circle, rgba(232,93,38,.35) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: -80px; left: 20%;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(61,122,181,.25) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .header-inner { max-width: 960px; margin: 0 auto; position: relative; z-index: 1; }
+  .header-badge {
+    display: inline-block;
+    background: var(--accent);
+    color: #fff;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .72rem;
+    font-weight: 600;
+    letter-spacing: .1em;
+    padding: .25rem .75rem;
+    border-radius: 2px;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+  }
+  header h1 {
+    font-family: 'Noto Serif TC', serif;
+    font-size: clamp(1.6rem, 4vw, 2.6rem);
+    font-weight: 900;
+    line-height: 1.3;
+    margin-bottom: .6rem;
+  }
+  header h1 span { color: var(--accent-warm); }
+  .header-meta {
+    font-size: .85rem;
+    color: rgba(255,255,255,.55);
+    margin-top: 1rem;
+    display: flex; flex-wrap: wrap; gap: .8rem;
+  }
+  .header-meta span { display: flex; align-items: center; gap: .3rem; }
+  .meta-dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; flex-shrink: 0; }
+
+  /* ── NOTICE BOX ── */
+  .notice {
+    background: linear-gradient(135deg, #fff8f0, #fff3e0);
+    border-left: 4px solid var(--accent-warm);
+    max-width: 960px;
+    margin: 1.8rem auto;
+    padding: 1rem 1.5rem;
+    border-radius: 0 8px 8px 0;
+    font-size: .88rem;
+    color: #5a3a1a;
+  }
+
+  /* ── LAYOUT ── */
+  main { max-width: 960px; margin: 0 auto; padding: 1.5rem 1.5rem 4rem; }
+
+  /* ── NAV TABS ── */
+  .tabs-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+    margin-bottom: 2rem;
+    border-bottom: 2px solid var(--line);
+    padding-bottom: .75rem;
+  }
+  .tab-btn {
+    font-family: 'Noto Serif TC', serif;
+    font-size: .82rem;
+    font-weight: 700;
+    padding: .45rem 1rem;
+    border-radius: 6px 6px 0 0;
+    border: 2px solid transparent;
+    background: var(--tag-bg);
+    color: var(--ink-soft);
+    cursor: pointer;
+    transition: all .22s;
+  }
+  .tab-btn:hover { background: var(--cream); color: var(--ink); }
+  .tab-btn.active {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+  }
+
+  /* ── SECTION ── */
+  .section { display: none; }
+  .section.active { display: block; animation: fadeUp .3s ease; }
+  @keyframes fadeUp {
+    from { opacity:0; transform:translateY(10px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+
+  /* ── SECTION TITLE ── */
+  .section-title {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 1.3rem;
+    font-weight: 900;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: .7rem;
+  }
+  .section-title .icon {
+    width: 36px; height: 36px;
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+
+  /* ── CASE GRID ── */
+  .case-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.2rem;
+  }
+
+  /* ── CASE CARD ── */
+  .card {
+    background: #fff;
+    border: 1.5px solid var(--line);
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: box-shadow .22s, transform .22s;
+    position: relative;
+  }
+  .card:hover { box-shadow: 0 8px 28px rgba(26,26,46,.10); transform: translateY(-2px); }
+
+  .card-color-bar { height: 5px; width: 100%; }
+  .c-orange { background: linear-gradient(90deg, var(--accent), var(--accent-warm)); }
+  .c-blue   { background: linear-gradient(90deg, var(--accent-cool), #5ba4e0); }
+  .c-green  { background: linear-gradient(90deg, var(--accent-green), #4bbf8a); }
+  .c-purple { background: linear-gradient(90deg, var(--accent-purple), #a78bfa); }
+  .c-ink    { background: linear-gradient(90deg, var(--ink), #4a4a6e); }
+
+  .card-head {
+    padding: 1rem 1.2rem .6rem;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    align-items: flex-start;
+    gap: .75rem;
+  }
+  .card-head .emoji { font-size: 1.4rem; flex-shrink: 0; line-height: 1; margin-top: .1rem; }
+  .card-title {
+    font-family: 'Noto Serif TC', serif;
+    font-size: .95rem;
+    font-weight: 700;
+    line-height: 1.4;
+    color: var(--ink);
+  }
+  .card-tag {
+    display: inline-block;
+    font-size: .68rem;
+    font-weight: 600;
+    letter-spacing: .06em;
+    padding: .15rem .5rem;
+    border-radius: 4px;
+    margin-top: .35rem;
+    background: var(--tag-bg);
+    color: var(--ink-soft);
+  }
+  .card-tag.original {
+    background: #fff3cd;
+    color: #7a4f00;
+  }
+
+  .card-body { padding: 1rem 1.2rem; flex: 1; }
+  .scenario-label {
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: #999;
+    margin-bottom: .35rem;
+  }
+  .scenario-text {
+    font-size: .83rem;
+    color: #555;
+    margin-bottom: .9rem;
+    line-height: 1.7;
+  }
+
+  .prompt-label {
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: #999;
+    margin-bottom: .35rem;
+    display: flex;
+    align-items: center;
+    gap: .4rem;
+  }
+  .prompt-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+  }
+
+  .prompt-box {
+    background: #f7f5f0;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: .85rem 1rem;
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: .8rem;
+    line-height: 1.75;
+    color: var(--ink);
+    white-space: pre-wrap;
+    position: relative;
+  }
+
+  .copy-btn {
+    display: flex;
+    align-items: center;
+    gap: .3rem;
+    align-self: flex-end;
+    margin-top: .5rem;
+    background: var(--ink);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: .32rem .75rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .68rem;
+    cursor: pointer;
+    transition: background .18s;
+  }
+  .copy-btn:hover { background: var(--accent); }
+  .copy-btn.copied { background: var(--accent-green); }
+  .copy-btn svg { width: 11px; height: 11px; }
+
+  .prompt-wrap { display: flex; flex-direction: column; }
+
+  /* ── TIPS ── */
+  .tip-box {
+    background: linear-gradient(135deg, #e8f4fd, #dff0f8);
+    border-left: 3px solid var(--accent-cool);
+    border-radius: 0 8px 8px 0;
+    padding: .7rem 1rem;
+    font-size: .78rem;
+    color: #1a3a55;
+    margin-top: .75rem;
+    line-height: 1.6;
+  }
+  .tip-box strong { color: var(--accent-cool); }
+
+  /* ── FULL WIDTH CARD ── */
+  .card-full { grid-column: 1 / -1; }
+
+  /* ── INTRO BLOCK ── */
+  .intro-block {
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 12px;
+    padding: 1.5rem 1.8rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+  }
+  .intro-block .big-emoji { font-size: 2.5rem; flex-shrink: 0; }
+  .intro-block h3 {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: .4rem;
+    color: var(--accent-warm);
+  }
+  .intro-block p { font-size: .85rem; color: rgba(255,255,255,.75); line-height: 1.75; }
+
+  /* ── QUICK TIPS SECTION ── */
+  .tips-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  .tip-card {
+    background: #fff;
+    border: 1.5px solid var(--line);
+    border-radius: 10px;
+    padding: 1.1rem;
+  }
+  .tip-card .tip-icon { font-size: 1.6rem; margin-bottom: .5rem; }
+  .tip-card h4 {
+    font-family: 'Noto Serif TC', serif;
+    font-size: .88rem;
+    font-weight: 700;
+    margin-bottom: .35rem;
+  }
+  .tip-card p { font-size: .78rem; color: #666; line-height: 1.65; }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 2rem;
+    background: var(--ink);
+    color: rgba(255,255,255,.45);
+    font-size: .78rem;
+    margin-top: 4rem;
+  }
+  footer strong { color: var(--accent-warm); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    .case-grid { grid-template-columns: 1fr; }
+    .intro-block { flex-direction: column; gap: .75rem; }
+    header { padding: 2rem 1.2rem 1.8rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="header-badge">📚 研習實戰手冊 · NotebookLM · 通用版</div>
+    <h1>AI 助攻！運用 <span>NotebookLM</span><br>打造高效能校級課程諮詢系統</h1>
+    <p style="color:rgba(255,255,255,.65);font-size:.9rem;margin-top:.8rem;">提示詞案例庫 ── 研習講義原版案例 ＋ 延伸自主練習題組</p>
+    <div class="header-meta">
+      <span><span class="meta-dot"></span>臺北市立麗山高中 林獻升老師</span>
+      <span><span class="meta-dot"></span>適用對象：全國高中課程諮詢教師</span>
+    </div>
+  </div>
+</header>
+
+<div class="notice">
+  💡 <strong>使用說明：</strong>本頁所有提示詞皆可點擊「📋 複製」按鈕，直接貼入 NotebookLM 的對話框使用。<strong>橘色標籤「講義原版」</strong>為研習講義原始案例；其餘為延伸補充案例，供研習後自主練習使用。
+</div>
+
+<main>
+  <!-- NAV TABS -->
+  <div class="tabs-wrap">
+    <button class="tab-btn active" onclick="showTab('tab-query')">📂 資訊查詢與萃取</button>
+    <button class="tab-btn" onclick="showTab('tab-media')">🎙️ 多媒體教材生成</button>
+    <button class="tab-btn" onclick="showTab('tab-case')">🧑‍🎓 個案諮詢模擬</button>
+    <button class="tab-btn" onclick="showTab('tab-portfolio')">📁 學習歷程檔案</button>
+    <button class="tab-btn" onclick="showTab('tab-parent')">👨‍👩‍👧 家長說明會</button>
+    <button class="tab-btn" onclick="showTab('tab-admin')">🏫 校務行政應用</button>
+    <button class="tab-btn" onclick="showTab('tab-tips')">✨ 操作心法</button>
+  </div>
+
+  <!-- ════════════════════════════════════════
+       TAB 1：資訊查詢與萃取
+  ════════════════════════════════════════ -->
+  <section id="tab-query" class="section active">
+    <div class="section-title"><div class="icon">📂</div>資訊查詢與萃取──與您的智庫對話</div>
+    <div class="case-grid">
+
+      <!-- 原版 1 -->
+      <div class="card">
+        <div class="card-color-bar c-orange"></div>
+        <div class="card-head">
+          <div class="emoji">🔍</div>
+          <div>
+            <div class="card-title">跨文件比對：資訊工程學群修課建議</div>
+            <div class="card-tag original">講義原版</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="scenario-label">情境</div>
+          <div class="scenario-text">學生想讀資訊工程，需從繁星簡章與課程地圖找出最佳修課組合。</div>
+          <div class="prompt-label">提示詞</div>
+          <div class="prompt-wrap">
+            <div class="prompt-box">你現在是一位專業且充滿耐心的高中課程諮詢教師。請綜合比對上傳的《大學申請入學簡章》與《校內課程地圖》這兩份文件，幫我整理出想就讀「資訊工程學群」的學生，在高中三年應該優先修習哪些「加深加廣選修課程」？請用條列式呈現，並在每個科目後方簡述推薦理由。最後，請列出該學系通常最看重的兩項學科能力。</div>
+            <button class="copy-btn" onclick="copyPrompt(this)"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>複製</button>
+          </div>
+          <div class="tip-box"><strong>💡 操作提示：</strong>上傳「大學申請入學簡章」與「校內課程地圖」後使用此提示詞，效果最佳。</div>
+        </div>
+      </div>
+
+      <!-- 原版 2 -->
+      <div class="card">
+        <div class="card-color-bar c-orange"></div>
+        <div class="card-head">
+          <div class="emoji">📋</div>
+          <div>
+            <div class="card-title">退選流程查詢（精準校規問答）</div>
+            <div class="card-tag original">講義原版</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="scenario-label">情境</div>
+          <div class="scenario-text">學生高二上發現選錯課，家長來電詢問退選流程與期限。</div>
+          <div class="prompt-label">提示詞</div>
+          <div class="prompt-wrap">
+            <div class="prompt-box">請嚴格根據上傳的《選課輔導手冊》。如果學生在「高二上學期」發現自己選錯課，想要「退選或停修」某堂選修課，他必須在開學後的第幾週提出申請？整個申請流程需要經過哪些處室或人員（如：任課教師、導師、教務處）的核准？請條列出標準流程，並務必附上資料來源的頁碼，以利我向家長說明。</div>
+            <button class="copy-btn" onclick="copyPrompt(this)"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>複製</button>
+          </div>
+          <div class="tip-box"><strong>💡 核心優勢：</strong>NotebookLM 會附上「引用來源頁碼」，讓您能立即向家長展示依據，不怕答錯。</div>
+        </div>
+      </div>
+
+      <!-- 延伸 1 -->
+      <div class="card">
+        <div class="card-color-bar c-blue"></div>
+        <div class="card-head">
+          <div class="emoji">⚖️</div>
+          <div>
+            <div class="card-title">數 A vs 數 B：選擇策略一次說清</div>
+            <div class="card-tag">延伸練習</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="scenario-label">情境</div>
+          <div class="scenario-text">每年最常被問的問題——數學 A 和數學 B 到底差在哪？怎麼選？</div>
+          <div class="prompt-label">提示詞</div>
+          <div class="prompt-wrap">
+            <div class="prompt-box">請根據上傳的《選課輔導手冊》與《大學簡章》，幫我製作一份清楚的對照表，說明「數學 A」與「數學 B」的差異，包含：課程難度與涵蓋範圍、對應的大學學群或科系、學測與分科測驗採計情況、若選錯了有無補救方案。請以表格呈現主要差異，並在表格下方用 2-3 句話說明課諮師面對「不確定選哪個」學生時，建議的引導策略。</div>
+            <button class="copy-btn" onclick="copyPrompt(this)"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>複製</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 延伸 2 -->
+      <div class="card">
+        <div class="card-color-bar c-green"></div>
+        <div class="card-head">
+          <div class="emoji">🌟</div>
+          <div>
+            <div class="card-title">繁星推薦資格快速查詢</div>
+            <div class="card-tag">延伸練習</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="scenario-label">情境</div>
+          <div class="scenario-text">家長詢問繁星的%數門檻及其子女是否符合資格。</div>
+          <div class="prompt-label">提示詞</div>
+          <div class="prompt-wrap">
+            <div class="prompt-box">請根據上傳的《大學繁星推薦簡章》，幫我整理繁星推薦的核心規則，包含：1. 在校成績百分比的計算方式與門檻 2. 每人最多可報名的校系數量 3. 哪些情況會造成資格喪失 4. 學習歷程檔案在繁星管道中的角色（有無審查？）。請用條列式呈現，資訊務必附上來源頁碼。</div>
+            <button class="copy-btn" onclick="copyPrompt(this)"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>複製</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 延伸 3 -->
+      <div class="card">
+        <div class="card-color-bar c-purple"></div>
+        <div class="card-head">
+          <div class="emoji">🗺️</div>
+          <div>
+            <div class="card-title">跨班群課程落差分析</div>
+            <div class="card-tag">延伸練習</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="scenario-label">情境</div>
+          <div class="scenario-text">學生高二上想從自然組轉換到社會組班群，想了解課程銜接問題。</div>
+          <div class="prompt-label">提示詞</div>
+          <div class="prompt-wrap">
+            <div class="prompt-box">請根據本校《課程地圖》與《選課輔導手冊》，分析一位目前就讀「自然組班群」的高二上學生，若想在高二下轉換至「社會組班群」，會面臨哪些課程落差？具體需要補修哪些學分？轉換申請的截止時間與流程是什麼？請同時提供課諮師在這個情況下，可以給學生的利弊分析框架（優點 3 項、風險 3 項、配套建議 2 項）。</div>
+            <button class="copy-btn" onclick="copyPrompt(this)"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>複製</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 延伸 4 -->
+      <div class="card">
+        <div class="card-color-bar c-ink"></div>
+        <div class="card-head">
+          <div class="emoji">📊</div>
+          <div>
+            <div class="card-title">18 學群 × 校內課程對應速查</div>
+            <div class="card-tag">延伸練習</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="scenario-label">情境</div>
+          <div class="scenario-text">備課時需要一張「本校課程地圖 × 18 學群」的對應總表。</div>
+          <div class="prompt-label">提示詞</div>
+          <div class="prompt-wrap">
+            <div class="prompt-box">請根據上傳的《校內課程地圖》與《Collego 學群介紹》，幫我整理一份對應表：左欄列出大學 18 學群名稱，右欄列出本校「最相關」的加深加廣選修課程（每個學群至多 5 門）。若某學群本校課程資源較少，請直接標注「建議加強自主學習補充」並提供 2 個自主學習主題建議。請以 Markdown 表格格式輸出。</div>
+            <button class="copy-btn" onclick="copyPrompt(this)"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>複製</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 延伸 5 -->
+      <div class="card">
+        <div class="card-color-bar c-blue"></div>
+        <div class="card-head">
+          <div class="emoji">🎓</div>
+          <div>
+            <div class="card-title">畢業學分條件快速確認</div>
+            <div class="card-tag">延伸練習</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="scenario-label">情境</div>
+          <div class="scenario-text">高三導師詢問某學生是否符合畢業條件，需快速確認。</div>
+          <div class="prompt-label">提示詞</div>
+          <div class="prompt-wrap">
+            <div class="prompt-box">請根據《課程計畫書》與《選課輔導手冊》，列出本校學生取得高中畢業資格所需的完整條件，包含：1. 部定必修最低學分要求（各領域分開列） 2. 校訂必修規定 3. 選修課程最低學分 4. 彈性學習時間規定 5. 公民服務時數（若有）。請以結構化的條列方式呈現，並標注資料來源頁碼。</div>
+            <button class="copy-btn" onclick="copyPrompt(this)"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>複製</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════
+       TAB 2：多媒體教材生成
+  ════════════════════════════════════════ -->
+  <section id="tab-media" class="section">
+    <div class="section-title"><div class="icon">🎙️</div>多媒體教材生成──AI 成為你的教材編輯台</div>
+
+    <div class="intro-block">
+      <div class="big-emoji">🎧</div>
+      <div>
+        <h3>Audio Overview（音訊總覽）使用步驟</h3>
+        <p>① 上傳資料來源 → ② 點右上角「筆記本指南」→ ③ 找到「音訊總覽」→ ④ 點「自訂（Customize）」→ ⑤ 貼入提示詞 → ⑥ 點「產生」→ ⑦ 等待 3-5 分鐘即可下載 MP3。</p>
+      </div>
+    </div>
+
+    <div class="case-grid">
+
+      <!-- 原版：家長說明會大綱 -->
+      <div class="card card-full">
+        <div class="card-color-bar c-orange"></div>
+        <div class="card-head">
+          <div class="emoji">📝</div>
+          <div>
+            <div class="card-title">家長說明會大綱＋逐字講稿（高一新生）</div>
+            <div class="card-tag original">講義原版</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="scenario-label">情境</div>
+          <div class="scenario-text">下週需辦理高一新生家長「選課與學習歷程說明會」，需要完整的演講大綱與講稿。</div>
+          <div class="prompt-label">提示詞（對話框使用）</div>
+          <div class="prompt-wrap">
+            <div class="prompt-box">我下週要為「高一新生家長」舉辦一場 40 分鐘的「選課與學習歷程檔案說明會」。請根據我上傳的《課程計畫書》與《常見 Q&A》，幫我擬定一份吸引人的演講大綱與逐字講稿草案。
+
+要求：
+1. 結構分為：引人入勝的開場白（5 分鐘）、3 個核心重點（25 分鐘）、安撫焦慮的結語與 Q&A 預告（10 分鐘）。
+2. 在每個核心重點中，請主動融入家長最常問的 1 個問題及專業解答。
+3. 整體語氣要展現教育專業，同時必須能安撫家長面對新課綱的焦慮感，多用鼓勵性的詞彙。</div>
+            <button class="copy-btn" onclick="copyPrompt(this)"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>複製</button>
+          </div>
+          <div class="tip-box" style="margin-top:.75rem"><strong>💡 後續步驟：</strong>產出後，將大綱複製貼入 Canva 或 PowerPoint，即可快速完成簡報製作！</div>
+        </div>
+      </div>
+
+      <!-- 原版：Podcast 自訂提示詞 -->
+      <div class="card">
+        <div class="card-color-bar c-orange"></div>
+        <div class="card-head">
+          <div class="emoji">🎵</div>
+          <div>
+            <div class="card-title">AI Podcast：高二自然組學習歷程秘笈</div>
+            <div class="card-tag original">講義原版（音訊總覽）</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="scenario-label">情境</div>
+          <div class="scenario-text">將艱澀的學習歷程規定，轉化為學生愛聽的 Podcast 節目。</div>
+          <div class="prompt-label">提示詞（音訊總覽自訂框使用）</div>
+          <div class="prompt-wrap">
+            <div class="prompt-box">請將這集節目的重點聚焦在「高二自然組學生如何製作吸引大學教授的學習歷程檔案」。請舉出一個因為高一選錯課而面臨困難，後來透過自主學習計畫成功解決的虛擬學生案例（化名小華）。請兩位主持人用輕鬆、幽默、互相吐槽的語氣來對談，並在結尾鼓勵學生多去找課諮師聊聊。</div>
+            <button class="copy-btn" onclick="copyPrompt(this)"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>複製</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 延伸：Podcast 繁星篇 -->
+      <div class="card">
+        <div class="card-color-bar c-green"></div>
+        <div class="card-head">
+          <div class="emoji">⭐</div>
+          <div>
+            <div class="card-title">AI Podcast：繁星推薦完全解析</div>
+            <div class="card-tag">延伸練習（音訊總覽）</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="scenario-label">情境</div>
+          <div class="scenario-text">讓學生在通勤時用「聽的」了解繁星推薦制度。</div>
+          <div class="prompt-label">提示詞（音訊總覽自訂框使用）</div>
+          <div class="prompt-wrap">
+            <div class="prompt-box">請聚焦在「高一新生必須知道的繁星推薦遊戲規則」。用 Q&A 對談的方式，讓主持人 A 扮演完全不懂的高一生、主持人 B 扮演資深課諮師，一問一答解釋：%數計算方式、最適合衝繁星的班群選擇策略、從高一開始該怎麼經營成績。節目結尾請加入一段「給容易焦慮的高一生的話」，語氣溫暖鼓勵。</div>
+            <button class="copy-btn" onclick="copyPrompt(this)"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>複製</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 延伸：輔導講座班會版 -->
+      <div class="card">
+        <div class="card-color-bar c-blue"></div>
+        <div class="card-head">
+          <div class="emoji">🏫</div>
+          <div>
+            <div class="card-title">班會課輔導講座（30分鐘）互動設計</div>
+            <div class="card-tag">延伸練習</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="scenario-label">情境</div>
+          <div class="scenario-text">需要入班進行 30 分鐘的課程諮詢宣導，想要有趣不枯燥。</div>
+          <div class="prompt-label">提示詞（對話框使用）</div>
+          <div class="prompt-wrap">
+            <div class="prompt-box">我要對高一班級進行 30 分鐘的「班會課選課輔導」。請根據《選課輔導手冊》，設計一份適合高中生的互動式講座流程，包含：
+1. 開場破冰活動（3 分鐘）：設計一個與「生涯探索」相關的小提問或投票
+2. 核心內容（20 分鐘）：用生動的比喻說明 108 課綱的班群選擇邏輯
+3. 小組討論（5 分鐘）：設計 1 個開放性討論題目
+4. 結語與行動呼籲（2 分鐘）：鼓勵預約課諮師個別諮詢
+
+請在每個環節標注「講師話術範例」，語氣活潑、接地氣、適合 Z 世代學生。</div>
+            <button class="copy-btn" onclick="copyPrompt(this)"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>複製</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 延伸：Podcast 自主學習篇 -->
+      <div class="card">
+        <div class="card-color-bar c-purple"></div>
+        <div class="card-head">
+          <div class="emoji">📖</div>
+          <div>
+            <div class="card-title">AI Podcast：自主學習計畫怎麼做</div>
+            <div class="card-tag">延伸練習（音訊總覽）</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="scenario-label">情境</div>
+          <div class="scenario-text">學生普遍不了解自主學習計畫的意義，用 Podcast 輕鬆說清楚。</div>
+          <div class="prompt-label">提示詞（音訊總覽自訂框使用）</div>
+          <div class="prompt-wrap">
+            <div class="prompt-box">請以「高中自主學習計畫：從零到一的完全指南」為主題製作節目。以兩位主持人對談方式，依序介紹：自主學習是什麼（破除「就是自己讀書」的誤解）、大學審查時怎麼看自主學習成果、一份「讓大學教授眼睛一亮」的自主學習計畫有哪些關鍵要素、舉一個虛擬範例（化名小明，對 AI 科技有興趣）說明如何規劃。語氣輕鬆但資訊要精準，最後鼓勵聽眾去找課諮師討論自己的計畫。</div>
+            <button class="copy-btn" onclick="copyPrompt(this)"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>複製</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════
+       TAB 3：個案諮詢模擬
+  ════════════════════════════════════════ -->
+  <section id="tab-case" class="section">
+    <div class="section-title"><div class="icon">🧑‍🎓</div>個案諮詢模擬──複合型高難度案例</div>
+    <div class="case-grid">
+
+      <!-- 原版：資工生數學差 -->
+      <div class="card card-full">
+        <div class="card-color-bar c-orange"></div>
+        <div class="card-head">
+          <div class="emoji">💻</div>
+          <div>
+            <div class="card-title">夢想讀資工但數學不及格：客製化建議方案</div>
+            <div class="card-tag original">講義原版</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="scenario-label">情境</div>
+          <div class="scenario-text">高一學生熱愛程式與機器人社，但數學成績持續不及格，渴望進入頂尖大學資工或 AI 學系。</div>
+          <div class="prompt-label">提示詞</div>
+          <div class="prompt-wrap">
+            <div class="prompt-box">有一位高一學生來找我進行深度諮詢，他的背景情況非常特殊，請幫我綜合評估：
+
+- 終極目標：非常想讀「頂尖大學的資訊工程學系」或「人工智慧學系」。
+- 現實痛點：他的數學成績一直不及格，對傳統紙筆測驗感到嚴重挫折，但他參加了校內機器人社團，程式邏輯能力跟動手實作能力極強。
+
+請根據我們學校的《校內課程地圖》與《大學簡章》，提供一份具體的高二選課與學習建議方案。請告訴我：
+1. 基於他的優劣勢，他應該選擇校內哪一套班群最有利？
+2. 針對數學成績低落的弱點，在選修課或「自主學習計畫」中，有什麼替代或補救的亮點設計建議，可以向大學教授證明他的數理邏輯能力？
+3. 請提供一段「課諮師可以用來鼓勵這位受挫學生」的話術（必須具備高度同理心，強調實作能力的價值）。</div>
+            <button class="copy-btn" onclick="copyPrompt(this)"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>複製</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 延伸：興趣與性向衝突 -->
+      <div class="card">
+        <div class="card-color-bar c-blue"></div>
+        <div class="card-head">
+          <div class="emoji">🔀</div>
+          <div>
+            <div class="card-title">興趣與性向測驗結果衝突的學生</div>
+            <div class="card-tag">延伸練習</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="scenario-label">情境</div>
+          <div class="scenario-text">學生熱愛文學，但性向測驗顯示理工傾向明顯，家長堅持讀理組。</div>
+          <div class="prompt-label">提示詞</div>
+          <div class="prompt-wrap">
+            <div class="prompt-box">有一位高一女生的情況如下：
+- 個人興趣：熱愛寫作、文學，課外閱讀量極大，曾在縣市語文競賽獲獎
+- 測驗結果：學校輔導室施測後，性向測驗顯示她在「數理分析」向度得分較高
+- 家長期望：父母均為工程師，強烈希望她讀自然組，未來讀理工科
+
+請根據《校內課程地圖》與《18 學群介紹》，幫我：
+1. 找出哪些學群或科系能「同時」滿足她的文字能力與理工背景（跨領域推薦）
+2. 設計一套「生涯決策平衡單」的框架，列出應納入考量的評估面向
+3. 提供課諮師引導她與父母溝通的話術範例（溫和但有說服力）</div>
+            <button class="copy-btn" onclick="copyPrompt(this)"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>複製</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 延伸：跨領域興趣 -->
+      <div class="card">
+        <div class="card-color-bar c-green"></div>
+        <div class="card-head">
+          <div class="emoji">🎨</div>
+          <div>
+            <div class="card-title">想學藝術設計又想讀心理學的學生</div>
+            <div class="card-tag">延伸練習</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="scenario-label">情境</div>
+          <div class="scenario-text">學生有跨領域興趣，不知道要怎麼在傳統班群架構中安排。</div>
+          <div class="prompt-label">提示詞</div>
+          <div class="prompt-wrap">
+            <div class="prompt-box">有一位高一生的情況：熱愛平面設計（有自學 Illustrator）並對心理學極感興趣（讀過幾本通俗心理學書籍），但完全搞不清楚自己該選哪個班群，也不確定有沒有大學科系同時包含這兩個領域。
+
+請根據上傳的《18 學群介紹》與《校內課程地圖》：
+1. 推薦 2-3 個最相關的大學學群，並說明為什麼適合他
+2. 建議他的高中三年可以如何搭配「多元選修」與「自主學習計畫」來探索兩個領域
+3. 設計 2 個具體的自主學習主題（標題＋50 字說明），幫助他累積有說服力的學習歷程</div>
+            <button class="copy-btn" onclick="copyPrompt(this)"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>複製</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 延伸：醫學夢想者 -->
+      <div class="card">
+        <div class="card-color-bar c-purple"></div>
+        <div class="card-head">
+          <div class="emoji">🩺</div>
+          <div>
+            <div class="card-title">夢想念醫學系的高一生：三年衝刺計畫</div>
+            <div class="card-tag">延伸練習</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="scenario-label">情境</div>
+          <div class="scenario-text">學生從小立志行醫，家長帶著學生來諮詢，希望了解最佳備考路徑。</div>
+          <div class="prompt-label">提示詞</div>
+          <div class="prompt-wrap">
+            <div class="prompt-box">一位高一學生立志讀醫學系，目前自然科成績優異，數學中等，語文能力佳。請根據《大學簡章》與《校內課程地圖》，幫我規劃一份「三年衝刺醫學系」的完整建議方案：
+
+1. 【選課策略】高一至高三每學年的關鍵選課建議（尤其是自然科加深加廣課程）
+2. 【學習歷程佈局】醫學系審查重視哪些能力？如何從高一開始有意識地累積相關成果？
+3. 【多元表現建議】除了成績之外，推薦他參與哪些可以展現「對醫學的熱情與適性」的活動？
+4. 【給家長的一段話】說明為什麼在追求成績的同時，自主學習與多元探索同樣重要，語氣務必溫和有說服力。</div>
+            <button class="copy-btn" onclick="copyPrompt(this)"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>複製</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 延伸：迷惘無方向 -->
+      <div class="card">
+        <div class="card-color-bar c-ink"></div>
+        <div class="card-head">
+          <div class="emoji">🌫️</div>
+          <div>
+            <div class="card-title">對未來完全沒有方向的高二生</div>
+            <div class="card-tag">延伸練習</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="scenario-label">情境</div>
+          <div class="scenario-text">高二生被家長催著規劃但本人完全沒有方向，帶著負面情緒來諮詢。</div>
+          <div class="prompt-label">提示詞</div>
+          <div class="prompt-wrap">
+            <div class="prompt-box">有一位高二學生，他的狀況如下：
+- 對任何科目都「還好」，沒有特別喜歡或討厭的
+- 被父母逼著規劃未來，本人感到壓力很大且有些抗拒
+- 不知道自己「擅長什麼」也不知道「想要什麼」
+
+請幫我設計一份適合這位學生的諮詢引導流程：
+1. 開場的 3 個「輕鬆破冰」提問（不要讓他感覺被審問，要像朋友聊天）
+2. 推薦給他的 2 個適合「未定向者」的自主學習探索主題
+3. 課諮師可以鼓勵他的一段話（強調：不確定是正常的，重要的是開始探索而非鎖定答案）
+4. 建議他接下來可以做的 3 個「低門檻探索行動」</div>
+            <button class="copy-btn" onclick="copyPrompt(this)"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>複製</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 延伸：偏鄉資源不足 -->
+      <div class="card">
+        <div class="card-color-bar c-orange"></div>
+        <div class="card-head">
+          <div class="emoji">🏡</div>
+          <div>
+            <div class="card-title">資源相對不足的偏鄉學生</div>
+            <div class="card-tag">延伸練習</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="scenario-label">情境</div>
+          <div class="scenario-text">學生成績中等、家庭無法提供額外資源，卻有強烈進入好大學的意志。</div>
+          <div class="prompt-label">提示詞</div>
+          <div class="prompt-wrap">
+            <div class="prompt-box">一位高三學生，家庭經濟條件有限（無法補習），成績中等偏上，但個人自律能力強、有明確想讀企業管理學系的志向。請根據《大學申請入學簡章》與《校內課程地圖》：
+
+1. 推薦他在個人申請備審資料中，如何用「低成本但高含金量」的自主學習成果，彌補競賽資歷不足的劣勢
+2. 說明哪些免費的資源（如：國立大學公開課、政府平台、台灣就業通等）可以幫助他補強
+3. 幫我擬定一段鼓勵他的話：不讓資源不足成為上限，強調他的自律與韌性才是最有說服力的學習歷程。</div>
+            <button class="copy-btn" onclick="copyPrompt(this)"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>複製</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════
+       TAB 4：學習歷程檔案
+  ════════════════════════════════════════ -->
+  <section id="tab-portfolio" class="section">
+    <div class="section-title"><div class="icon">📁</div>學習歷程檔案指導──策展思維實戰</div>
+    <div class="case-grid">
+
+      <!-- 延伸 1 -->
+      <div class="card">
+        <div class="card-color-bar c-blue"></div>
+        <div class="card-head">
+          <div class="emoji">🖼️</div>
+          <div>
+            <div class="card-title">學習歷程「策展」：3 件課程成果怎麼挑</div>
+            <div class="card-tag">延伸練習</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="scenario-label">情境</div>
+          <div class="scenario-text">高三生有 10 件作品想上傳，但只能選 3 件，不知道如何取捨。</div>
+          <div class="prompt-label">提示詞</div>
+          <div class="prompt-wrap">
+            <div class="prompt-box">有一位高三學生想申請「社會學系」，他有以下課程學習成果可以選擇上傳（最多 3 件）：
+A. 公民課社會議題報告（關於都市更新與居住正義）
+B. 國文課讀書心得（社會學經典書籍）
+C. 歷史課小組專題（清末改革運動）
+D. 地理課實地調查報告（台北市老街生態）
+E. 英文課議題辯論整理（貧富差距問題）
+
+請根據「大學審查視角」，幫我：
+1. 分析每件成果對應「社會學系」招生重視的核心能力的程度（以 ★ 評分）
+2. 推薦最佳的 3 件組合，說明推薦理由
+3. 提供一個「反思說明」的撰寫框架（學生填寫用），引導學生寫出有深度的成果自述</div>
+            <button class="copy-btn" onclick="copyPrompt(this)"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>複製</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 延伸 2 -->
+      <div class="card">
+        <div class="card-color-bar c-green"></div>
+        <div class="card-head">
+          <div class="emoji">✍️</div>
+          <div>
+            <div class="card-title">自主學習成果：反思說明怎麼寫才有力</div>
+            <div class="card-tag">延伸練習</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="scenario-label">情境</div>
+          <div class="scenario-text">學生自主學習做完了，卻寫出一篇流水帳說明，不知如何深化。</div>
+          <div class="prompt-label">提示詞</div>
+          <div class="prompt-wrap">
+            <div class="prompt-box">我的一位學生剛完成一份「Python 程式設計自主學習計畫」，他學習了 3 個月，完成了一個簡單的成績統計小程式。但他寫出的學習成果說明只有：「我學了 Python，做了一個程式，感覺很有趣。」
+
+請根據「大學審查的形成性評量視角」，幫我：
+1. 提供一個深化反思的「提問框架」（5 個關鍵問題），引導他重新回想學習歷程
+2. 根據這個框架，示範一段「有深度、有溫度、展現成長軌跡」的學習成果說明範文（約 250 字）
+3. 告訴我大學資工系審查委員看到這份資料，最希望看到哪些「能力指標」被展現出來</div>
+            <button class="copy-btn" onclick="copyPrompt(this)"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>複製</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 延伸 3 -->
+      <div class="card">
+        <div class="card-color-bar c-purple"></div>
+        <div class="card-head">
+          <div class="emoji">📌</div>
+          <div>
+            <div class="card-title">多元表現 10 件：如何有策略地挑選</div>
+            <div class="card-tag">延伸練習</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="scenario-label">情境</div>
+          <div class="scenario-text">高三生覺得自己「什麼都有做但什麼都不突出」，不知道怎麼選多元表現。</div>
+          <div class="prompt-label">提示詞</div>
+          <div class="prompt-wrap">
+            <div class="prompt-box">請根據《大學招生審查評量尺規》，幫我設計一個「多元表現 10 件篩選工具」，協助課諮師輔導學生從一堆材料中做出最佳選擇。
+
+此工具應包含：
+1. 一個「能力標籤」分類表（列出 8-10 個常見能力，如：領導力、研究力、溝通力…）
+2. 一個「評估矩陣」說明：學生如何用「能力展現程度」×「與目標科系的相關性」來評分每件成果
+3. 課諮師在使用此工具時的引導話術（3-5 句）
+4. 常見的「多元表現選擇誤區」（3 個）及破解方式</div>
+            <button class="copy-btn" onclick="copyPrompt(this)"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>複製</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 延伸 4 -->
+      <div class="card">
+        <div class="card-color-bar c-orange"></div>
+        <div class="card-head">
+          <div class="emoji">🔎</div>
+          <div>
+            <div class="card-title">利用 Collego 研究目標校系參採重點</div>
+            <div class="card-tag">延伸練習</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="scenario-label">情境</div>
+          <div class="scenario-text">學生想申請特定大學科系，需要了解他們看重什麼學習成果。</div>
+          <div class="prompt-label">提示詞</div>
+          <div class="prompt-wrap">
+            <div class="prompt-box">有一位高三學生希望申請「台灣大學外國語文學系」。假設我已上傳台大外文系的「書面審查說明」資料。請幫我：
+
+1. 整理出台大外文系書面審查最重視的 3-5 項核心能力或評量重點
+2. 對應這些重點，建議學生「應優先放入」哪些類型的課程學習成果與多元表現
+3. 設計 2 個「有創意又符合審查期待」的自主學習主題方向，讓學生在語言之外展現跨域潛力
+4. 提醒學生準備此科系申請時最常犯的 3 個錯誤</div>
+            <button class="copy-btn" onclick="copyPrompt(this)"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>複製</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════
+       TAB 5：家長說明會
+  ════════════════════════════════════════ -->
+  <section id="tab-parent" class="section">
+    <div class="section-title"><div class="icon">👨‍👩‍👧</div>家長說明會──有溫度的溝通</div>
+    <div class="case-grid">
+
+      <!-- 延伸 1 -->
+      <div class="card">
+        <div class="card-color-bar c-blue"></div>
+        <div class="card-head">
+          <div class="emoji">😰</div>
+          <div>
+            <div class="card-title">給焦慮型家長：108 課綱怎麼看待孩子未來</div>
+            <div class="card-tag">延伸練習</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="scenario-label">情境</div>
+          <div class="scenario-text">家長對新課綱充滿焦慮，擔心孩子「太多選擇反而選錯」。</div>
+          <div class="prompt-label">提示詞</div>
+          <div class="prompt-wrap">
+            <div class="prompt-box">我需要向一群「對 108 課綱感到高度焦慮」的高一家長，說明新課綱的選課邏輯。請根據《課程計畫書》，幫我撰寫一份「安撫型說明稿」，主要目標是：
+
+1. 用「舊課綱 vs 新課綱」的對比，說明新課綱的設計邏輯（不是讓學生迷失，而是給他們更好的發展機會）
+2. 提供 3 個「常見的家長擔憂」及課諮師的專業回應（Q&A 格式）
+3. 告訴家長他們可以「支持孩子而不是替孩子選擇」的 3 個具體做法
+4. 結語：一段溫暖但有力的話，幫助家長放鬆心情，信任孩子的選擇歷程
+
+語氣要如同有豐富經驗的教育工作者，充滿同理心。</div>
+            <button class="copy-btn" onclick="copyPrompt(this)"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>複製</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 延伸 2 -->
+      <div class="card">
+        <div class="card-color-bar c-green"></div>
+        <div class="card-head">
+          <div class="emoji">📊</div>
+          <div>
+            <div class="card-title">高二升高三家長日：學習歷程說明重點</div>
+            <div class="card-tag">延伸練習</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="scenario-label">情境</div>
+          <div class="scenario-text">高二家長日需要說明學習歷程檔案的進度與重要性。</div>
+          <div class="prompt-label">提示詞</div>
+          <div class="prompt-wrap">
+            <div class="prompt-box">我需要在高二家長日（20 分鐘）向家長說明「學習歷程檔案」的現況與重要性。請根據《學習歷程檔案規範》，幫我設計一份簡潔有力的說明稿：
+
+1. 開場（3 分鐘）：用 1 個具體的真實案例或統計數字，說明學習歷程在個人申請的重要性
+2. 核心說明（12 分鐘）：大學審查看什麼？高二現在最該做的 3 件事？家長可以如何協助但不干涉？
+3. 常見 Q&A（5 分鐘）：準備 3 個高二家長最常問的問題與標準解答
+
+請在每個部分附上「簡報頁面建議」（說明這頁可以放什麼視覺內容），方便我後續製作 PPT。</div>
+            <button class="copy-btn" onclick="copyPrompt(this)"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>複製</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 延伸 3 -->
+      <div class="card">
+        <div class="card-color-bar c-purple"></div>
+        <div class="card-head">
+          <div class="emoji">📬</div>
+          <div>
+            <div class="card-title">致家長的一封信：選課季前的溫馨提醒</div>
+            <div class="card-tag">延伸練習</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="scenario-label">情境</div>
+          <div class="scenario-text">每年選課前，想發一封有溫度的家長信，減少家長焦慮並增加親師溝通。</div>
+          <div class="prompt-label">提示詞</div>
+          <div class="prompt-wrap">
+            <div class="prompt-box">請根據《選課輔導手冊》，幫我撰寫一封「高二選課季前」發給家長的信件（約 400 字），包含：
+
+1. 表達學校對每位學生適性發展的重視（溫暖開場）
+2. 用白話文說明這次選課的關鍵決定點與注意事項
+3. 提醒家長：課諮師已開放個別諮詢預約，歡迎親師攜手討論
+4. 鼓勵家長讓孩子「參與並主導」選課決定，而非替孩子做決定
+5. 附上課諮師聯絡資訊的欄位說明
+
+語氣要溫暖、專業，讓家長感受到學校的用心。</div>
+            <button class="copy-btn" onclick="copyPrompt(this)"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>複製</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════
+       TAB 6：校務行政應用
+  ════════════════════════════════════════ -->
+  <section id="tab-admin" class="section">
+    <div class="section-title"><div class="icon">🏫</div>校務行政應用──打造校本知識傳承系統</div>
+    <div class="case-grid">
+
+      <!-- 延伸 1 -->
+      <div class="card">
+        <div class="card-color-bar c-blue"></div>
+        <div class="card-head">
+          <div class="emoji">🗂️</div>
+          <div>
+            <div class="card-title">建立「選課常見 Q&A」標準題庫</div>
+            <div class="card-tag">延伸練習</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="scenario-label">情境</div>
+          <div class="scenario-text">想建立一個可以分享給全校導師和家長的 Q&A 自助查詢資料庫。</div>
+          <div class="prompt-label">提示詞</div>
+          <div class="prompt-wrap">
+            <div class="prompt-box">請根據上傳的《選課輔導手冊》、《課程計畫書》與《歷屆 Q&A 紀錄》，幫我整理出「選課常見問題標準 Q&A 題庫」50 題，分類為：
+
+A. 選課制度類（15 題）：班群、必選修、學分相關
+B. 升學制度類（15 題）：繁星、申請、分科測驗
+C. 學習歷程類（10 題）：上傳、審查、自主學習
+D. 特殊情況類（10 題）：轉班群、補修、重修
+
+每題格式為：問題（學生視角的口語化提問）+ 標準解答（100 字以內，清楚但友善）
+
+請在每個解答後標注資料來源頁碼。</div>
+            <button class="copy-btn" onclick="copyPrompt(this)"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>複製</button>
+          </div>
+          <div class="tip-box"><strong>💡 後續應用：</strong>匯出為 Google 文件發佈在校網，打造 24 小時學生自助查詢站！</div>
+        </div>
+      </div>
+
+      <!-- 延伸 2 -->
+      <div class="card">
+        <div class="card-color-bar c-green"></div>
+        <div class="card-head">
+          <div class="emoji">📅</div>
+          <div>
+            <div class="card-title">課諮師全學年工作計畫自動生成</div>
+            <div class="card-tag">延伸練習</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="scenario-label">情境</div>
+          <div class="scenario-text">新學年開始，召集人需要規劃全年課諮師工作行事曆。</div>
+          <div class="prompt-label">提示詞</div>
+          <div class="prompt-wrap">
+            <div class="prompt-box">請根據上傳的《課諮師實務工作手冊》與《本校課程計畫書》，幫我生成一份「115 學年度課諮師全年工作計畫」，格式為月份行事曆，包含：
+
+每月工作重點（以高一/高二/高三三個年級分別標注）、預計辦理的團體諮詢場次與主題、個別諮詢的建議主動邀約對象、需要與教務處/輔導室協作的事項
+
+請以表格形式呈現（月份 × 工作類型），並在各個關鍵節點（如選課截止、學習歷程上傳截止）以「⚠️ 關鍵期限」標示。</div>
+            <button class="copy-btn" onclick="copyPrompt(this)"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>複製</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 延伸 3 -->
+      <div class="card">
+        <div class="card-color-bar c-orange"></div>
+        <div class="card-head">
+          <div class="emoji">🆕</div>
+          <div>
+            <div class="card-title">新進課諮師快速上手說明手冊</div>
+            <div class="card-tag">延伸練習</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="scenario-label">情境</div>
+          <div class="scenario-text">學校新遴選了幾位課諮師，需要快速讓他們了解工作內容與校本規定。</div>
+          <div class="prompt-label">提示詞</div>
+          <div class="prompt-wrap">
+            <div class="prompt-box">請根據《課諮師實務工作手冊》與《本校課程計畫書》，幫我整理一份「新進課諮師快速上手手冊」，目標讀者是剛被遴選為課諮師但尚未接受完整培訓的老師。
+
+手冊應包含：
+1. 課諮師的 5 大核心任務（一句話說清楚每個任務）
+2. 與輔導老師、導師的職責分工（一張對照表）
+3. 本校課程地圖重點摘要（各班群的主要路線）
+4. 最常被問的 10 個問題與標準答案
+5. 緊急狀況（如：學生出現情緒危機）的轉介流程
+
+格式要簡潔，適合列印成 A4 一張的速查卡。</div>
+            <button class="copy-btn" onclick="copyPrompt(this)"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>複製</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 延伸 4：PLC 社群 -->
+      <div class="card">
+        <div class="card-color-bar c-purple"></div>
+        <div class="card-head">
+          <div class="emoji">🤝</div>
+          <div>
+            <div class="card-title">課諮師 PLC 社群會議討論題目設計</div>
+            <div class="card-tag">延伸練習</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="scenario-label">情境</div>
+          <div class="scenario-text">定期的課諮師專業社群（PLC）會議需要高品質的討論議題。</div>
+          <div class="prompt-label">提示詞</div>
+          <div class="prompt-wrap">
+            <div class="prompt-box">請根據《課諮師實務工作手冊》與本學期學生諮詢的常見問題，幫我設計一份「課諮師 PLC 專業社群會議討論題綱」，供 6-8 位課諮師參與的 90 分鐘會議使用。
+
+包含：
+1. 暖場活動（10 分鐘）：1 個「成功案例分享」提問，讓每位老師分享本月最有成就感的諮詢經驗
+2. 案例研討（40 分鐘）：設計 2 個需要集體討論的「兩難情境題」（如：學生與家長意見相左時，課諮師的立場？）
+3. 知識共建（30 分鐘）：針對近期最常被問的問題，統一諮詢口徑
+4. 行動規劃（10 分鐘）：每位老師寫下下次會議前要完成的 1 件事
+
+請在每個環節提供引導提問與討論技巧建議。</div>
+            <button class="copy-btn" onclick="copyPrompt(this)"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>複製</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════
+       TAB 7：操作心法
+  ════════════════════════════════════════ -->
+  <section id="tab-tips" class="section">
+    <div class="section-title"><div class="icon">✨</div>操作心法──讓 AI 發揮最大效用</div>
+
+    <div class="tips-grid">
+      <div class="tip-card">
+        <div class="tip-icon">🎭</div>
+        <h4>賦予 AI 角色</h4>
+        <p>在提示詞開頭加上「你現在是一位專業的高中課諮師」，AI 的回答會更精準到位，不會給出過於學術或模糊的答案。</p>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">📌</div>
+        <h4>指定來源文件</h4>
+        <p>若上傳多份文件，用「根據《選課輔導手冊》」明確指定，可避免 AI 混用不同文件的資訊，提升精準度。</p>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">🔢</div>
+        <h4>要求條列與頁碼</h4>
+        <p>加入「請條列式呈現」與「務必附上資料來源頁碼」，產出的結果更結構化，且可向家長學生出示依據。</p>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">🎯</div>
+        <h4>設定輸出格式</h4>
+        <p>在提示詞末尾加「請以表格格式輸出」或「請控制在 200 字以內」，讓 AI 的輸出直接可用，不需要大量剪輯。</p>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">🔄</div>
+        <h4>追問與迭代</h4>
+        <p>不滿意第一個答案時，可直接追問「請將第 2 點展開，加入更多具體建議」，NotebookLM 支援多輪對話。</p>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">🛡️</div>
+        <h4>資安紅線</h4>
+        <p>絕對不上傳含有學生真實姓名、成績單、輔導晤談紀錄等個資。若需用到案例，請先「去識別化」再上傳。</p>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">📦</div>
+        <h4>智庫容量超大</h4>
+        <p>每個筆記本最多可上傳 50 份文件，每份上限 50 萬字。可以把全校三年課綱、幾十本簡章全部放進去！</p>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">🤖</div>
+        <h4>AI 的本質限制</h4>
+        <p>NotebookLM 只回答您上傳的資料內容，不會亂查網路。這是它最大的優點，也意味著文件品質決定答案品質。</p>
+      </div>
+    </div>
+
+    <div class="section-title" style="margin-top:1rem"><div class="icon">🆚</div>三大 AI 工具比較</div>
+    <div style="overflow-x:auto;margin-bottom:1.5rem;">
+      <table style="width:100%;border-collapse:collapse;font-size:.85rem;background:#fff;border-radius:10px;overflow:hidden;border:1.5px solid var(--line);">
+        <thead>
+          <tr style="background:var(--ink);color:var(--paper);">
+            <th style="padding:.75rem 1rem;text-align:left;">功能</th>
+            <th style="padding:.75rem 1rem;text-align:center;">NotebookLM</th>
+            <th style="padding:.75rem 1rem;text-align:center;">ChatGPT / Gemini</th>
+            <th style="padding:.75rem 1rem;text-align:center;">適用情境</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid var(--line);">
+            <td style="padding:.7rem 1rem;font-weight:600;">資訊來源</td>
+            <td style="padding:.7rem 1rem;text-align:center;color:var(--accent-green);">✅ 只用你上傳的資料</td>
+            <td style="padding:.7rem 1rem;text-align:center;color:#e85d26;">⚠️ 混用網路資訊</td>
+            <td style="padding:.7rem 1rem;color:#555;">需要準確引用校本規定</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--line);background:#faf8f4;">
+            <td style="padding:.7rem 1rem;font-weight:600;">幻覺風險</td>
+            <td style="padding:.7rem 1rem;text-align:center;color:var(--accent-green);">✅ 極低（有來源標籤）</td>
+            <td style="padding:.7rem 1rem;text-align:center;color:#e85d26;">⚠️ 中高（可能捏造）</td>
+            <td style="padding:.7rem 1rem;color:#555;">向家長/學生出示依據時</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--line);">
+            <td style="padding:.7rem 1rem;font-weight:600;">創意生成</td>
+            <td style="padding:.7rem 1rem;text-align:center;color:#999;">△ 根據文件生成</td>
+            <td style="padding:.7rem 1rem;text-align:center;color:var(--accent-green);">✅ 自由創作能力強</td>
+            <td style="padding:.7rem 1rem;color:#555;">寫創意文案、行銷語言</td>
+          </tr>
+          <tr style="background:#faf8f4;">
+            <td style="padding:.7rem 1rem;font-weight:600;">Podcast 功能</td>
+            <td style="padding:.7rem 1rem;text-align:center;color:var(--accent-green);">✅ 內建（免費）</td>
+            <td style="padding:.7rem 1rem;text-align:center;color:#999;">❌ 不支援</td>
+            <td style="padding:.7rem 1rem;color:#555;">製作學生輔導音檔</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 課後行動方案 -->
+    <div class="section-title"><div class="icon">🚀</div>課後行動方案</div>
+    <div class="case-grid">
+      <div class="card">
+        <div class="card-color-bar c-orange"></div>
+        <div class="card-head"><div class="emoji">🗓️</div><div><div class="card-title">行動一：一週內建立學校專屬智庫</div></div></div>
+        <div class="card-body">
+          <div class="scenario-text">收集貴校的「課程計畫書」與「選課輔導手冊」，按照今日操作步驟，建立屬於您學校的「課程諮詢 AI 智庫」。</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-color-bar c-blue"></div>
+        <div class="card-head"><div class="emoji">🔬</div><div><div class="card-title">行動二：真實提問實測</div></div></div>
+        <div class="card-body">
+          <div class="scenario-text">回想本週遇到的一個最棘手的學生諮詢問題，嘗試將這個問題丟給專屬 NotebookLM 智庫，檢驗它給出的建議是否具備實務參考價值。</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-color-bar c-green"></div>
+        <div class="card-head"><div class="emoji">📢</div><div><div class="card-title">行動三：跨校分享</div></div></div>
+        <div class="card-body">
+          <div class="scenario-text">將您成功產生的 AI Podcast 音檔，或是 AI 幫您草擬的完美講座大綱，分享到全國課諮師的社群中，讓善的循環持續擴大！</div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+</main>
+
+<footer>
+  <p>AI 助攻！運用 NotebookLM 打造高效能校級課程諮詢系統</p>
+  <p style="margin-top:.4rem">臺北市立麗山高中 課程諮詢教師召集人 <strong>林獻升老師</strong> · frog@lssh.tp.edu.tw</p>
+  <p style="margin-top:.4rem;font-size:.72rem">💡 AI 是最強大的輔助，您的「同理心」才是輔導的核心。</p>
+</footer>
+
+<script>
+function showTab(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+function copyPrompt(btn) {
+  const box = btn.previousElementSibling;
+  const text = box.innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.classList.add('copied');
+    btn.innerHTML = `<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>已複製！`;
+    setTimeout(() => {
+      btn.classList.remove('copied');
+      btn.innerHTML = `<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>複製`;
+    }, 2000);
+  });
+}
+</script>
+</body>
+</html>

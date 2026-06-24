@@ -1,0 +1,801 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>課諮師 AI 增能研習資源入口</title>
+  <style>
+    :root {
+      --ink: #17212b;
+      --muted: #657282;
+      --line: #dbe3ea;
+      --paper: #f7fafc;
+      --panel: #ffffff;
+      --teal: #0f766e;
+      --teal-dark: #0b4f4a;
+      --amber: #b45309;
+      --blue: #2563eb;
+      --rose: #be123c;
+      --green: #15803d;
+      --shadow: 0 18px 55px rgba(23, 33, 43, .11);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(900px 460px at 8% -6%, rgba(15, 118, 110, .12), transparent 60%),
+        radial-gradient(820px 460px at 100% -10%, rgba(37, 99, 235, .10), transparent 60%),
+        var(--paper);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+      line-height: 1.55;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button, input { font: inherit; }
+
+    .shell {
+      display: grid;
+      grid-template-columns: 260px minmax(0, 1fr);
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      padding: 22px 18px;
+      border-right: 1px solid var(--line);
+      background: rgba(255, 255, 255, .88);
+      backdrop-filter: blur(14px);
+      overflow: auto;
+    }
+
+    .brand {
+      display: grid;
+      grid-template-columns: 42px 1fr;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .mark {
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      color: #fff;
+      background: linear-gradient(135deg, var(--teal), #1d4ed8);
+      font-weight: 800;
+      box-shadow: 0 8px 18px rgba(15, 118, 110, .28);
+    }
+
+    .brand strong { display: block; font-size: 15px; }
+    .brand span { display: block; color: var(--muted); font-size: 12px; }
+
+    .nav {
+      display: grid;
+      gap: 6px;
+      margin: 18px 0;
+    }
+
+    .nav a {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      min-height: 38px;
+      padding: 8px 10px;
+      border-radius: 9px;
+      color: #2e3b47;
+      font-size: 14px;
+      transition: background .12s, color .12s;
+    }
+
+    .nav a:hover { background: #edf7f6; color: var(--teal-dark); }
+    .nav a.featured { background: #eef4ff; color: var(--blue); font-weight: 700; }
+    .nav a.featured:hover { background: #e3edff; }
+
+    .nav .dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 99px;
+      background: var(--teal);
+    }
+    .nav a.featured .dot { background: var(--blue); }
+
+    .side-note {
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #fff;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    main { min-width: 0; }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(320px, .9fr);
+      gap: 28px;
+      align-items: stretch;
+      padding: 34px 36px 18px;
+    }
+
+    .hero-copy {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 360px;
+    }
+
+    .eyebrow {
+      color: var(--teal-dark);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0;
+    }
+
+    h1 {
+      max-width: 840px;
+      margin: 8px 0 14px;
+      font-size: clamp(34px, 5vw, 64px);
+      line-height: 1.05;
+      letter-spacing: 0;
+    }
+
+    .lead {
+      max-width: 760px;
+      color: #455463;
+      font-size: 18px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 22px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 42px;
+      padding: 10px 14px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #fff;
+      color: var(--ink);
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform .12s, box-shadow .12s, background .12s;
+    }
+
+    .btn.primary {
+      border-color: var(--teal);
+      background: var(--teal);
+      color: #fff;
+    }
+
+    .btn:hover { transform: translateY(-1px); box-shadow: 0 10px 25px rgba(23, 33, 43, .10); }
+
+    .visual {
+      position: relative;
+      margin: 0;
+      min-height: 360px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #dce9ec;
+      box-shadow: var(--shadow);
+    }
+
+    .visual img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: saturate(.98) contrast(1.02);
+    }
+
+    .visual-caption {
+      position: absolute;
+      left: 14px;
+      right: 14px;
+      bottom: 14px;
+      padding: 12px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, .92);
+      border: 1px solid rgba(255, 255, 255, .85);
+    }
+
+    .visual-caption strong { display: block; font-size: 15px; }
+    .visual-caption span { color: var(--muted); font-size: 13px; }
+
+    .section {
+      padding: 26px 36px;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 14px;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 25px;
+      letter-spacing: 0;
+    }
+
+    .section-head p {
+      max-width: 720px;
+      margin: 6px 0 0;
+      color: var(--muted);
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      padding: 0 36px 18px;
+    }
+
+    .stat {
+      min-height: 96px;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--panel);
+      box-shadow: 0 6px 18px rgba(23, 33, 43, .04);
+    }
+
+    .stat b {
+      display: block;
+      font-size: 30px;
+      line-height: 1;
+      color: var(--teal-dark);
+    }
+
+    .stat span {
+      display: block;
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .control-bar {
+      display: grid;
+      grid-template-columns: minmax(260px, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .search {
+      width: 100%;
+      min-height: 44px;
+      padding: 10px 13px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #fff;
+      color: var(--ink);
+    }
+    .search:focus { outline: none; border-color: var(--teal); box-shadow: 0 0 0 3px rgba(15,118,110,.12); }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .chip {
+      min-height: 34px;
+      padding: 7px 11px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #fff;
+      color: #344251;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 700;
+      transition: all .12s;
+    }
+
+    .chip.active {
+      border-color: var(--teal);
+      background: #e8f6f4;
+      color: var(--teal-dark);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .card {
+      display: flex;
+      flex-direction: column;
+      min-height: 190px;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--panel);
+      box-shadow: 0 10px 26px rgba(23, 33, 43, .05);
+      transition: transform .12s, border-color .12s, box-shadow .12s;
+    }
+
+    .card:hover { transform: translateY(-2px); border-color: #a8c9c5; box-shadow: 0 16px 34px rgba(23, 33, 43, .10); }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: #edf2f7;
+      color: #3d4b59;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .tag.ai { background: #e9f7f5; color: var(--teal-dark); }
+    .tag.admission { background: #eef4ff; color: #1d4ed8; }
+    .tag.portfolio { background: #fff4e6; color: var(--amber); }
+    .tag.system { background: #f5eefc; color: #6d28d9; }
+    .tag.file { background: #fcecef; color: var(--rose); }
+    .tag.tool { background: #ebf8ef; color: var(--green); }
+
+    .card h3 {
+      margin: 0 0 8px;
+      font-size: 18px;
+      line-height: 1.25;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .card .links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: auto;
+      padding-top: 14px;
+    }
+
+    .small-link {
+      display: inline-flex;
+      align-items: center;
+      min-height: 32px;
+      padding: 6px 9px;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      background: #fff;
+      color: #273746;
+      font-size: 13px;
+      font-weight: 700;
+      transition: all .12s;
+    }
+
+    .small-link:hover { border-color: var(--teal); color: var(--teal-dark); }
+
+    .pathway {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 12px;
+      counter-reset: step;
+    }
+
+    .step {
+      position: relative;
+      min-height: 190px;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #fff;
+      transition: transform .12s, box-shadow .12s;
+    }
+    .step:hover { transform: translateY(-2px); box-shadow: 0 14px 30px rgba(23,33,43,.08); }
+
+    .step::before {
+      counter-increment: step;
+      content: counter(step);
+      display: grid;
+      place-items: center;
+      width: 32px;
+      height: 32px;
+      margin-bottom: 12px;
+      border-radius: 9px;
+      background: var(--teal);
+      color: #fff;
+      font-weight: 800;
+    }
+
+    .step h3 { margin: 0 0 8px; font-size: 16px; }
+    .step p { margin: 0; color: var(--muted); font-size: 13px; }
+
+    /* ---- 教材檔案庫入口卡 ---- */
+    .files-cta {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 20px;
+      padding: 26px 28px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background:
+        radial-gradient(520px 220px at 100% 0%, rgba(37, 99, 235, .10), transparent 60%),
+        linear-gradient(135deg, #ffffff, #f3f8f7);
+      box-shadow: var(--shadow);
+    }
+    .files-cta .cta-text h3 { margin: 0 0 6px; font-size: 21px; }
+    .files-cta .cta-text p { margin: 0 0 14px; color: var(--muted); max-width: 560px; }
+    .files-cta .cta-mini {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+    .files-cta .cta-mini .tag { background: #fff; border: 1px solid var(--line); }
+    .files-cta .cta-actions { display: grid; gap: 10px; justify-items: stretch; }
+    .files-cta .big-num {
+      text-align: center;
+      padding: 14px 22px;
+      border-radius: 12px;
+      background: var(--teal);
+      color: #fff;
+      box-shadow: 0 12px 26px rgba(15,118,110,.3);
+    }
+    .files-cta .big-num b { display: block; font-size: 38px; line-height: 1; }
+    .files-cta .big-num span { font-size: 12px; opacity: .9; }
+
+    .split {
+      display: grid;
+      grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr);
+      gap: 14px;
+      align-items: start;
+    }
+
+    .panel {
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #fff;
+    }
+
+    .panel h3 { margin: 0 0 10px; }
+
+    .matrix {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #fff;
+    }
+
+    .matrix th, .matrix td {
+      padding: 11px 12px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+      font-size: 14px;
+    }
+
+    .matrix th { background: #eef7f6; color: var(--teal-dark); }
+    .matrix tr:last-child td { border-bottom: 0; }
+
+    footer {
+      padding: 26px 36px 40px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @media (max-width: 1100px) {
+      .shell { grid-template-columns: 1fr; }
+      .sidebar {
+        position: static;
+        height: auto;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+      .nav { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .hero { grid-template-columns: 1fr; }
+      .stats, .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .pathway { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .split { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 720px) {
+      .sidebar, .hero, .section, footer { padding-left: 18px; padding-right: 18px; }
+      .stats { grid-template-columns: 1fr; padding-left: 18px; padding-right: 18px; }
+      .grid, .pathway { grid-template-columns: 1fr; }
+      .control-bar { grid-template-columns: 1fr; }
+      .nav { grid-template-columns: 1fr 1fr; }
+      .side-note { display: none; }
+      .hero { gap: 18px; padding-top: 22px; }
+      .hero-copy { min-height: auto; }
+      .visual { min-height: 250px; }
+      .files-cta { grid-template-columns: 1fr; }
+      h1 { font-size: 36px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="mark">課</div>
+        <div>
+          <strong>課諮師 AI 增能研習</strong>
+          <span>課程諮詢 x 學習歷程 x 升學輔導</span>
+        </div>
+      </div>
+      <nav class="nav" aria-label="主要導覽">
+        <a href="#pathway"><span class="dot"></span>研習路線</a>
+        <a href="#toolkit"><span class="dot"></span>AI 工具箱</a>
+        <a href="#courses"><span class="dot"></span>課程模組</a>
+        <a class="featured" href="課諮師AI增能研習資源入口_教材檔案庫.html"><span class="dot"></span>教材檔案庫 ↗</a>
+        <a href="#websites"><span class="dot"></span>網站資源</a>
+        <a href="#matrix"><span class="dot"></span>工作對照</a>
+      </nav>
+      <div class="side-note">
+        本頁整合 Padlet「課諮師增能研習」與 Google 雲端資料夾「0-課諮師AI研習」教材。可作為研習首頁、講師投影入口與教師課後自學資源頁。
+      </div>
+    </aside>
+
+    <main>
+      <section class="hero">
+        <div class="hero-copy">
+          <div class="eyebrow">全台高中課程諮詢教師研習入口</div>
+          <h1>把課諮工作、升學輔導與 AI 工具放在同一個教學現場</h1>
+          <p class="lead">從課諮制度與任務開始，串接學習歷程、選課選組、申請入學、落點分析、備審面試與 AI 輔助程式。老師可以依照研習進度瀏覽，也可以直接搜尋需要的檔案、工具或網站。</p>
+          <div class="hero-actions">
+            <a class="btn primary" href="#toolkit">打開 AI 工具箱</a>
+            <a class="btn" href="課諮師AI增能研習資源入口_教材檔案庫.html">教材檔案庫</a>
+            <a class="btn" href="https://padlet.com/linxiansheng2_1/padlet-i35prmxgc2r54tj9" target="_blank" rel="noreferrer">Padlet 原始看板</a>
+          </div>
+        </div>
+        <figure class="visual">
+          <img src="https://drive.google.com/thumbnail?id=1c6GM2iFrY1XA6G2XRSYrD-UWmFL8IS8T&sz=w1600" alt="課程諮詢地圖">
+          <figcaption class="visual-caption">
+            <strong>核心地圖：從課程諮詢到 AI 輔助實作</strong>
+            <span>用工作流程整理所有教材與工具，讓研習現場不用在不同連結間迷路。</span>
+          </figcaption>
+        </figure>
+      </section>
+
+      <section class="stats" aria-label="資源統計">
+        <div class="stat"><b>20</b><span>Padlet 欄位，涵蓋 AI、課諮制度、學習歷程、申請入學與影片資源</span></div>
+        <div class="stat"><b>108</b><span>Padlet 卡片，含 PDF、網站、影片、互動工具與提示詞</span></div>
+        <div class="stat"><b>88</b><span>雲端教材檔案，含 PDF、DOCX、HTML 工具與圖片</span></div>
+        <div class="stat"><b>3</b><span>可直接操作的 AI 輔助網頁程式：自學、學檔、升學</span></div>
+      </section>
+
+      <section class="section" id="pathway">
+        <div class="section-head">
+          <div>
+            <h2>研習教學路線</h2>
+            <p>適合 3 小時、半日、全日或系列工作坊。每一站都對應到下面的工具與教材。</p>
+          </div>
+        </div>
+        <div class="pathway">
+          <div class="step">
+            <h3>課諮師角色與任務</h3>
+            <p>建立課諮師、輔導教師、導師的分工邊界，說明課程諮詢的年度任務與學生支持流程。</p>
+          </div>
+          <div class="step">
+            <h3>AI 平台與資料庫</h3>
+            <p>比較 ChatGPT、Claude、Gemini、NotebookLM、Felo、Perplexity，示範如何把校內文件變成可問答的 AI 資料庫。</p>
+          </div>
+          <div class="step">
+            <h3>選課選組與學群對應</h3>
+            <p>使用課程地圖、學群資料、班群手冊與 AI 輔助問答，協助高一高二學生做適性選擇。</p>
+          </div>
+          <div class="step">
+            <h3>學習歷程與自主學習</h3>
+            <p>帶老師練習課程學習成果、多元表現、自主學習計畫與反思文字的 AI 輔助整理。</p>
+          </div>
+          <div class="step">
+            <h3>申請入學與落點分析</h3>
+            <p>整合 115 申請入學、第二階段準備、備審面試、學測歷屆比較與落點工具。</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="toolkit">
+        <div class="section-head">
+          <div>
+            <h2>AI 工具箱</h2>
+            <p>研習最常用的入口集中在這裡，老師不必重新翻 Padlet 或資料夾。</p>
+          </div>
+        </div>
+        <div class="grid" id="featuredTools"></div>
+      </section>
+
+      <section class="section" id="courses">
+        <div class="section-head">
+          <div>
+            <h2>課程模組</h2>
+            <p>依照課諮師工作任務重組 Padlet 與雲端資料，不再只是檔案堆疊。</p>
+          </div>
+        </div>
+        <div class="control-bar">
+          <input id="moduleSearch" class="search" type="search" placeholder="搜尋課諮制度、學習歷程、落點分析、NotebookLM、提示詞...">
+          <div class="chips" id="moduleChips"></div>
+        </div>
+        <div class="grid" id="moduleGrid"></div>
+      </section>
+
+      <section class="section" id="files">
+        <div class="section-head">
+          <div>
+            <h2>教材檔案庫</h2>
+            <p>所有講義、簡報、PDF、DOCX 與 HTML 工具，已整理成獨立的搜尋頁面。</p>
+          </div>
+        </div>
+        <a class="files-cta" href="課諮師AI增能研習資源入口_教材檔案庫.html">
+          <div class="cta-text">
+            <h3>📂 開啟教材檔案資源庫</h3>
+            <p>支援關鍵字即時搜尋、分類與檔案類型篩選，不再需要捲過長長的清單。點擊即可在新分頁開啟雲端檔案。</p>
+            <div class="cta-mini">
+              <span class="tag">課諮制度</span>
+              <span class="tag">學習歷程</span>
+              <span class="tag">多元入學</span>
+              <span class="tag">學群選課</span>
+              <span class="tag">提示詞</span>
+              <span class="tag">各校研習教材</span>
+            </div>
+          </div>
+          <div class="cta-actions">
+            <div class="big-num"><b id="fileCount">88</b><span>個教材檔案</span></div>
+            <span class="btn primary" style="pointer-events:none;">進入檔案庫 →</span>
+          </div>
+        </a>
+      </section>
+
+      <section class="section" id="websites">
+        <div class="section-head">
+          <div>
+            <h2>網站與影片資源</h2>
+            <p>申請入學官方網站、學習歷程平台、落點分析網站、影片重點與外部 AI 作品。</p>
+          </div>
+        </div>
+        <div class="grid" id="webGrid"></div>
+      </section>
+
+      <section class="section" id="matrix">
+        <div class="section-head">
+          <div>
+            <h2>課諮工作與 AI 輔助對照</h2>
+            <p>研習時可直接用這張表說明：每一項課諮任務，可以用哪些 AI 工具或教材支援。</p>
+          </div>
+        </div>
+        <div class="split">
+          <div class="panel">
+            <h3>建議使用方式</h3>
+            <p>研習開場先用「研習教學路線」建立全局，再進入「AI 工具箱」實作。若是短講，直接使用課程模組；若是工作坊，讓老師用教材檔案庫和網站資源完成一份自己的課諮 AI 助理設定。</p>
+          </div>
+          <table class="matrix">
+            <thead>
+              <tr><th>課諮任務</th><th>AI 輔助做法</th><th>主要入口</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>課程諮詢制度說明</td><td>用 NotebookLM 匯入工作手冊，產生問答、簡報、語音與測驗。</td><td>課諮師 AI 系統、工作手冊</td></tr>
+              <tr><td>選課選組輔導</td><td>結合課程地圖、十八學群與學生興趣，生成諮詢提問與比較表。</td><td>學校課程地圖、升高二選組輔導</td></tr>
+              <tr><td>學習歷程指導</td><td>協助學生選材、改寫反思、建立能力標籤，但保留真實經驗與個人聲音。</td><td>學習歷程檔案輔助程式、課程成果指南</td></tr>
+              <tr><td>自主學習計畫</td><td>用 AI 產生題目、週次規劃、產出形式與反思問題。</td><td>AI 輔助自主學習計畫</td></tr>
+              <tr><td>申請入學與落點</td><td>查詢簡章、校系分則、歷屆累積人數，輔助建立安全/適中/挑戰志願。</td><td>AI 智慧輔助升學系統、落點分析</td></tr>
+              <tr><td>備審與面試</td><td>用提示詞建立自傳、讀書計畫、面試題庫與回答演練。</td><td>AI 輔助升學、申請入學指南</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <footer>
+        本頁為研習教學入口，外部連結可能需要登入或權限；涉及最新招生規定時，請以大學甄選入學委員會、招生簡章與各校系公告為準。
+      </footer>
+    </main>
+  </div>
+
+  <script src="課諮師AI增能研習資源入口_資料.js"></script>
+  <script>
+    /* 內容資料（FEATURED_TOOLS、MODULES、WEBSITES）與共用資料／工具函式皆已移至 data.js */
+
+    const featuredTools = FEATURED_TOOLS;
+    const modules = MODULES;
+    const websites = WEBSITES;
+
+    const tagClass = tag => {
+      if (/AI|提示|Notebook|工具|Gem|GPT/.test(tag)) return "ai";
+      if (/升學|申請|落點|備審|面試/.test(tag)) return "admission";
+      if (/學習|課程成果|多元/.test(tag)) return "portfolio";
+      if (/制度|手冊|課諮/.test(tag)) return "system";
+      if (/檔案|雲端|PDF/.test(tag)) return "file";
+      return "tool";
+    };
+
+    function cardTemplate(item) {
+      return `
+        <article class="card" data-category="${item.cat || ""}" data-text="${[item.title, item.desc, ...(item.tags || [])].join(" ")}">
+          <div class="tag-row">${(item.tags || []).map(tag => `<span class="tag ${tagClass(tag)}">${tag}</span>`).join("")}</div>
+          <h3>${item.title}</h3>
+          <p>${item.desc}</p>
+          <div class="links">${item.links.map(([label, href]) => `<a class="small-link" href="${cloudHref(href)}" target="_blank" rel="noreferrer">${label}</a>`).join("")}</div>
+        </article>
+      `;
+    }
+
+    function renderFeatured() {
+      document.querySelector("#featuredTools").innerHTML = featuredTools.map(cardTemplate).join("");
+    }
+
+    function renderModules() {
+      const cats = ["全部", ...new Set(modules.map(m => m.cat))];
+      const chipBox = document.querySelector("#moduleChips");
+      chipBox.innerHTML = cats.map((cat, i) => `<button class="chip ${i === 0 ? "active" : ""}" data-cat="${cat}">${cat}</button>`).join("");
+      const grid = document.querySelector("#moduleGrid");
+      grid.innerHTML = modules.map(cardTemplate).join("");
+
+      let activeCat = "全部";
+      const search = document.querySelector("#moduleSearch");
+      const apply = () => {
+        const q = search.value.trim().toLowerCase();
+        grid.querySelectorAll(".card").forEach(card => {
+          const matchCat = activeCat === "全部" || card.dataset.category === activeCat;
+          const matchText = !q || card.dataset.text.toLowerCase().includes(q);
+          card.classList.toggle("hidden", !(matchCat && matchText));
+        });
+      };
+      chipBox.addEventListener("click", event => {
+        const btn = event.target.closest(".chip");
+        if (!btn) return;
+        activeCat = btn.dataset.cat;
+        chipBox.querySelectorAll(".chip").forEach(x => x.classList.remove("active"));
+        btn.classList.add("active");
+        apply();
+      });
+      search.addEventListener("input", apply);
+    }
+
+    function renderWebsites() {
+      document.querySelector("#webGrid").innerHTML = websites.map(([title, href, desc]) => cardTemplate({
+        title,
+        desc,
+        tags: [href.includes("cac") ? "官方" : "網站資源"],
+        links: [["開啟網站", href]]
+      })).join("");
+    }
+
+    // 用實際的 FILES 數量更新檔案庫入口卡片
+    function updateFileCount() {
+      if (typeof FILES !== "undefined") {
+        document.querySelector("#fileCount").textContent = FILES.length;
+      }
+    }
+
+    renderFeatured();
+    renderModules();
+    renderWebsites();
+    updateFileCount();
+  </script>
+  <style>.card.hidden { display: none; }</style>
+</body>
+</html>
