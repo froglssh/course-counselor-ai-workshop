@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 助攻！課諮師 AI 核心技能培養與適性輔導實務</title>
+<style>
+  :root{
+    --cream:#FCF8F1;
+    --cream-2:#F6EEE0;
+    --ink:#2B2A27;
+    --ink-soft:#54514B;
+    --line:#E7DECD;
+    --white:#FFFFFF;
+    /* 模組主色 */
+    --m1:#E76F35; --m1-bg:#FDEFE5;
+    --m2:#2563A6; --m2-bg:#E7F0FA;
+    --m3:#1F9C8B; --m3-bg:#E1F5F1;
+    --m4:#7C5CBF; --m4-bg:#EFEAFA;
+    --m5:#3E63DD; --m5-bg:#E9EDFC;
+    --m6:#D9902B; --m6-bg:#FBF0DC;
+    --end:#3B9E6E; --end-bg:#E4F4EC;
+    --accent:var(--m1);
+    --accent-bg:var(--m1-bg);
+    --shadow:0 4px 18px rgba(70,55,30,.08);
+    --shadow-lg:0 10px 34px rgba(70,55,30,.13);
+    --radius:18px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;scroll-padding-top:84px;}
+  body{
+    margin:0;
+    font-family:"PingFang TC","Noto Sans TC","Microsoft JhengHei",-apple-system,"Segoe UI",sans-serif;
+    color:var(--ink);
+    background:var(--cream);
+    line-height:1.85;
+    font-size:18px;
+    letter-spacing:.01em;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4{line-height:1.4;font-weight:800;margin:0;}
+  p{margin:0 0 1em;}
+  a{color:var(--m2);}
+
+  /* ---------- 頂部列 ---------- */
+  .topbar{
+    position:fixed;top:0;left:0;right:0;height:60px;z-index:100;
+    background:rgba(252,248,241,.92);backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+    display:flex;align-items:center;justify-content:space-between;
+    padding:0 20px;
+  }
+  .topbar .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:16px;}
+  .topbar .brand .dot{width:30px;height:30px;border-radius:9px;
+    background:linear-gradient(135deg,var(--m1),#f3a75f);color:#fff;display:grid;place-items:center;font-size:15px;}
+  .topbar .meta{font-size:13px;color:var(--ink-soft);}
+  .progress{position:fixed;top:60px;left:0;height:3px;background:var(--m1);z-index:100;width:0%;transition:width .1s;}
+
+  /* ---------- 版面 ---------- */
+  .layout{display:grid;grid-template-columns:250px 1fr;max-width:1240px;margin:0 auto;gap:0;}
+  /* 側邊導覽 */
+  .sidenav{position:sticky;top:60px;align-self:start;height:calc(100vh - 60px);overflow-y:auto;
+    padding:22px 12px 40px 20px;border-right:1px solid var(--line);}
+  .sidenav .navtitle{font-size:12px;letter-spacing:.14em;color:var(--ink-soft);font-weight:700;margin:6px 8px 12px;}
+  .sidenav a{display:block;text-decoration:none;color:var(--ink-soft);font-size:14.5px;font-weight:600;
+    padding:8px 12px;border-radius:10px;margin-bottom:2px;border-left:3px solid transparent;transition:.15s;}
+  .sidenav a .mno{display:inline-block;width:22px;color:var(--accent);font-weight:800;}
+  .sidenav a:hover{background:var(--cream-2);color:var(--ink);}
+  .sidenav a.active{background:#fff;color:var(--ink);border-left-color:var(--accent);box-shadow:var(--shadow);}
+  .sidenav .navmod{font-size:11.5px;letter-spacing:.1em;color:#b7ab93;font-weight:800;
+    margin:16px 8px 6px;text-transform:uppercase;}
+
+  main{padding:0 34px 80px;min-width:0;}
+
+  /* ---------- Hero ---------- */
+  .hero{margin-top:60px;padding:52px 44px 46px;border-radius:26px;position:relative;overflow:hidden;
+    background:linear-gradient(135deg,#FDE9DA 0%,#FBF3E4 55%,#FCEFE0 100%);
+    box-shadow:var(--shadow-lg);}
+  .hero::before{content:"";position:absolute;right:-60px;top:-60px;width:260px;height:260px;border-radius:50%;
+    background:radial-gradient(circle,#F5B47a55,transparent 70%);}
+  .hero .kicker{display:inline-block;background:#fff;color:var(--m1);font-weight:800;font-size:14px;
+    padding:6px 16px;border-radius:30px;box-shadow:var(--shadow);letter-spacing:.05em;}
+  .hero h1{font-size:clamp(30px,4.4vw,46px);margin:20px 0 8px;color:#B4471A;letter-spacing:.01em;}
+  .hero h1 .big{color:var(--m1);}
+  .hero .sub{font-size:19px;color:var(--ink-soft);font-weight:600;max-width:640px;}
+  .hero .facts{display:flex;flex-wrap:wrap;gap:14px;margin-top:26px;}
+  .hero .fact{background:rgba(255,255,255,.75);border:1px solid #F2D9BE;border-radius:14px;
+    padding:12px 18px;font-size:14.5px;font-weight:600;color:var(--ink);display:flex;align-items:center;gap:9px;}
+  .hero .fact b{color:var(--m1);}
+  .hero .ribbon{margin-top:24px;display:inline-flex;align-items:center;gap:10px;background:var(--m1);
+    color:#fff;font-weight:800;padding:12px 22px;border-radius:14px;font-size:16px;box-shadow:var(--shadow);}
+
+  /* ---------- 模組區塊 ---------- */
+  .module{scroll-margin-top:78px;padding-top:54px;}
+  .mod-head{display:flex;align-items:flex-start;gap:18px;margin-bottom:8px;}
+  .mod-badge{flex:none;width:60px;height:60px;border-radius:16px;display:grid;place-items:center;
+    color:#fff;font-weight:800;font-size:14px;line-height:1.15;text-align:center;box-shadow:var(--shadow);}
+  .mod-head h2{font-size:clamp(23px,3vw,30px);}
+  .mod-head .mod-sub{color:var(--ink-soft);font-size:15.5px;font-weight:600;margin-top:4px;}
+  .mod-rule{height:4px;border-radius:4px;margin:14px 0 30px;background:linear-gradient(90deg,var(--accent),transparent);}
+
+  /* 主題卡 */
+  .card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);
+    padding:28px 30px;margin-bottom:26px;box-shadow:var(--shadow);position:relative;overflow:hidden;}
+  .card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--accent);}
+  .card .slide-tag{position:absolute;top:16px;right:20px;font-size:12px;font-weight:700;color:#C6BBA6;letter-spacing:.05em;}
+  .card h3{font-size:21px;color:var(--ink);margin-bottom:6px;padding-right:60px;}
+  .card h3 .num{color:var(--accent);margin-right:8px;}
+  .card .lede{color:var(--ink-soft);font-size:16px;font-weight:500;margin-bottom:18px;}
+  .card h4{font-size:16.5px;margin:20px 0 10px;color:var(--accent);display:flex;align-items:center;gap:8px;}
+  .card h4::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--accent);}
+
+  /* 條列 */
+  ul.pts{list-style:none;padding:0;margin:0 0 6px;}
+  ul.pts li{position:relative;padding:6px 0 6px 26px;font-size:15.5px;}
+  ul.pts li::before{content:"▸";position:absolute;left:4px;top:6px;color:var(--accent);font-weight:800;}
+  ul.pts li b{color:var(--ink);}
+
+  /* 兩欄格 */
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:14px 0;}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:14px 0;}
+  .tile{background:var(--accent-bg);border:1px solid var(--line);border-radius:14px;padding:16px 18px;}
+  .tile .th{font-weight:800;font-size:15.5px;color:var(--accent);margin-bottom:6px;display:flex;align-items:center;gap:8px;}
+  .tile .ico{width:30px;height:30px;border-radius:9px;background:var(--accent);color:#fff;display:grid;place-items:center;font-size:15px;flex:none;}
+  .tile p{font-size:14.5px;margin:0;color:var(--ink-soft);}
+
+  /* 對比欄 */
+  .versus{display:grid;grid-template-columns:1fr 54px 1fr;align-items:stretch;gap:0;margin:16px 0;}
+  .versus .vs{display:grid;place-items:center;font-weight:800;color:#fff;background:var(--accent);border-radius:50%;
+    width:44px;height:44px;align-self:center;margin:0 5px;font-size:14px;}
+  .vbox{border-radius:14px;padding:16px 18px;font-size:14.5px;}
+  .vbox.bad{background:#FBEBE8;border:1px solid #F3C9C0;}
+  .vbox.good{background:#E6F4EC;border:1px solid #BFE3CE;}
+  .vbox .vh{font-weight:800;margin-bottom:6px;font-size:15px;}
+  .vbox.bad .vh{color:#C0392B;} .vbox.good .vh{color:#1E874B;}
+
+  /* 提示詞方塊 */
+  .prompt{background:#2B2A33;color:#EDE9F3;border-radius:14px;padding:18px 20px 16px;margin:14px 0;
+    position:relative;font-size:14.5px;line-height:1.8;}
+  .prompt .plabel{display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:700;color:#B9B2E0;
+    letter-spacing:.08em;margin-bottom:10px;text-transform:uppercase;}
+  .prompt code{font-family:"SFMono-Regular",Consolas,"Courier New",monospace;background:none;
+    white-space:pre-wrap;display:block;color:#F2EFFA;}
+  .prompt .hl{color:#FFD479;font-weight:700;}
+  .copybtn{position:absolute;top:14px;right:14px;background:#463F5c;color:#fff;border:none;
+    font-size:12px;font-weight:700;padding:6px 12px;border-radius:8px;cursor:pointer;transition:.15s;}
+  .copybtn:hover{background:#5a5175;}
+  .copybtn.done{background:#3B9E6E;}
+
+  /* 導師實戰／延伸 call-out */
+  .callout{border-radius:14px;padding:16px 20px;margin:16px 0;font-size:15px;border:1px solid var(--line);}
+  .callout .ch{font-weight:800;font-size:15px;margin-bottom:6px;display:flex;align-items:center;gap:8px;}
+  .callout.tip{background:var(--accent-bg);}
+  .callout.tip .ch{color:var(--accent);}
+  .callout.case{background:#FFF8E8;border-color:#F0DDA8;}
+  .callout.case .ch{color:#B8860B;}
+  .callout.warn{background:#FDEEEA;border-color:#F3C9C0;}
+  .callout.warn .ch{color:#C0392B;}
+  .callout p{margin:0 0 .5em;}
+  .callout p:last-child{margin:0;}
+
+  /* 流程步驟 */
+  .flow{display:flex;flex-wrap:wrap;align-items:stretch;gap:10px;margin:16px 0;}
+  .flow .step{flex:1;min-width:150px;background:var(--accent-bg);border:1px solid var(--line);border-radius:14px;padding:14px 16px;position:relative;}
+  .flow .step .sn{font-size:12px;font-weight:800;color:#fff;background:var(--accent);border-radius:20px;padding:2px 10px;}
+  .flow .step .st{font-weight:800;margin:8px 0 4px;font-size:15px;}
+  .flow .step p{font-size:14px;margin:0;color:var(--ink-soft);}
+  .flow .arrow{align-self:center;color:var(--accent);font-weight:800;font-size:20px;}
+
+  /* 表格 */
+  table.tb{width:100%;border-collapse:collapse;margin:14px 0;font-size:14.5px;overflow:hidden;border-radius:12px;box-shadow:var(--shadow);}
+  table.tb th{background:var(--accent);color:#fff;padding:11px 14px;text-align:left;font-size:14.5px;}
+  table.tb td{padding:11px 14px;border-bottom:1px solid var(--line);background:#fff;vertical-align:top;}
+  table.tb tr:nth-child(even) td{background:var(--accent-bg);}
+
+  /* 講稿引言 */
+  .speech{border-left:4px solid var(--accent);background:var(--cream-2);border-radius:0 12px 12px 0;
+    padding:14px 20px;margin:16px 0;font-size:15px;color:var(--ink-soft);font-style:normal;}
+  .speech .sq{font-weight:800;color:var(--accent);font-size:13px;letter-spacing:.06em;display:block;margin-bottom:4px;}
+
+  /* 五格 WWHLN */
+  .wwhln{display:flex;flex-direction:column;gap:10px;margin:14px 0;}
+  .wwhln .row{display:flex;align-items:center;gap:14px;background:var(--accent-bg);border-radius:12px;padding:12px 16px;border:1px solid var(--line);}
+  .wwhln .tag{flex:none;width:76px;font-weight:800;color:#fff;background:var(--accent);border-radius:8px;text-align:center;padding:8px 0;font-size:15px;}
+  .wwhln .rt{font-size:15px;} .wwhln .rt b{color:var(--ink);}
+
+  /* 金字塔 */
+  .pyramid{display:flex;flex-direction:column;align-items:center;gap:6px;margin:16px 0;}
+  .pyramid .lvl{color:#fff;font-weight:800;text-align:center;padding:12px;border-radius:10px;font-size:15px;}
+  .pyramid .l1{width:46%;background:#E0574B;} .pyramid .l2{width:68%;background:#E4a83a;color:#5a3d05;} .pyramid .l3{width:90%;background:#3B9E6E;}
+  .pyramid .lvl small{display:block;font-weight:600;font-size:12.5px;opacity:.92;}
+
+  /* 結語頁 */
+  .closing{background:linear-gradient(135deg,#E4F4EC,#EEF6F0);border-radius:24px;padding:44px;margin-top:40px;border:1px solid #C7E6D3;}
+  .closing h2{color:#2C7A54;font-size:30px;margin-bottom:10px;}
+  .balance{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:22px 0;}
+  .balance .side{border-radius:16px;padding:20px;color:#fff;}
+  .balance .ai{background:linear-gradient(135deg,#3E63DD,#5b7cf0);}
+  .balance .human{background:linear-gradient(135deg,#E76F35,#f0925f);}
+  .balance .side .pct{font-size:34px;font-weight:800;}
+  .balance .side .sh{font-weight:800;font-size:17px;margin:4px 0 8px;}
+  .balance .side p{font-size:14px;margin:0;opacity:.95;}
+
+  .contact{display:flex;flex-wrap:wrap;gap:16px;align-items:center;background:#fff;border-radius:16px;padding:20px 24px;margin-top:18px;box-shadow:var(--shadow);}
+  .contact .ci{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:600;}
+  .contact .ci .cico{width:38px;height:38px;border-radius:11px;background:var(--end-bg);color:var(--end);display:grid;place-items:center;font-size:17px;}
+
+  .toTop{position:fixed;right:22px;bottom:22px;width:48px;height:48px;border-radius:50%;background:var(--m1);color:#fff;
+    border:none;font-size:20px;cursor:pointer;box-shadow:var(--shadow-lg);opacity:0;pointer-events:none;transition:.25s;z-index:90;}
+  .toTop.show{opacity:1;pointer-events:auto;}
+
+  .foot{text-align:center;color:var(--ink-soft);font-size:13px;padding:40px 0 10px;}
+
+  /* 手機版 */
+  .menu-btn{display:none;}
+  @media(max-width:900px){
+    .layout{grid-template-columns:1fr;}
+    .sidenav{position:fixed;top:60px;left:0;bottom:0;width:270px;background:var(--cream);z-index:95;
+      transform:translateX(-100%);transition:.25s;box-shadow:var(--shadow-lg);}
+    .sidenav.open{transform:translateX(0);}
+    main{padding:0 18px 70px;}
+    .menu-btn{display:grid;place-items:center;width:40px;height:40px;border-radius:10px;border:1px solid var(--line);
+      background:#fff;font-size:18px;cursor:pointer;}
+    .hero{padding:34px 24px;margin-top:16px;}
+    .grid2,.grid3{grid-template-columns:1fr;}
+    .versus{grid-template-columns:1fr;} .versus .vs{margin:2px auto;}
+    .card{padding:22px 20px;}
+    body{font-size:17px;}
+    .balance{grid-template-columns:1fr;}
+  }
+  @media print{
+    .topbar,.sidenav,.toTop,.menu-btn,.progress,.copybtn{display:none!important;}
+    .layout{grid-template-columns:1fr;} main{padding:0;}
+    .card,.hero{box-shadow:none;break-inside:avoid;} .module{padding-top:20px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand"><span class="dot">AI</span><span>課諮師 AI 核心技能</span></div>
+  <button class="menu-btn" id="menuBtn" aria-label="選單">☰</button>
+  <div class="meta">麗山高中 · 林獻升老師</div>
+</div>
+<div class="progress" id="progress"></div>
+
+<div class="layout">
+  <!-- 側邊導覽 -->
+  <nav class="sidenav" id="sidenav">
+    <div class="navtitle">研習地圖 · 六大模組</div>
+    <a href="#hero"><span class="mno">◆</span>研習首頁</a>
+    <div class="navmod">模組一 · 定位認知</div>
+    <a href="#m1"><span class="mno">1</span>課諮師定位與 AI 認知</a>
+    <div class="navmod">模組二 · 資料檢索</div>
+    <a href="#m2"><span class="mno">2</span>檢索與學分自動化預檢</a>
+    <div class="navmod">模組三 · 適性輔導</div>
+    <a href="#m3"><span class="mno">3</span>適性輔導與親師溝通</a>
+    <div class="navmod">模組四 · 學習歷程</div>
+    <a href="#m4"><span class="mno">4</span>歷程優化與小論文初評</a>
+    <div class="navmod">模組五 · 落點口試</div>
+    <a href="#m5"><span class="mno">5</span>落點分析與模擬口試</a>
+    <div class="navmod">模組六 · 行政優化</div>
+    <a href="#m6"><span class="mno">6</span>教材設計與行政優化</a>
+    <div class="navmod">總結</div>
+    <a href="#end"><span class="mno">♥</span>以人為本與課後行動</a>
+  </nav>
+
+  <main>
+    <!-- ===== HERO ===== -->
+    <header class="hero" id="hero">
+      <span class="kicker">全國高中課程諮詢教師 · AI 增能研習</span>
+      <h1><span class="big">AI 助攻！</span><br>課諮師 AI 核心技能培養與適性輔導實務</h1>
+      <p class="sub">把繁雜的簡章比對、資料核對交給 AI，把寶貴的時間與溫度，留給諮詢室裡每一個迷惘的孩子。</p>
+      <div class="facts">
+        <div class="fact">🎤 講師：<b>麗山高中 林獻升老師</b></div>
+        <div class="fact">👥 對象：全國高中課諮與輔導同儕</div>
+        <div class="fact">🧭 主軸：<b>科技輔導、回歸溫度</b></div>
+      </div>
+      <div class="ribbon">💛 陪伴每一位學生，找到屬於自己的未來方向</div>
+    </header>
+    <!-- ==================== 模組一 ==================== -->
+    <section class="module" id="m1">
+      <div class="mod-head">
+        <div class="mod-badge" style="background:var(--m1)">模組<br>一</div>
+        <div>
+          <h2>課諮師的定位與 AI 技術認知</h2>
+          <div class="mod-sub">在 108 課綱時代，先站穩角色、認清工具，再談應用。AI 不是取代者，而是幫我們騰出時間陪孩子的助手。</div>
+        </div>
+      </div>
+      <div class="mod-rule"></div>
+
+      <!-- 1-0 研習地圖 -->
+      <div class="card">
+        <span class="slide-tag">研習地圖</span>
+        <h3><span class="num">◆</span>今日研習地圖：從理論到六大實戰</h3>
+        <p class="lede">整場研習分為六大模組，從「觀念定位」出發，逐步走進五個核心實務技能，最後回到教育的溫度。這是一張從理論到實戰的完整地圖，按部就班一起前行。</p>
+        <table class="tb">
+          <tr><th style="width:90px">模組</th><th>核心技能</th><th>解決的痛點</th></tr>
+          <tr><td><b>模組一</b></td><td>課諮師角色任務與 AI 技術認知</td><td>避免 AI「瞎掰」、站穩專業定位</td></tr>
+          <tr><td><b>模組二</b></td><td>高效資料檢索與大考簡章智能檢索（畢業學分自動化預檢）</td><td>資訊超載、重複答詢</td></tr>
+          <tr><td><b>模組三</b></td><td>適性輔導、個案模擬與親師溝通（晤談角色扮演）</td><td>諮詢技巧難練習、家長焦慮</td></tr>
+          <tr><td><b>模組四</b></td><td>學習歷程檔案優化與小論文規準初評</td><td>批改耗時、學生不會反思</td></tr>
+          <tr><td><b>模組五</b></td><td>學測落點分析與二階模擬口試</td><td>升學抉擇兩難、面試無人陪練</td></tr>
+          <tr><td><b>模組六</b></td><td>輔導教材設計與校務行政優化（申訴陳情處理）</td><td>備課耗時、行政記憶流失</td></tr>
+        </table>
+        <div class="callout tip">
+          <div class="ch">🧭 導覽建議</div>
+          <p>本頁面左側（手機為左上角 ☰）可隨時跳轉各模組；每個模組都附有<b>可一鍵複製的提示詞範本</b>與<b>導師／班級經營實戰延伸</b>，方便您邊聽邊試、回校即用。</p>
+        </div>
+      </div>
+
+      <!-- 1-1 輔導鐵三角 -->
+      <div class="card">
+        <span class="slide-tag">Slide 03</span>
+        <h3><span class="num">1-1</span>108 課綱下的「輔導鐵三角」分工</h3>
+        <p class="lede">導入 AI 之前，先釐清角色邊界。課程諮詢教師、輔導教師與導師三方各有專業，明確界定角色、建立流暢的校內雙向轉介機制，才能讓 AI 用在對的地方。</p>
+        <div class="grid3">
+          <div class="tile"><div class="th"><span class="ico">🎓</span>課程諮詢教師</div>
+            <ul class="pts" style="margin:0">
+              <li>學術路徑與選課輔導</li><li>生涯修課地圖規劃</li><li>學習歷程檔案選材策略</li><li>多元升學管道路徑諮詢</li>
+            </ul></div>
+          <div class="tile"><div class="th"><span class="ico">💚</span>輔導教師</div>
+            <ul class="pts" style="margin:0">
+              <li>性向與興趣測驗解釋</li><li>深層生涯自我探索輔導</li><li>心理諮商與情緒危機處理</li><li>晤談評估與特教轉介</li>
+            </ul></div>
+          <div class="tile"><div class="th"><span class="ico">🧑‍🏫</span>導師</div>
+            <ul class="pts" style="margin:0">
+              <li>日常生活輔導與班級經營</li><li>第一線親師溝通與信任建立</li><li>觀察學生日常表現與特質</li><li>初步生涯引導與處室轉介</li>
+            </ul></div>
+        </div>
+        <div class="callout case">
+          <div class="ch">👨‍🏫 導師視角補充</div>
+          <p>導師是最早看見孩子變化的人。當你發現學生「突然對某學群眼睛發亮」或「選課猶豫不決」時，可先用 AI 智庫快速查證選課規定，再判斷是自己引導、還是轉介課諮師／輔導老師——AI 讓三角轉介更快、更準，而非取代任何一角的專業。</p>
+        </div>
+      </div>
+
+      <!-- 1-2 高中三年工作任務地圖 -->
+      <div class="card">
+        <span class="slide-tag">工作時序</span>
+        <h3><span class="num">1-2</span>課諮師在高中三年的工作任務地圖</h3>
+        <p class="lede">課諮工作是一場三年長跑。看清每個年段的輔導重點，就是後續建置 AI 知識庫的架構基礎。</p>
+        <div class="grid3">
+          <div class="tile"><div class="th"><span class="ico">1</span>高一 · 定向與探索</div>
+            <ul class="pts" style="margin:0"><li>數 A／數 B 的抉擇引導</li><li>18 學群初探</li><li>自主學習計畫啟動</li></ul></div>
+          <div class="tile"><div class="th"><span class="ico">2</span>高二 · 深化與確認</div>
+            <ul class="pts" style="margin:0"><li>選組與轉班群評估</li><li>加深加廣選修配課</li><li>學習歷程持續累積</li></ul></div>
+          <div class="tile"><div class="th"><span class="ico">3</span>高三 · 整合與衝刺</div>
+            <ul class="pts" style="margin:0"><li>畢業學分最後檢核</li><li>學測落點與適性校系探索</li><li>面試模擬與歷程策展</li></ul></div>
+        </div>
+        <div class="callout tip">
+          <div class="ch">🗂️ 班級經營延伸</div>
+          <p>導師可把這張「三年任務地圖」轉成<b>班級生涯行事曆</b>貼在教室後方：高一辦學群探索週、高二辦選組座談、高三辦落點與面試工作坊。讓每個孩子知道「現在該做什麼」，焦慮自然下降。</p>
+        </div>
+      </div>
+
+      <!-- 1-3 被行政資料淹沒 -->
+      <div class="card">
+        <span class="slide-tag">Slide 04</span>
+        <h3><span class="num">1-3</span>課諮第一線：被行政資料淹沒的專業教師</h3>
+        <p class="lede">第一線的課諮師都有過這樣的痛苦：每年簡章一改，就要重翻幾百頁 PDF。這三大痛點，正是需要 AI 系統來排除的。</p>
+        <div class="grid3">
+          <div class="tile"><div class="th"><span class="ico">🔍</span>資訊超載</div><p>每年變動的考招簡章、Collego 與繁瑣的修課地圖規則，查找比對極度耗時。</p></div>
+          <div class="tile"><div class="th"><span class="ico">💬</span>重複答詢</div><p>重複回答「轉組補修」「數 A／B 採計」等相似問題，耗損輔導熱忱。</p></div>
+          <div class="tile"><div class="th"><span class="ico">🗄️</span>行政記憶流失</div><p>缺乏系統化知識庫，學校輔導經驗因人員異動而斷代。</p></div>
+        </div>
+      </div>
+
+      <!-- 1-4 幻覺 vs 封閉式 -->
+      <div class="card">
+        <span class="slide-tag">Slide 05</span>
+        <h3><span class="num">1-4</span>通用 AI 幻覺問題 vs. 封閉式專家 AI 優勢</h3>
+        <p class="lede">很多老師用 ChatGPT 回答選課問題，卻發現它會「瞎掰校規」——這就是<b>幻覺（Hallucination）</b>。在嚴謹的教育諮詢中絕不容許。我們要學的是<b>封閉式專家 AI</b>（如 NotebookLM），它像一位「只准看我們上傳資料的資優生」。</p>
+        <div class="versus">
+          <div class="vbox bad"><div class="vh">⚠️ 通用 AI（ChatGPT／Gemini）</div>會胡亂上網查詢、容易瞎掰校規，資訊來源不透明，難以追溯出處，不利責任釐清。</div>
+          <div class="vs">VS</div>
+          <div class="vbox good"><div class="vh">✅ 封閉式 AI（NotebookLM）</div>嚴格限制只讀上傳資料，採「Grounding 溯源技術」，回答自動標註<b>引用來源頁碼</b>，可直接翻手冊核對。</div>
+        </div>
+        <div class="callout tip">
+          <div class="ch">🔑 兩個關鍵詞</div>
+          <p><b>幻覺（Hallucination）：</b>AI 一本正經地捏造不存在的規定或數據。<br>
+          <b>溯源（Grounding）：</b>AI 的每一句回答都「有憑有據」，並標示資料來源，讓你能查證。<b>教育諮詢，一定要選有溯源能力的封閉式 AI。</b></p>
+        </div>
+        <div class="callout case">
+          <div class="ch">📌 一句話心法</div>
+          <p>「通用 AI 是<b>健談的陌生人</b>，封閉式 AI 是<b>只讀你課本的資優生</b>。」選課、學分、法規這類不容出錯的事，永遠交給後者。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 模組二 ==================== -->
+    <section class="module" id="m2">
+      <div class="mod-head">
+        <div class="mod-badge" style="background:var(--m2)">模組<br>二</div>
+        <div>
+          <h2>高效資料檢索與畢業學分自動化預檢</h2>
+          <div class="mod-sub">五分鐘打造校級課諮 AI 智庫，讓跨文件比對、精準溯源、學分審查全部自動化。</div>
+        </div>
+      </div>
+      <div class="mod-rule"></div>
+
+      <!-- 2-1 五分鐘建置 -->
+      <div class="card">
+        <span class="slide-tag">Slide 06</span>
+        <h3><span class="num">2-1</span>實戰：五分鐘打造校級課諮 AI 系統</h3>
+        <p class="lede">建置校級課諮 AI 智庫，只需簡單三步驟。短短幾分鐘，屬於你們學校的專屬智庫就誕生了。</p>
+        <div class="flow">
+          <div class="step"><span class="sn">01</span><div class="st">蒐集燃料</div><p>收集校內《課程計畫書》《選課輔導手冊》《課程地圖》與歷屆 FAQ。</p></div>
+          <div class="arrow">→</div>
+          <div class="step"><span class="sn">02</span><div class="st">新增專案</div><p>在 NotebookLM 建立筆記本並命名（如「115 學年度 麗山高中課諮智庫」）。</p></div>
+          <div class="arrow">→</div>
+          <div class="step"><span class="sn">03</span><div class="st">資料上傳</div><p>拖入校本文件，或直接貼上 Collego 學群網頁連結。</p></div>
+        </div>
+        <div class="callout tip">
+          <div class="ch">📥 建議上傳的「燃料清單」</div>
+          <ul class="pts" style="margin:0">
+            <li>學校《課程計畫書》《選課輔導手冊》《學生手冊》</li>
+            <li>校內三年課程地圖／各班群修課地圖</li>
+            <li>當年度《大學申請入學簡章》《繁星推薦簡章》《分科測驗簡章》</li>
+            <li>歷屆家長／學生 FAQ、選課說明會投影片</li>
+            <li>畢業學分規範、各處室常見規定（退選停修流程等）</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 2-2 跨文件萃取 -->
+      <div class="card">
+        <span class="slide-tag">Slide 07</span>
+        <h3><span class="num">2-2</span>實戰：跨文件萃取與資工學群選修比對</h3>
+        <p class="lede">智庫建好後，AI 能綜合比對多份文件，在十秒內給出有憑有據的結構化回答。以下是可直接套用的提示詞。</p>
+        <div class="prompt">
+          <div class="plabel">📋 提示詞範本 · 跨文件比對</div>
+          <button class="copybtn">複製</button>
+<code>請綜合比對上傳的《大學申請入學簡章》與《校內課程地圖》，
+幫我整理出想就讀「資訊工程學群」的學生，
+在高中三年應該優先修習哪些「加深加廣選修課程」？
+請條列呈現，並簡述每一門課的推薦理由。
+最後，列出該學系最看重的兩項學科能力。</code>
+        </div>
+        <div class="grid3">
+          <div class="tile"><div class="th"><span class="ico">📑</span>跨文件整合</div><p>綜合簡章與課程地圖，擷取關鍵資訊。</p></div>
+          <div class="tile"><div class="th"><span class="ico">🔎</span>萃取與比對</div><p>找出目標學群所需的選修課程重點。</p></div>
+          <div class="tile"><div class="th"><span class="ico">🎯</span>聚焦建議</div><p>提供優先選修清單與核心學科能力。</p></div>
+        </div>
+        <div class="callout case">
+          <div class="ch">🔁 換個學群也能用</div>
+          <p>把提示詞中的「資訊工程學群」替換成<b>醫藥衛生、財經、法政、外語、設計</b>等任一學群，即可產出對應的選修建議。建議把常用學群的回答存成智庫筆記，日後諮詢直接調用。</p>
+        </div>
+      </div>
+
+      <!-- 2-3 精準溯源 -->
+      <div class="card">
+        <span class="slide-tag">Slide 08</span>
+        <h3><span class="num">2-3</span>實戰：針對特定校規的精準問答與溯源</h3>
+        <p class="lede">當家長對選課規定有疑慮，老師最怕講錯規定。關鍵在提示詞裡放入「<b>嚴格根據</b>」與「<b>附上來源頁碼</b>」這類限制性字眼。</p>
+        <div class="prompt">
+          <div class="plabel">📋 提示詞範本 · 精準溯源</div>
+          <button class="copybtn">複製</button>
+<code>請「嚴格根據」上傳的《選課輔導手冊》回答。
+若學生在「高二上」想「退選或停修」選修課，
+他必須在開學後第幾週提出申請？流程需要經過哪些處室核准？
+請條列出標準流程，並「務必附上資料來源的頁碼」，
+以利我向家長說明。</code>
+        </div>
+        <div class="callout warn">
+          <div class="ch">⚠️ 使用鐵律</div>
+          <p>面對家長與正式行政說明，<b>一定要要求 AI 附頁碼、且自己翻手冊再核對一次</b>。AI 負責快速定位，最終判斷仍在專業教師手上。手邊隨時有原始頁碼，專業度與說服力瞬間加倍。</p>
+        </div>
+      </div>
+
+      <!-- 2-4 去識別化學分審查 -->
+      <div class="card">
+        <span class="slide-tag">Slide 09 · 新開發</span>
+        <h3><span class="num">2-4</span>新開發課程：去識別化成績單學分智能審查</h3>
+        <p class="lede">每到高三，核對「畢業學分」是課諮師與教務處最頭痛的工作。這項自動化預檢能省下無數人工時間。</p>
+        <div class="flow">
+          <div class="step"><span class="sn">01</span><div class="st">資料去識別化</div><p>先隱去學生姓名、學號等個資。</p></div>
+          <div class="arrow">→</div>
+          <div class="step"><span class="sn">02</span><div class="st">學分規則上傳</div><p>將部定必修、校訂必修、加深加廣選修、多元選修、總學分要求作為背景知識。</p></div>
+          <div class="arrow">→</div>
+          <div class="step"><span class="sn">03</span><div class="st">AI 智能核對</div><p>拖入成績單，AI 快速核對尚缺哪些學分，自動列出補修與選課清單。</p></div>
+        </div>
+        <div class="callout warn">
+          <div class="ch">🔒 隱私第一：個資去識別化</div>
+          <p>上傳任何學生成績單前，<b>務必先塗銷／移除姓名、學號、身分證字號等可識別個資</b>，只保留科目與學分數。這是使用 AI 輔助審查不可跨越的底線。</p>
+        </div>
+        <div class="prompt">
+          <div class="plabel">📋 提示詞範本 · 學分審查</div>
+          <button class="copybtn">複製</button>
+<code>附件是一份「已去識別化」的學生成績單（僅含科目與學分）。
+請嚴格依照我上傳的《本校畢業學分規範》，逐項核對：
+1. 部定必修、校訂必修是否已修足？各缺哪些科目？
+2. 加深加廣選修、多元選修學分是否達標？
+3. 總學分是否滿足畢業門檻？還差幾學分？
+請以表格輸出「已達標／未達標／建議補修科目」三欄，並附上依據的規範條目。</code>
+        </div>
+      </div>
+
+      <!-- 2-5 打破資訊孤島 -->
+      <div class="card">
+        <span class="slide-tag">Slide 10</span>
+        <h3><span class="num">2-5</span>協作設定：打破行政資訊孤島</h3>
+        <p class="lede">學校行政資料往往分散各處室。透過 NotebookLM 的「共用」功能加入協作，全校共享同一個 AI 智庫。</p>
+        <div class="grid3">
+          <div class="tile"><div class="th"><span class="ico">🧩</span>處室整合</div><p>教務處排課與學分規定、輔導室性向常模、學科中心課綱，整合進同一筆記本。</p></div>
+          <div class="tile"><div class="th"><span class="ico">👥</span>共筆協作</div><p>點「共用」邀請課諮師、輔導室、導師（Editor 權限），共享精采提示詞與資料。</p></div>
+          <div class="tile"><div class="th"><span class="ico">🛡️</span>行政傳承</div><p>確保輔導品質一致，防止專業經驗因人員異動而產生斷代。</p></div>
+        </div>
+        <div class="callout tip">
+          <div class="ch">🏫 這一招解決「行政記憶流失」</div>
+          <p>把智庫視為學校的<b>「數位輔導資產」</b>：新進課諮師到職，打開共享筆記本就能承接前人所有經驗與問答，不必從零摸索。這是整套系統對學校最長久的價值。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 模組三 ==================== -->
+    <section class="module" id="m3">
+      <div class="mod-head">
+        <div class="mod-badge" style="background:var(--m3)">模組<br>三</div>
+        <div>
+          <h2>適性輔導、個案模擬與親師溝通</h2>
+          <div class="mod-sub">把 AI 變成「晤談對手」與「代價分析師」，讓輔導技巧有得練、讓抉擇有數據、讓家長被安撫。</div>
+        </div>
+      </div>
+      <div class="mod-rule"></div>
+
+      <!-- 3-1 數A數B -->
+      <div class="card">
+        <span class="slide-tag">Slide 11</span>
+        <h3><span class="num">3-1</span>適性輔導：數學 A 與數學 B 的抉擇引導</h3>
+        <p class="lede">最經典的適性難題。輔導時不能只看興趣，更要幫學生做「<b>代價評估</b>」——把各校系參採組合丟給 AI 做數據化分析。</p>
+        <div class="versus">
+          <div class="vbox" style="background:var(--m3-bg);border:1px solid #BFE3CE"><div class="vh" style="color:var(--m3)">📐 數學 A</div>高難度，理工醫農與部分商管必備。涵蓋較深的代數、幾何與微積分概念，升學選擇較廣但學習挑戰高。</div>
+          <div class="vs">VS</div>
+          <div class="vbox" style="background:var(--m3-bg);border:1px solid #BFE3CE"><div class="vh" style="color:var(--m3)">📊 數學 B</div>著重應用，人文社會與藝術學群採計。強調統計、財務與生活情境，學習負擔相對輕、貼近日常。</div>
+        </div>
+        <div class="prompt">
+          <div class="plabel">📋 提示詞範本 · 代價分析</div>
+          <button class="copybtn">複製</button>
+<code>請根據上傳的《各校系參採組合》文件分析：
+一位學生若從「數學 A」改選「數學 B」，
+1. 會「失去」哪些校系（或學群）的申請資格？請具體列出。
+2. 又能「獲得」哪些學習時間與負擔上的優勢？
+3. 請以「代價 vs 效益」表格呈現，幫助學生務實抉擇。</code>
+        </div>
+        <div class="callout case">
+          <div class="ch">🧭 輔導心法：把「興趣」翻譯成「代價」</div>
+          <p>學生說「我數學不好想選數 B」，別急著贊成或反對。用 AI 列出「選數 B 將關上哪幾扇門」，讓孩子在<b>知道代價</b>的前提下自己決定——這才是適性輔導，而非替他決定。</p>
+        </div>
+      </div>
+
+      <!-- 3-2 模擬晤談 -->
+      <div class="card">
+        <span class="slide-tag">Slide 12 · 新開發</span>
+        <h3><span class="num">3-2</span>新開發課程：與 AI 模擬晤談演練</h3>
+        <p class="lede">諮詢技巧需要練習，卻很難找到真人隨時陪練。這門課教你把 AI 變成「晤談對手」，還能在結束後<b>客觀評估你的引導技巧</b>。</p>
+        <div class="prompt">
+          <div class="plabel">📋 提示詞範本 · 角色扮演晤談</div>
+          <button class="copybtn">複製</button>
+<code>請你扮演一位「想選資工卻抗拒寫程式的偏科高一生」。
+你的設定：喜歡打電動與組電腦，但一看到程式碼就焦躁，數學也不佳，
+面對老師會有點防衛、回答簡短。
+請以這個學生的口吻與我對話，一次只回應一句話，
+等我引導後再回應，真實模擬你的抗拒與猶豫。
+晤談結束我說「請評估」時，再跳出角色，
+客觀分析我的提問引導技巧有哪些優點與可改進處。</code>
+        </div>
+        <div class="grid2">
+          <div class="tile"><div class="th"><span class="ico">🎭</span>情境模擬</div><p>可指定各種背景：抗拒選課、沒有目標、被家長強迫讀醫的焦慮高二生等。</p></div>
+          <div class="tile"><div class="th"><span class="ico">💬</span>話術訓練</div><p>多輪對話後，AI 自動評估教師的提問引導技巧並給優化建議。</p></div>
+        </div>
+        <div class="callout tip">
+          <div class="ch">👩‍🏫 給導師：這也是最好的「班級溝通練習場」</div>
+          <p>導師同樣能用它演練<b>難談的親師對話</b>——例如「面對質疑管教方式的家長」「勸導拒學學生」。先跟 AI 練幾輪，正式對話時就更從容、更有同理。</p>
+        </div>
+      </div>
+
+      <!-- 3-3 個案研究 -->
+      <div class="card">
+        <span class="slide-tag">Slide 13</span>
+        <h3><span class="num">3-3</span>個案研究：實作極強但紙筆數學不及格的輔導</h3>
+        <p class="lede">真實個案：某生非常想讀資工系，是機器人社靈魂人物，但紙筆數學常不及格。AI 為我們產出兼顧「制度與溫度」的三合一策略。</p>
+        <div class="callout case" style="margin-top:0">
+          <div class="ch">🧑‍🔧 個案背景</div>
+          <p>學生非常想就讀資工系，紙筆數學常不及格，卻在機器人社團展現極強的實作力與邏輯力。典型的「非典型」個案。</p>
+        </div>
+        <div class="grid3">
+          <div class="tile"><div class="th"><span class="ico">1</span>班群與選課</div><p>建議選修校內強調「專題實作」的加深加廣課程，發揮動手優勢。</p></div>
+          <div class="tile"><div class="th"><span class="ico">2</span>學習歷程</div><p>將機器人社成果轉化為自主學習計畫，向教授證明其邏輯與實作能力。</p></div>
+          <div class="tile"><div class="th"><span class="ico">3</span>同理晤談</div><p>生成一段充滿同理心的引導詞，幫老師重新點燃學生的信心。</p></div>
+        </div>
+        <div class="callout tip">
+          <div class="ch">💡 帶走的觀念</div>
+          <p>面對「一科弱、一項強」的孩子，AI 的價值不是「判他出局」，而是幫我們找到<b>用強項證明能力的替代路徑</b>。制度要顧，但別讓分數定義孩子的全部。</p>
+        </div>
+      </div>
+
+      <!-- 3-4 家長日 -->
+      <div class="card">
+        <span class="slide-tag">Slide 14</span>
+        <h3><span class="num">3-4</span>家長日心法：新舊考招對比與安撫策略</h3>
+        <p class="lede">每逢家長日，總要面對滿場焦慮的家長。核心訊息：新舊考招的根本差異在於「<b>從單一筆試決定，轉變為多元舞台展現</b>」。</p>
+        <table class="tb">
+          <tr><th style="width:44%">家長的焦慮提問</th><th>課諮師的專業安撫回應</th></tr>
+          <tr><td>「不補習會不會落後？」</td><td>新制看的是「學習歷程與探究能力」，補習補不出反思深度；陪孩子把一件事做深，比刷題更有用。</td></tr>
+          <tr><td>「自主學習沒成果怎麼辦？」</td><td>教授看重「執行力與反思」而非主題多難。哪怕結論是失敗，只要寫清楚歷程就是好成果。</td></tr>
+          <tr><td>「修課紀錄會不會影響很大？」</td><td>它是「佐證」而非「唯一」。呈現孩子的興趣軌跡即可，不必追求門門完美。</td></tr>
+          <tr><td>「選錯課會不會毀了前途？」</td><td>制度設計允許調整與轉組，且多數能力可跨域遷移。選課是「探索」，不是「一次定終身」。</td></tr>
+        </table>
+        <div class="prompt">
+          <div class="plabel">📋 提示詞範本 · 家長日文案</div>
+          <button class="copybtn">複製</button>
+<code>請幫我起草一份「高一家長日選課說明會」的簡報大綱（8–10 頁），
+對象是焦慮的家長，語氣要溫暖、白話、少用術語。
+重點強調「新舊考招差異：從單一筆試 → 多元舞台展現」。
+最後附上 5 題家長最常問的問題與「安撫式標準回答」。</code>
+        </div>
+      </div>
+
+      <!-- 3-5 整合工具 -->
+      <div class="card">
+        <span class="slide-tag">Slide 15</span>
+        <h3><span class="num">3-5</span>科技工具：適性生涯探索的整合應用</h3>
+        <p class="lede">為了讓適性輔導更上層樓，講師開發了三個線上輔導工具，引導學生有系統地探索性向，並與 Collego 學群資料收斂。</p>
+        <div class="grid3">
+          <div class="tile"><div class="th"><span class="ico">🧭</span>自主學習 AI 輔助系統</div><p>引導學生從興趣出發，設計可執行的自主學習主題與進度。</p></div>
+          <div class="tile"><div class="th"><span class="ico">📁</span>學習歷程檔案優化助手</div><p>協助學生選材、深化反思，提升成果的呈現品質。</p></div>
+          <div class="tile"><div class="th"><span class="ico">🎓</span>AI 智慧輔助升學系統</div><p>將個人特質與學群資料收斂，產出適性路徑與選課建議。</p></div>
+        </div>
+        <div class="callout tip">
+          <div class="ch">🔗 工具怎麼用</div>
+          <p>老師可把工具連結放進班級群組或選課輔導學習單，讓學生課後自行操作、產出初步結果，再帶進諮詢室與老師深談。<b>AI 負責收斂資料，老師負責深化對話。</b></p>
+        </div>
+      </div>
+    </section>
+    <!-- ==================== 模組四 ==================== -->
+    <section class="module" id="m4">
+      <div class="mod-head">
+        <div class="mod-badge" style="background:var(--m4)">模組<br>四</div>
+        <div>
+          <h2>學習歷程檔案優化與小論文規準初評</h2>
+          <div class="mod-sub">教大學教授看重什麼、教學生從流水帳寫到探究反思、讓 AI 當第一關評審。</div>
+        </div>
+      </div>
+      <div class="mod-rule"></div>
+
+      <!-- 4-1 作伴學手冊 -->
+      <div class="card">
+        <span class="slide-tag">Slide 16</span>
+        <h3><span class="num">4-1</span>教育部作伴學手冊：大學教授看重什麼？</h3>
+        <p class="lede">很多學生以為排版漂亮、頁數多就是好。但教育部《作伴學手冊》明確揭示「<b>三重二不</b>」原則。</p>
+        <div class="versus">
+          <div class="vbox good"><div class="vh">✅ 三重（要）</div>重「質」不重量、重「反思深度」、重「真實學習軌跡」。</div>
+          <div class="vs">＋</div>
+          <div class="vbox bad"><div class="vh">🚫 二不（別）</div>不要「花俏排版」、不要「以量取勝」。</div>
+        </div>
+        <ul class="pts">
+          <li><b>選材要訣：</b>課程學習成果上限 3 件、多元表現上限 10 件——精選代表作，而非全部塞進去。</li>
+          <li><b>AI 輔助：</b>用 AI 摘要手冊核心，精煉出「成果選材評估矩陣」，協助學生挑出最能展現核心素養的成果。</li>
+        </ul>
+        <div class="prompt">
+          <div class="plabel">📋 提示詞範本 · 成果選材矩陣</div>
+          <button class="copybtn">複製</button>
+<code>我會貼上一位學生高一高二完成的多份課程作業清單。
+請依《作伴學手冊》「重質、重反思」的精神，
+幫我製作一張「成果選材評估矩陣」，欄位包含：
+作品名稱｜核心素養展現｜代表性｜反思深度｜與目標學群關聯度｜建議（選/不選）。
+最後推薦最值得放入檔案的 3 件課程學習成果，並說明理由。</code>
+        </div>
+      </div>
+
+      <!-- 4-2 流水帳 vs 探究 -->
+      <div class="card">
+        <span class="slide-tag">Slide 17</span>
+        <h3><span class="num">4-2</span>成果優化：流水帳 vs 探究與解決歷程</h3>
+        <p class="lede">很多學生的成果寫得像流水帳，只貼截圖或考卷。要引導他們轉向「<b>探究與解決歷程</b>」。</p>
+        <div class="versus">
+          <div class="vbox bad"><div class="vh">🚫 雷區：流水帳</div>僅放考卷、簡報截圖或未加說明的報告，看不出思考。</div>
+          <div class="vs">→</div>
+          <div class="vbox good"><div class="vh">✨ 亮點：探究歷程</div>寫清楚：我遇到什麼困難？如何尋求資源解決？獲得什麼學科核心素養？</div>
+        </div>
+        <div class="prompt">
+          <div class="plabel">📋 提示詞範本 · AI 扮演審查教授</div>
+          <button class="copybtn">複製</button>
+<code>請你扮演一位嚴謹的「大學申請入學審查教授」。
+以下是學生的課程學習成果大綱（我會貼上）。
+請從教授角度指出：
+1. 這份成果「缺乏」了哪些核心素養或探究歷程？
+2. 哪些段落像流水帳、缺乏反思？
+3. 給出 3 個「具體、可操作」的修改方向，
+   幫助學生把它改寫成有探究深度的成果。</code>
+        </div>
+      </div>
+
+      <!-- 4-3 WWHLN -->
+      <div class="card">
+        <span class="slide-tag">Slide 18</span>
+        <h3><span class="num">4-3</span>反思寫作：W-W-H-L-N 五格寫作框架</h3>
+        <p class="lede">為幫學生寫出有深度的反思，講師設計了「W-W-H-L-N 五格框架」。把量規與草稿一起給 AI，逐維度引導補充。</p>
+        <div class="wwhln">
+          <div class="row"><div class="tag">Why</div><div class="rt"><b>為什麼</b>選這門課／做這個主題？（學習動機）</div></div>
+          <div class="row"><div class="tag">What</div><div class="rt"><b>遇到</b>什麼問題與瓶頸？（困境定義）</div></div>
+          <div class="row"><div class="tag">How</div><div class="rt"><b>如何</b>克服這個挑戰？（解決歷程）</div></div>
+          <div class="row"><div class="tag">Learn</div><div class="rt"><b>學到</b>什麼觀念或能力？（核心收穫）</div></div>
+          <div class="row"><div class="tag">Next</div><div class="rt"><b>未來</b>有何關聯與展望？（延伸展望）</div></div>
+        </div>
+        <div class="prompt">
+          <div class="plabel">📋 提示詞範本 · 五格引導</div>
+          <button class="copybtn">複製</button>
+<code>以下是學生的學習反思草稿。請依「W-W-H-L-N 五格框架」
+（Why 動機／What 瓶頸／How 解決／Learn 收穫／Next 展望）逐項檢視：
+指出每一格「已寫清楚」或「太空泛需補充」，
+並用提問的方式，引導學生一步步補上具體細節（不要替他寫完），
+最後給出一段結構完整的示範開頭。</code>
+        </div>
+      </div>
+
+      <!-- 4-4 自主學習計畫 -->
+      <div class="card">
+        <span class="slide-tag">Slide 19</span>
+        <h3><span class="num">4-4</span>自主學習計畫：重視執行力而非主題難度</h3>
+        <p class="lede">很多高一生好高騖遠地選「量子力學」「人工智慧」，最後無疾而終。教授看重的是<b>計畫執行力與反思</b>，不是主題多高深。</p>
+        <div class="flow">
+          <div class="step"><span class="sn">1</span><div class="st">主題訂定</div><p>從學生真實興趣與程度出發。</p></div>
+          <div class="arrow">→</div>
+          <div class="step"><span class="sn">2</span><div class="st">計畫擬定</div><p>AI 協助設計合理的 18 週進度表。</p></div>
+          <div class="arrow">→</div>
+          <div class="step"><span class="sn">3</span><div class="st">執行紀錄</div><p>每週明確任務，預先評估可能瓶頸。</p></div>
+          <div class="arrow">→</div>
+          <div class="step"><span class="sn">4</span><div class="st">成果反思</div><p>回顧歷程、萃取收穫。</p></div>
+        </div>
+        <div class="prompt">
+          <div class="plabel">📋 提示詞範本 · 18 週進度表</div>
+          <button class="copybtn">複製</button>
+<code>一位高一學生的興趣是「觀察社區內湖地區的鳥類生態」，程度為初學者。
+請幫他把自主學習主題「收斂」到一個 18 週內可完成的合理範圍，
+並設計一份「18 週進度表」，每週一個明確、可執行的小任務。
+另外，請預先列出 3 個他執行時最可能遇到的瓶頸，以及對應的解法。</code>
+        </div>
+        <div class="callout tip">
+          <div class="ch">🌱 觀念導正一句話</div>
+          <p>「<b>做完一個小題目，勝過空想一個大題目。</b>」引導學生把主題縮到「這學期真的做得完」的大小，執行力自然出得來。</p>
+        </div>
+      </div>
+
+      <!-- 4-5 小論文初評 -->
+      <div class="card">
+        <span class="slide-tag">Slide 20 · 新開發</span>
+        <h3><span class="num">4-5</span>新開發課程：小論文與自主學習成果 AI 智慧初評</h3>
+        <p class="lede">老師要修改全班的成果與小論文，時間非常有限。導入官方規準讓 AI 當「第一關評審」，學生交件前先完成大方向自我修正。</p>
+        <div class="flow">
+          <div class="step"><span class="sn">01</span><div class="st">初評機制</div><p>導入全國小論文比賽規準或自主學習成果評分細則。</p></div>
+          <div class="arrow">→</div>
+          <div class="step"><span class="sn">02</span><div class="st">規準上傳</div><p>將評分標準、扣分原則等文獻匯入 AI 作為審查依據。</p></div>
+          <div class="arrow">→</div>
+          <div class="step"><span class="sn">03</span><div class="st">AI 智能批改</div><p>AI 扮演評審，針對文獻引用、格式合規性、研究邏輯提出具體修正意見與批註。</p></div>
+        </div>
+        <div class="prompt">
+          <div class="plabel">📋 提示詞範本 · 小論文格式初評</div>
+          <button class="copybtn">複製</button>
+<code>請「嚴格依照」我上傳的《全國小論文寫作比賽評分規準與格式規範》，
+為以下學生初稿進行「初評」（先做格式與合規性把關）：
+1. 檢查標題層級、文獻引用格式（APA）、參考文獻是否符合規範，逐項列出問題。
+2. 判斷研究架構（前言／文獻／方法／結果／結論）是否完整。
+3. 標出「最可能被扣分」的 3 個地方，並給修正建議。
+請以「問題 → 依據規範第幾點 → 建議改法」三欄呈現。</code>
+        </div>
+      </div>
+
+      <!-- 4-6 Rubric 評語 -->
+      <div class="card">
+        <span class="slide-tag">Slide 21</span>
+        <h3><span class="num">4-6</span>實戰：利用 AI 量規提供結構化評語</h3>
+        <p class="lede">上傳評語 Rubric 量規＋貼上學生作品，AI 就會針對各維度給出具體回饋，<b>省下高達七成手動批改時間</b>。</p>
+        <table class="tb">
+          <tr><th>量規維度</th><th>AI 回饋內容</th></tr>
+          <tr><td>格式 / 前言</td><td>強項分析、待改進點、具體修改建議</td></tr>
+          <tr><td>文獻探討</td><td>引用是否充分、是否連結到研究問題</td></tr>
+          <tr><td>研究方法</td><td>方法是否嚴謹、變因是否明確</td></tr>
+          <tr><td>反思深度</td><td>是否有真實思考、避免流水帳</td></tr>
+        </table>
+        <div class="prompt">
+          <div class="plabel">📋 提示詞範本 · Rubric 結構化評語</div>
+          <button class="copybtn">複製</button>
+<code>以下是我的評分量規（Rubric）與一位學生的作品。
+請「嚴格依量規」，針對每一個評分維度（格式／前言／文獻／研究方法／反思）
+分別給出：① 強項分析 ② 待改進點 ③ 一句具體可操作的修改建議。
+語氣要像鼓勵學生的老師，正向但誠實，最後用兩句話總結整體表現。</code>
+        </div>
+        <div class="callout tip">
+          <div class="ch">⏱️ 效率關鍵</div>
+          <p>把常用量規存進智庫，之後每份作品只要貼上正文即可批改。AI 產出「初版評語」，老師只需<b>微調與加溫</b>，品質一致又省時。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 模組五 ==================== -->
+    <section class="module" id="m5">
+      <div class="mod-head">
+        <div class="mod-badge" style="background:var(--m5)">模組<br>五</div>
+        <div>
+          <h2>學測落點分析與二階模擬口試</h2>
+          <div class="mod-sub">高三最關鍵的升學抉擇與面試大關，用 AI 做路徑評估、志願金字塔與客製化口試題庫。</div>
+        </div>
+      </div>
+      <div class="mod-rule"></div>
+
+      <!-- 5-1 三管道 -->
+      <div class="card">
+        <span class="slide-tag">Slide 22</span>
+        <h3><span class="num">5-1</span>升學路徑抉擇：繁星 vs 申請 vs 分科測驗</h3>
+        <p class="lede">學測成績公告後，學生常卡在三條路。把在校成績百分比、學測成績與歷程優勢輸入 AI，做路徑抉擇評估。</p>
+        <div class="grid3">
+          <div class="tile"><div class="th"><span class="ico">⭐</span>繁星推薦</div><p>看「在校成績表現」。適合校排優異、想穩上理想校系的學生。</p></div>
+          <div class="tile"><div class="th"><span class="ico">📄</span>個人申請</div><p>重「學習歷程與多元表現」。適合檔案完整、面試表達佳的學生。</p></div>
+          <div class="tile"><div class="th"><span class="ico">✍️</span>分科測驗</div><p>重「考試成績突破」。適合學測失常、願再拚一次的學生。</p></div>
+        </div>
+        <div class="prompt">
+          <div class="plabel">📋 提示詞範本 · 路徑排序評估</div>
+          <button class="copybtn">複製</button>
+<code>一位學生資料如下（去識別化）：在校成績校排前 8%、學測 XX 級分、
+學習歷程有 OO 亮點。目標學群為「醫藥衛生」。
+請幫我做「升學路徑抉擇評估」：
+1. 分析他走繁星、個人申請、分科測驗各自的優勢與風險。
+2. 給出「建議優先順序」並說明理由。
+3. 提醒每條路徑的關鍵時程與需準備事項。</code>
+        </div>
+      </div>
+
+      <!-- 5-2 落點金字塔 -->
+      <div class="card">
+        <span class="slide-tag">Slide 23</span>
+        <h3><span class="num">5-2</span>線上落點預測資源比較與志願金字塔</h3>
+        <p class="lede">不同落點平台的篩選倍率與風險邏輯各異。最實用的方法是用 AI 分析歷年波動，把志願建立成「<b>金字塔模型</b>」。</p>
+        <div class="pyramid">
+          <div class="lvl l1">🏔️ 挑戰志願 × 2<small>夢幻校系，衝一把</small></div>
+          <div class="lvl l2">⚖️ 平衡志願 × 2<small>實力相當，穩中求進</small></div>
+          <div class="lvl l3">🔒 安全志願 × 2<small>絕對保底，確保不落空</small></div>
+        </div>
+        <div class="prompt">
+          <div class="plabel">📋 提示詞範本 · 志願金字塔</div>
+          <button class="copybtn">複製</button>
+<code>以下是我的學測級分與想申請的校系清單（我會貼上），
+以及各校系近三年的篩選標準。
+請協助我把志願分成「挑戰 / 平衡 / 安全」三層，各推薦 2 個校系，
+建立一份平衡的「志願金字塔」，並說明每個志願被歸為該層的理由，
+提醒我填報時的順序策略。</code>
+        </div>
+        <div class="callout warn">
+          <div class="ch">⚠️ 提醒</div>
+          <p>AI 的落點分析是「參考」，非保證。務必<b>對照官方簡章與正式落點平台</b>再做決定，並提醒學生篩選倍率每年會變動。</p>
+        </div>
+      </div>
+
+      <!-- 5-3 模擬口試系統 -->
+      <div class="card">
+        <span class="slide-tag">Slide 24 · 新開發</span>
+        <h3><span class="num">5-3</span>新開發課程：AI 智能模擬口試系統</h3>
+        <p class="lede">二階篩選通過後就是面試大關。收集校系簡章、歷年考古題與學生去識別化備審，AI 為學生量身打造模擬題庫。</p>
+        <div class="flow">
+          <div class="step"><span class="sn">01</span><div class="st">系統建置</div><p>匯入特定校系二階簡章、歷年面試考古題、學生去識別化備審資料。</p></div>
+          <div class="arrow">→</div>
+          <div class="step"><span class="sn">02</span><div class="st">AI 生成題庫</div><p>自動產出含「專業學科知識、就讀動機、突發危機應變」的個人化題庫。</p></div>
+        </div>
+        <div class="prompt">
+          <div class="plabel">📋 提示詞範本 · 客製口試題庫</div>
+          <button class="copybtn">複製</button>
+<code>我已上傳某大學某系的二階簡章、歷年面試考古題，
+以及一位學生「去識別化」的備審資料。
+請為這位學生量身生成一份模擬面試題庫，分三類各 5 題：
+① 專業學科知識 ② 就讀動機與生涯規劃 ③ 突發／危機應變。
+每題附上「教授想考察的重點」，方便學生準備。</code>
+        </div>
+      </div>
+
+      <!-- 5-4 模擬面試對話 -->
+      <div class="card">
+        <span class="slide-tag">Slide 25</span>
+        <h3><span class="num">5-4</span>實戰：模擬面試教授與對話演練</h3>
+        <p class="lede">有了題庫，讓 AI 扮演面試教授，並限制「一次只問一個問題」，再引導學生用<b>語音輸入</b>實時對答，還原臨場感。</p>
+        <div class="prompt">
+          <div class="plabel">📋 提示詞範本 · 一問一答面試</div>
+          <button class="copybtn">複製</button>
+<code>請你扮演「[大學校名／科系]」的面試教授。
+規則：請一次「只問我一個問題」，在收到我的回答後，
+先給一句簡短回饋，再問下一個問題，逐題進行。
+面試風格請專業而親切。現在請開始第一個問題。</code>
+        </div>
+        <div class="callout tip">
+          <div class="ch">🎤 語音實戰技巧</div>
+          <p>引導學生開啟手機或電腦的<b>語音輸入</b>，用「說」的方式回答，逼近真實口試臨場感，有效訓練口語表達與臨場反應，遠勝只在紙上寫答案。</p>
+        </div>
+      </div>
+
+      <!-- 5-5 STAR -->
+      <div class="card">
+        <span class="slide-tag">Slide 26</span>
+        <h3><span class="num">5-5</span>即時回饋：面試回答 STAR 結構優化</h3>
+        <p class="lede">學生回答常太鬆散——講了一堆故事卻沒重點。引導使用 <b>STAR 原則</b>，讓教授三分鐘內聽懂亮點。</p>
+        <div class="flow">
+          <div class="step"><span class="sn">S</span><div class="st">Situation 情境</div><p>當時的背景與處境。</p></div>
+          <div class="arrow">→</div>
+          <div class="step"><span class="sn">T</span><div class="st">Task 任務</div><p>你要達成的目標或任務。</p></div>
+          <div class="arrow">→</div>
+          <div class="step"><span class="sn">A</span><div class="st">Action 行動</div><p>你「具體」採取了哪些行動。</p></div>
+          <div class="arrow">→</div>
+          <div class="step"><span class="sn">R</span><div class="st">Result 結果</div><p>成果與你學到的東西。</p></div>
+        </div>
+        <div class="prompt">
+          <div class="plabel">📋 提示詞範本 · STAR 修辭教練</div>
+          <button class="copybtn">複製</button>
+<code>以下是學生回答「請談一次挫折經驗」的原始逐字稿（偏冗長）。
+請你當「修辭教練」：
+1. 剔除贅詞與離題內容。
+2. 依 STAR（情境／任務／行動／結果）重組為一段精煉回答（約 60 秒可講完）。
+3. 標出「行動」與「結果」是否具體、可量化，若不足請提醒補充。</code>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 模組六 ==================== -->
+    <section class="module" id="m6">
+      <div class="mod-head">
+        <div class="mod-badge" style="background:var(--m6)">模組<br>六</div>
+        <div>
+          <h2>輔導教材設計與校務行政優化</h2>
+          <div class="mod-sub">解放備課時間、讓班會好玩、把親師溝通標準化，並依法合規地回應陳情申訴。</div>
+        </div>
+      </div>
+      <div class="mod-rule"></div>
+
+      <!-- 6-1 說明會腳本 -->
+      <div class="card">
+        <span class="slide-tag">Slide 27</span>
+        <h3><span class="num">6-1</span>備課解放：選課說明會與講座腳本生成</h3>
+        <p class="lede">每年要辦多場選課說明會，從頭寫大綱與逐字稿非常耗時。用 AI 一鍵生成架構，讓備課優雅從容。</p>
+        <ul class="pts">
+          <li><b>說明會簡報大綱：</b>輸入學校選課規定與目標對象，AI 一鍵生成簡報架構。</li>
+          <li><b>逐字講稿生成：</b>起草含「同理家長焦慮」「白話解釋升學規定」的講稿大綱。</li>
+        </ul>
+        <div class="prompt">
+          <div class="plabel">📋 提示詞範本 · 說明會腳本</div>
+          <button class="copybtn">複製</button>
+<code>請幫我準備一場「高二選組選課說明會」（對象：學生＋家長，時長 40 分鐘）。
+1. 產出簡報大綱（含每頁標題與 3 個要點）。
+2. 為前 3 頁撰寫「逐字講稿」，語氣白話、帶同理，
+   開場先同理家長對選錯課的焦慮，再說明制度。
+3. 結尾設計一段溫暖的收束話，鼓勵親子一起討論。</code>
+        </div>
+      </div>
+
+      <!-- 6-2 班會與學習單 -->
+      <div class="card">
+        <span class="slide-tag">Slide 28</span>
+        <h3><span class="num">6-2</span>教學創新：選課互動班會與引導式學習單</h3>
+        <p class="lede">為了讓學生班會課不打瞌睡，用 AI 設計生活化比喻、遊戲化活動與引導學習單，讓輔導課好玩又有料。</p>
+        <div class="grid3">
+          <div class="tile"><div class="th"><span class="ico">🍲</span>生活化比喻</div><p>用「吃火鍋配菜」比喻部定必修（湯底）與多元選修（配菜）的關係。</p></div>
+          <div class="tile"><div class="th"><span class="ico">🎲</span>遊戲化班會</div><p>設計 30 分鐘的選課模擬桌遊或分組修課生涯模擬活動。</p></div>
+          <div class="tile"><div class="th"><span class="ico">📝</span>引導學習單</div><p>自動產出引導學生探索 18 學群的學習單。</p></div>
+        </div>
+        <div class="prompt">
+          <div class="plabel">📋 提示詞範本 · 班會活動設計</div>
+          <button class="copybtn">複製</button>
+<code>請幫我設計一堂 45 分鐘的「高一選課探索班會」，要生動、互動、不說教：
+1. 開場用一個「生活化比喻」解釋必修與選修的關係。
+2. 設計一個 20 分鐘的分組小活動（含規則與道具），
+   讓學生體驗「用有限學分規劃三年」。
+3. 附一張「18 學群興趣探索學習單」，含 5 個引導提問。</code>
+        </div>
+        <div class="callout case">
+          <div class="ch">🧑‍🏫 導師直接可用</div>
+          <p>這套最適合導師的班級經營：把生涯探索包裝成遊戲，孩子玩中學、學中選。學習單收回後也是<b>觀察學生特質的第一手素材</b>，能回饋給課諮與輔導。</p>
+        </div>
+      </div>
+
+      <!-- 6-3 親師溝通 -->
+      <div class="card">
+        <span class="slide-tag">Slide 29</span>
+        <h3><span class="num">6-3</span>親師溝通：家長說明常見 Q&amp;A 與致家長信</h3>
+        <p class="lede">家長常因不理解考招制度而產生情緒。用 AI 起草溫馨的「致家長信」，並建立白話 Q&amp;A 標準答案庫。</p>
+        <ul class="pts">
+          <li><b>家長信起草：</b>強調學校會陪伴孩子適性發展、引導孩子做主，消除考招疑慮。</li>
+          <li><b>Q&amp;A 答案庫：</b>將 20 個最常見選課升學問題整理成白話標準答案，Line 群組或電話都能快速精準回覆。</li>
+        </ul>
+        <div class="prompt">
+          <div class="plabel">📋 提示詞範本 · 致家長信</div>
+          <button class="copybtn">複製</button>
+<code>請幫我起草一封「致高一家長信」（約 500 字），語氣溫暖誠懇：
+主軸是「學校會陪伴孩子適性探索，選課是探索而非定終身，
+邀請家長以傾聽代替指定」。
+避免教條與術語，結尾附上課諮師聯絡方式與諮詢時間，
+讓家長讀完感到安心與被支持。</code>
+        </div>
+      </div>
+
+      <!-- 6-4 工作計畫與PLC -->
+      <div class="card">
+        <span class="slide-tag">Slide 30</span>
+        <h3><span class="num">6-4</span>高效行政：全學年工作計畫與 PLC 社群</h3>
+        <p class="lede">課諮是一整年的長跑。用 AI 規劃全學年工作計畫、設計 PLC 專業社群會議，確保經驗不斷代。</p>
+        <div class="grid3">
+          <div class="tile"><div class="th"><span class="ico">📅</span>工作計畫</div><p>產生含高一二三、跨處室協作時間點的全學年工作計畫表。</p></div>
+          <div class="tile"><div class="th"><span class="ico">🤝</span>PLC 會議</div><p>設計含暖場、案例研討、行動規劃的專業社群會議流程。</p></div>
+          <div class="tile"><div class="th"><span class="ico">📘</span>新進手冊</div><p>快速產出「新進課諮師速查手冊」，確保行政記憶不流失。</p></div>
+        </div>
+        <div class="prompt">
+          <div class="plabel">📋 提示詞範本 · 全學年計畫表</div>
+          <button class="copybtn">複製</button>
+<code>請幫我製作一份「課諮師全學年工作計畫表」（8 月至隔年 7 月）。
+以月份為列，欄位包含：高一重點任務、高二重點任務、高三重點任務、
+需與教務處／輔導室協作的事項。
+內容涵蓋選課輔導、學習歷程上傳期程、落點與面試工作坊等，
+最後標出 3 個「最容易被忽略但很重要」的時間節點。</code>
+        </div>
+      </div>
+
+      <!-- 6-5 陳情申訴 -->
+      <div class="card">
+        <span class="slide-tag">Slide 31 · 新開發</span>
+        <h3><span class="num">6-5</span>新開發課程：選課與資格陳情申訴合規回應</h3>
+        <p class="lede">當面臨家長針對選課限制、繁星百分比資格等陳情（如北市 1999 陳情），回應必須<b>依法合規且語氣誠懇</b>。</p>
+        <div class="flow">
+          <div class="step"><span class="sn">01</span><div class="st">辨識痛點</div><p>面臨選課限制、繁星資格等陳情與申訴。</p></div>
+          <div class="arrow">→</div>
+          <div class="step"><span class="sn">02</span><div class="st">法規合規審查</div><p>將申訴法規匯入 AI 進行合規比對，防範潛在法律風險。</p></div>
+          <div class="arrow">→</div>
+          <div class="step"><span class="sn">03</span><div class="st">三段式回應</div><p>依「背景說明 → 調查結果 → 處理及改善情形」起草溫暖回覆稿。</p></div>
+        </div>
+        <div class="prompt">
+          <div class="plabel">📋 提示詞範本 · 三段式合規回應</div>
+          <button class="copybtn">複製</button>
+<code>我收到一件家長陳情（內容我會貼上），爭點是「繁星百分比採計方式」。
+請「嚴格依照」我上傳的相關法規與本校規定：
+1. 先做「合規性審查」，指出我方作法有無法律風險。
+2. 依「背景說明 → 調查結果 → 處理及改善情形」三段式，
+   起草一份語氣誠懇、依法有據的回應稿。
+請避免防禦性說教或勸阻陳情的語氣，展現學校願意溝通的誠意。</code>
+        </div>
+        <div class="callout warn">
+          <div class="ch">⚖️ 重要提醒</div>
+          <p>AI 產出的是「草稿」。正式對外回覆前，務必經<b>承辦人核改、主管與校長核章</b>，並再次確認引用法規正確、時效無誤。AI 加速起草，責任仍在學校。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 結語 ==================== -->
+    <section class="module" id="end">
+      <div class="closing">
+        <h2>💛 回歸以人為本：課諮師與 AI 的合作邊界</h2>
+        <p style="font-size:17px;color:#2C7A54;font-weight:600;margin-bottom:4px;">講了這麼多科技工具，最重要的一點是：<b>AI 再強大，也無法取代人的溫度。</b></p>
+        <div class="balance">
+          <div class="side ai">
+            <div class="pct">80%</div>
+            <div class="sh">🤖 AI 處理理智工作</div>
+            <p>資料比對、草稿起草、規章檢索、教材排版、學分審查——把繁瑣、重複、易錯的事交給 AI。</p>
+          </div>
+          <div class="side human">
+            <div class="pct">20%</div>
+            <div class="sh">🫶 教師傳遞溫度陪伴</div>
+            <p>坐在諮詢室內，看著孩子的眼睛，傾聽他們的迷惘與焦慮。這 20%，是教育真正的核心。</p>
+          </div>
+        </div>
+        <div class="callout tip" style="background:#fff;border-color:#C7E6D3;">
+          <div class="ch" style="color:#2C7A54;">🌟 教育核心一句話</div>
+          <p style="margin:0;">用 AI 處理瑣事，用「<b>心</b>」溫暖孩子。科技輔導，成就適性揚才的教育大夢——這才是科技輔導的終極意義。</p>
+        </div>
+      </div>
+
+      <!-- 課後行動 -->
+      <div class="card" style="--accent:var(--end);--accent-bg:var(--end-bg);margin-top:26px;">
+        <span class="slide-tag">Slide 33</span>
+        <h3><span class="num">✓</span>課後行動：一週內啟動你的 AI 智庫</h3>
+        <p class="lede">研習的結束，是行動的開始。給你三個「課後行動方案」挑戰：</p>
+        <div class="grid3">
+          <div class="tile"><div class="th"><span class="ico">1</span>建智庫</div><p>一週內收集貴校課程計畫與選課手冊，在 NotebookLM 建立學校專屬智庫。</p></div>
+          <div class="tile"><div class="th"><span class="ico">2</span>試個案</div><p>找出一例棘手諮詢個案，輸入智庫，驗證 AI 建議的可行性。</p></div>
+          <div class="tile"><div class="th"><span class="ico">3</span>分享</div><p>將你嘗試成功的提示詞或大綱，分享到全國課諮社群，帶動共同成長。</p></div>
+        </div>
+      </div>
+
+      <!-- 聯絡 -->
+      <div class="card" style="--accent:var(--end);--accent-bg:var(--end-bg);">
+        <span class="slide-tag">Slide 34 · Q&amp;A</span>
+        <h3><span class="num">✉</span>提問與交流</h3>
+        <p class="lede">今天的提示詞指令集、線上輔導工具網址，都已整理在雲端資料庫共享。歡迎加入 PLC 專業社群，共享 AI 輔導實踐成果！</p>
+        <div class="contact">
+          <div class="ci"><span class="cico">🎤</span>講師：麗山高中 林獻升老師</div>
+          <div class="ci"><span class="cico">✉️</span>frog@lssh.tp.edu.tw</div>
+          <div class="ci"><span class="cico">🤝</span>歡迎加入全國課諮 PLC 專業社群</div>
+        </div>
+        <div class="callout tip" style="margin-top:18px;">
+          <div class="ch">🙏 謝謝大家</div>
+          <p style="margin:0;">讓我們一起動手，用 AI 點亮我們的課程諮詢之路。祝大家課諮工作順利！</p>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<button class="toTop" id="toTop" aria-label="回到頂端">↑</button>
+<div class="foot">課諮師 AI 核心技能培養與適性輔導實務 · 麗山高中 林獻升老師 · frog@lssh.tp.edu.tw<br>本頁面為研習簡報之可視化整理，適合教師課堂播放與學生線上閱讀</div>
+
+<script>
+  // 選單
+  const menuBtn=document.getElementById('menuBtn'),sidenav=document.getElementById('sidenav');
+  menuBtn&&menuBtn.addEventListener('click',()=>sidenav.classList.toggle('open'));
+  sidenav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>sidenav.classList.remove('open')));
+
+  // 進度條 + 回頂端
+  const progress=document.getElementById('progress'),toTop=document.getElementById('toTop');
+  window.addEventListener('scroll',()=>{
+    const h=document.documentElement,st=h.scrollTop,sh=h.scrollHeight-h.clientHeight;
+    progress.style.width=(st/sh*100)+'%';
+    toTop.classList.toggle('show',st>500);
+  });
+  toTop.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+
+  // scroll-spy + 換色
+  const links=[...sidenav.querySelectorAll('a')];
+  const modColors={hero:'--m1',m1:'--m1',m2:'--m2',m3:'--m3',m4:'--m4',m5:'--m5',m6:'--m6',end:'--end'};
+  const modBg={hero:'--m1-bg',m1:'--m1-bg',m2:'--m2-bg',m3:'--m3-bg',m4:'--m4-bg',m5:'--m5-bg',m6:'--m6-bg',end:'--end-bg'};
+  const spy=new IntersectionObserver((es)=>{
+    es.forEach(e=>{
+      if(e.isIntersecting){
+        const id=e.target.id;
+        links.forEach(l=>l.classList.toggle('active',l.getAttribute('href')==='#'+id));
+        const c=modColors[id]||'--m1',b=modBg[id]||'--m1-bg';
+        document.documentElement.style.setProperty('--accent',getComputedStyle(document.documentElement).getPropertyValue(c));
+        document.documentElement.style.setProperty('--accent-bg',getComputedStyle(document.documentElement).getPropertyValue(b));
+      }
+    });
+  },{rootMargin:'-45% 0px -50% 0px'});
+  document.querySelectorAll('[id^="m"],#hero,#end').forEach(s=>{if(s.classList.contains('module')||s.id==='hero'||s.id==='end')spy.observe(s);});
+
+  // 複製提示詞
+  document.addEventListener('click',e=>{
+    if(e.target.classList.contains('copybtn')){
+      const code=e.target.parentElement.querySelector('code').innerText;
+      navigator.clipboard.writeText(code).then(()=>{
+        const b=e.target,t=b.innerText;b.innerText='✓ 已複製';b.classList.add('done');
+        setTimeout(()=>{b.innerText=t;b.classList.remove('done');},1600);
+      });
+    }
+  });
+</script>
+</body>
+</html>
