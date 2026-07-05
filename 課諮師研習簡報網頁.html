@@ -145,6 +145,68 @@
     transition: width 0.1s linear;
   }
 
+  /* ─── Narration bar ─── */
+  .narration-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 12px;
+    background: var(--surface2);
+    border-radius: 8px;
+    border: 1.5px solid var(--border);
+    flex-wrap: wrap;
+  }
+
+  .narration-bar label {
+    font-size: 0.74rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+
+  .voice-select { max-width: 168px; }
+
+  .num-input {
+    width: 50px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-size: 0.76rem;
+    padding: 3px 5px;
+    border-radius: 5px;
+    text-align: center;
+  }
+
+  .chk-label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+    user-select: none;
+    font-size: 0.74rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+  .chk-label input { width: 14px; height: 14px; accent-color: var(--accent); cursor: pointer; }
+
+  .speak-btn {
+    padding: 6px 14px;
+    border-radius: 8px;
+    border: 1.5px solid var(--accent);
+    background: transparent;
+    color: var(--accent2);
+    font-size: 0.76rem;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+  .speak-btn:hover { background: var(--accent); color: #fff; }
+  .speak-btn.playing { background: var(--orange); border-color: var(--orange); color: #fff; }
+
+  header { flex-wrap: wrap; }
+  .header-controls { flex-wrap: wrap; row-gap: 8px; }
+
   .fs-btn {
     padding: 7px 16px;
     border-radius: 8px;
@@ -455,6 +517,20 @@
       <button class="play-btn" id="play-btn" onclick="togglePlay()" title="播放 / 暫停">▶</button>
     </div>
 
+    <!-- Narration bar -->
+    <div class="narration-bar">
+      <label class="chk-label" title="開啟後，自動播放會唸完整頁旁白才換頁；關閉則依上方秒數換頁">
+        <input type="checkbox" id="wait-speak" checked> 朗讀完才換頁
+      </label>
+      <label>語音</label>
+      <select class="speed-select voice-select" id="voice-select" title="選擇朗讀語音（清單依電腦已安裝語音而定，建議選 Google 國語（臺灣）最自然）"></select>
+      <label>語速</label>
+      <input class="num-input" id="rate-input" type="number" min="0.5" max="2" step="0.05" value="0.95" title="朗讀語速">
+      <label>音調</label>
+      <input class="num-input" id="pitch-input" type="number" min="0.5" max="1.5" step="0.05" value="1.0" title="朗讀音調">
+      <button class="speak-btn" id="speak-btn" onclick="toggleSpeak()" title="朗讀本頁旁白">🔊 朗讀旁白</button>
+    </div>
+
     <button class="fs-btn" onclick="enterFullscreen()">⛶ 全螢幕播放</button>
   </div>
 </header>
@@ -502,6 +578,7 @@
   <div id="fs-toolbar">
     <span class="fs-counter-text" id="fs-counter-text">1 / 34</span>
     <button class="fs-tool-btn" id="fs-prev-btn" onclick="fsNavigate(-1)">← 上一張</button>
+    <button class="fs-tool-btn" id="fs-speak-btn" onclick="toggleSpeak()">🔊 朗讀旁白</button>
     <button class="fs-tool-btn fs-play-btn" id="fs-play-btn" onclick="togglePlay()">▶ 自動播放</button>
     <select class="fs-speed-select" id="fs-speed-select" onchange="updateSpeedFromFs()">
       <option value="3">3 秒</option>
@@ -840,6 +917,124 @@ let progressInterval = null;
 let progressStart = null;
 let speedSecs = 5;
 
+// ─── Narration (Web Speech API) ─────────────────────────────────────
+let narrating = false;
+let zhVoice = null;
+let allVoices = [];
+let advanceTimer = null;
+let speakGen = 0;
+const synth = window.speechSynthesis;
+
+function buildVoiceList() {
+  if (!synth) return;
+  allVoices = synth.getVoices();
+  // 只保留「Google 國語（臺灣）」語音，Chrome + 連網時最自然
+  const gtw = allVoices.filter(v => /google/i.test(v.name) && /zh[-_]TW|zh[-_]Hant|國語|臺灣|台灣/i.test((v.name || '') + ' ' + v.lang));
+  const sel = document.getElementById('voice-select');
+  sel.innerHTML = '';
+  if (gtw.length) {
+    gtw.forEach(v => {
+      const o = document.createElement('option');
+      o.value = allVoices.indexOf(v);
+      o.textContent = `${v.name} (${v.lang}) ✨線上`;
+      sel.appendChild(o);
+    });
+    sel.value = allVoices.indexOf(gtw[0]);
+    zhVoice = gtw[0];
+  } else {
+    const o = document.createElement('option');
+    o.value = '';
+    o.textContent = '找不到 Google 國語（臺灣）— 請用 Chrome 並連網';
+    sel.appendChild(o);
+    zhVoice = null;
+  }
+}
+if (synth) {
+  buildVoiceList();
+  synth.onvoiceschanged = buildVoiceList; // 語音清單常延遲載入，載好再補上
+}
+
+// 把整頁（標題＋各段旁白）切成短句，短句可避開 Chrome 長語句從頭重播的已知問題
+function buildChunks(s) {
+  const out = [];
+  [s.title, ...s.speech.trim().split(/\n\n+/)].forEach(t => {
+    (t || '').split(/(?<=[。！？!?；;：])/).forEach(p => { p = p.trim(); if (p) out.push(p); });
+  });
+  return out;
+}
+
+function speakCurrent() {
+  if (!synth) { alert('您的瀏覽器不支援語音朗讀，請改用 Chrome 或 Edge。'); return; }
+  const gen = ++speakGen;
+  synth.cancel();
+  clearTimeout(advanceTimer);
+  const chunks = buildChunks(slides[current]);
+  const rate = Math.min(2, Math.max(0.5, parseFloat(document.getElementById('rate-input').value) || 0.95));
+  const pitch = Math.min(1.5, Math.max(0.5, parseFloat(document.getElementById('pitch-input').value) || 1));
+  let i = 0;
+  (function next() {
+    if (gen !== speakGen) return; // 已被新的朗讀取代
+    if (i >= chunks.length) { // 本頁唸完
+      if (narrating && current < slides.length - 1) {
+        advanceTimer = setTimeout(() => { if (narrating && gen === speakGen) goTo(current + 1); }, 900);
+      } else if (narrating) {
+        pausePlay(); // 最後一頁停止
+      }
+      return;
+    }
+    const u = new SpeechSynthesisUtterance(chunks[i]);
+    u.lang = 'zh-TW';
+    if (zhVoice) u.voice = zhVoice;
+    u.rate = rate;
+    u.pitch = pitch;
+    u.onend = () => {
+      if (gen !== speakGen) return;
+      i++;
+      const gap = /[。！？!?]$/.test(chunks[i - 1]) ? 260 : 90;
+      setTimeout(() => { if (gen === speakGen) next(); }, gap);
+    };
+    u.onerror = () => {}; // 取消時的 error 忽略
+    synth.speak(u);
+  })();
+}
+
+function updateSpeakBtnUI() {
+  const label = narrating ? '⏹ 停止朗讀' : '🔊 朗讀旁白';
+  document.getElementById('speak-btn').textContent = label;
+  document.getElementById('speak-btn').classList.toggle('playing', narrating);
+  document.getElementById('fs-speak-btn').textContent = label;
+  document.getElementById('fs-speak-btn').classList.toggle('playing', narrating);
+}
+
+function toggleSpeak() {
+  if (narrating) {
+    pausePlay();
+  } else {
+    startNarrate();
+  }
+}
+
+function startNarrate() {
+  clearAutoPlay();
+  isPlaying = true;
+  narrating = true;
+  document.getElementById('play-btn').textContent = '⏸';
+  document.getElementById('play-btn').classList.add('playing');
+  document.getElementById('fs-play-btn').textContent = '⏸ 暫停';
+  document.getElementById('fs-play-btn').classList.add('playing');
+  updateSpeakBtnUI();
+  speakCurrent();
+}
+
+document.getElementById('rate-input') && document.getElementById('rate-input').addEventListener('change', () => { if (narrating) speakCurrent(); });
+document.getElementById('pitch-input') && document.getElementById('pitch-input').addEventListener('change', () => { if (narrating) speakCurrent(); });
+document.getElementById('voice-select') && document.getElementById('voice-select').addEventListener('change', () => {
+  zhVoice = allVoices[parseInt(document.getElementById('voice-select').value)] || null;
+  if (narrating) speakCurrent();
+});
+
+window.addEventListener('beforeunload', () => { if (synth) synth.cancel(); });
+
 // ─── Init ─────────────────────────────────────────────────────────
 function init() {
   const strip = document.getElementById('thumb-strip');
@@ -877,7 +1072,10 @@ function goTo(i) {
   if (i < 0 || i >= slides.length) return;
   current = i;
   render();
-  if (isPlaying) resetProgressBar();
+  if (isPlaying) {
+    if (narrating) speakCurrent();
+    else resetProgressBar();
+  }
 }
 
 function navigate(dir) { goTo(current + dir); }
@@ -904,7 +1102,13 @@ function togglePlay() {
 }
 
 function startPlay() {
+  const useNarration = document.getElementById('wait-speak').checked;
+  if (useNarration) {
+    startNarrate();
+    return;
+  }
   isPlaying = true;
+  narrating = false;
   speedSecs = getSpeed();
   document.getElementById('play-btn').textContent = '⏸';
   document.getElementById('play-btn').classList.add('playing');
@@ -915,6 +1119,10 @@ function startPlay() {
 
 function pausePlay() {
   isPlaying = false;
+  const wasNarrating = narrating;
+  narrating = false;
+  if (synth) synth.cancel();
+  clearTimeout(advanceTimer);
   document.getElementById('play-btn').textContent = '▶';
   document.getElementById('play-btn').classList.remove('playing');
   document.getElementById('fs-play-btn').textContent = '▶ 自動播放';
@@ -922,6 +1130,7 @@ function pausePlay() {
   clearAutoPlay();
   document.getElementById('progress-fill').style.width = '0%';
   document.getElementById('fs-progress-fill').style.width = '0%';
+  if (wasNarrating) updateSpeakBtnUI();
 }
 
 function startAutoPlay() {
