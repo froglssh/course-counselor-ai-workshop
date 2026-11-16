@@ -397,12 +397,6 @@ const FEATURED_TOOLS = [
     links: [["開啟 Padlet", "https://padlet.com/linxiansheng2_1/padlet-i35prmxgc2r54tj9"]]
   },
   {
-    title: "課諮師 AI 研習雲端資料夾",
-    desc: "Google Drive 原始資料夾，含各校場次、工作手冊、課諮制度、檔案資源與 Gem 檔案。",
-    tags: ["雲端", "檔案"],
-    links: [["開啟雲端", "https://drive.google.com/drive/folders/1fsx8kElCGpMUb97z383U6h3-kfpUWN-q?usp=drive_link"]]
-  },
-  {
     title: "課諮師研習案例提示詞",
     desc: "課諮師研習案例與提示詞網頁，可作為 AI 實作演練與分組任務素材。",
     tags: ["提示詞", "案例"],

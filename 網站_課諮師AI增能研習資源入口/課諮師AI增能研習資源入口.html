@@ -73,8 +73,8 @@
       box-shadow: 0 8px 18px rgba(15, 118, 110, .28);
     }
 
-    .brand strong { display: block; font-size: 19px; line-height: 1.25; }
-    .brand span { display: block; color: var(--muted); font-size: 11px; }
+    .brand strong { display: block; font-size: 15px; }
+    .brand span { display: block; color: var(--muted); font-size: 12px; }
 
     .nav {
       display: grid;
@@ -545,7 +545,7 @@
         <div class="mark">課</div>
         <div>
           <strong>課諮師 AI 增能研習</strong>
-          <span>製作者：臺北市麗山高中林獻升老師</span>
+          <span>課程諮詢 x 學習歷程 x 升學輔導</span>
         </div>
       </div>
       <nav class="nav" aria-label="主要導覽">
@@ -645,33 +645,6 @@
           <div class="chips" id="moduleChips"></div>
         </div>
         <div class="grid" id="moduleGrid"></div>
-      </section>
-
-      <section class="section" id="files">
-        <div class="section-head">
-          <div>
-            <h2>教材檔案庫</h2>
-            <p>所有講義、簡報、PDF、DOCX 與 HTML 工具，已整理成獨立的搜尋頁面。</p>
-          </div>
-        </div>
-        <a class="files-cta" href="課諮師AI增能研習資源入口_教材檔案庫.html">
-          <div class="cta-text">
-            <h3>📂 開啟教材檔案資源庫</h3>
-            <p>支援關鍵字即時搜尋、分類與檔案類型篩選，不再需要捲過長長的清單。點擊即可在新分頁開啟雲端檔案。</p>
-            <div class="cta-mini">
-              <span class="tag">課諮制度</span>
-              <span class="tag">學習歷程</span>
-              <span class="tag">多元入學</span>
-              <span class="tag">學群選課</span>
-              <span class="tag">提示詞</span>
-              <span class="tag">各校研習教材</span>
-            </div>
-          </div>
-          <div class="cta-actions">
-            <div class="big-num"><b id="fileCount">88</b><span>個教材檔案</span></div>
-            <span class="btn primary" style="pointer-events:none;">進入檔案庫 →</span>
-          </div>
-        </a>
       </section>
 
       <section class="section" id="websites">
@@ -787,17 +760,9 @@
       })).join("");
     }
 
-    // 用實際的 FILES 數量更新檔案庫入口卡片
-    function updateFileCount() {
-      if (typeof FILES !== "undefined") {
-        document.querySelector("#fileCount").textContent = FILES.length;
-      }
-    }
-
     renderFeatured();
     renderModules();
     renderWebsites();
-    updateFileCount();
   </script>
   <style>.card.hidden { display: none; }</style>
 </body>
